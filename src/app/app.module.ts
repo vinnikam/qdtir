@@ -1,16 +1,64 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
+import { NavbarComponent } from './componentes/navbar/navbar.component';
+import { AutenticacionComponent } from './componentes/autenticacion/autenticacion.component';
+import { CiudadanoComponent } from './componentes/ciudadano/ciudadano.component';
+import { DatosContactoComponent } from './componentes/datos-contacto/datos-contacto.component';
+import { ActividadesEconomicasComponent } from './componentes/actividades-economicas/actividades-economicas.component';
+import { RepresentantesComponent } from './componentes/representantes/representantes.component';
+import { EstablecimientosComponent } from './componentes/establecimientos/establecimientos.component';
+import { VehiculosComponent } from './componentes/vehiculos/vehiculos.component';
+import { PrediosComponent } from './componentes/predios/predios.component';
+import {AuthServiceService} from './servicios/auth-service.service';
+import {Seguridad} from './security/Seguridad';
+import { FooterComponent } from './componentes/footer/footer.component';
+import { HeaderComponent } from './componentes/header/header.component';
+import {CiudadanoService} from './servicios/ciudadano.service';
+import { AutenticarciudComponent } from './componentes/autenticarciud/autenticarciud.component';
+import {RouterModule, Routes} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+
+const appRoutes: Routes = [
+  {path: '', component: AutenticacionComponent},
+  {path: 'autenticar', component: AutenticacionComponent},
+  {path: 'autenticarCiud', component: AutenticarciudComponent},
+  {path: 'crearciu', component: CiudadanoComponent, canActivate: [Seguridad]},
+  {path: 'datoscontacto', component: DatosContactoComponent, canActivate: [Seguridad]},
+  {path: 'actividades', component: ActividadesEconomicasComponent, canActivate: [Seguridad]},
+  {path: 'representantes', component: RepresentantesComponent, canActivate: [Seguridad]},
+  {path: 'establecimientos', component: EstablecimientosComponent, canActivate: [Seguridad]},
+  {path: 'vehiculos', component: VehiculosComponent, canActivate: [Seguridad]},
+  {path: 'predios', component: PrediosComponent, canActivate: [Seguridad]}
+]
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent,
+    AutenticacionComponent,
+    CiudadanoComponent,
+    DatosContactoComponent,
+    ActividadesEconomicasComponent,
+    RepresentantesComponent,
+    EstablecimientosComponent,
+    VehiculosComponent,
+    PrediosComponent,
+    FooterComponent,
+    HeaderComponent,
+    AutenticarciudComponent,
+
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(appRoutes),
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [AuthServiceService, Seguridad, CiudadanoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

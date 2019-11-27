@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">RIT-DQ</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+
+      <li *ngIf="!_authService.estaAutenticado()" class="nav-item">
+        <a  class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/autenticar']" >Autenticar Funcionario</a>
+      </li>
+      <li *ngIf="!_authService.estaAutenticado()" class="nav-item">
+        <a  class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/autenticarCiud']" >Autenticar Ciudadano</a>
+      </li>
+      <li *ngIf="_authService.estaAutenticado()" class="nav-item">
+        <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/crearciu']" >Ciudadano-Crear</a>
+      </li>
+      <li *ngIf="_authService.estaAutenticado()"class="nav-item">
+        <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/datoscontacto']" >Datos Contacto</a>
+      </li>
+      <li *ngIf="_authService.estaAutenticado()"class="nav-item">
+        <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/actividades']" >Actividades Economicas</a>
+      </li>
+      <li *ngIf="_authService.estaAutenticado()"class="nav-item">
+        <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/representantes']" >Representantes</a>
+      </li>
+      <li *ngIf="_authService.estaAutenticado()"class="nav-item">
+        <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/establecimientos']" >Establecimientos</a>
+      </li>
+      <li *ngIf="_authService.estaAutenticado()"class="nav-item">
+        <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/predios']" >Predios</a>
+      </li>
+      <li *ngIf="_authService.estaAutenticado()"class="nav-item">
+        <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/vehiculos']" >Vehiculos</a>
+      </li>
+      <li *ngIf="_authService.estaAutenticado()"class="nav-item">
+        <a  class="nav-link" (click)="salir()" href="#">Salir</a>
+      </li>
+    </ul>
+
+  </div>
+
+</nav>

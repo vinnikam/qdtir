@@ -1,0 +1,169 @@
+.titulo {
+  line-height: 1.2;
+  text-align: left;
+  font-size: 12px;
+}
+
+
+
+.shdfoot {
+
+  font-size: 11px !important;
+
+}
+.shdfoot {
+
+  font-size: 10px;
+  color: #000;
+
+}
+.row {
+
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.region-foot-contacto {
+  font-family: "afta";
+  text-align: left;
+}
+
+.botonboto:hover {
+  color: #fff !important;
+}
+a:hover, a:focus {
+  color: #2a6496;
+  text-decoration: underline;
+}
+a:active, a:hover {
+  outline: 0;
+}
+.botonboto {
+  padding-left: 11px !important;
+  width: 110px !important;
+  display: inline-block !important;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+#block-block-2 a:nth-of-type(1) {
+  width: 130px;
+  height: 25px;
+  display: block;
+  color: #FFFFFF;
+  padding-left: 20px;
+  padding-top: 6px;
+  background-color: #18404b;
+  border-radius: 8px;
+  margin-top: 8px;
+
+}
+.shdfoot a:nth-of-type(2),
+.shdfoot a:nth-of-type(3) {
+
+  width: 130px;
+  height: 25px;
+  display: block;
+  color: #FFFFFF;
+  padding-left: 20px;
+  padding-top: 6px;
+  background-color: #18404b;
+  border-radius: 8px;
+  margin-top: 8px;
+
+}
+
+
+
+#masentidades button.btn_options {
+
+  background-color: #18404b;
+  margin-left: -4px;
+
+}
+#masentidades button {
+
+  padding: 12px;
+  font-size: 12px;
+  background-color: #fff;
+  border: 1px solid #18404b;
+
+}
+input, button, select, textarea {
+
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+
+}
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
+
+  cursor: pointer;
+  -webkit-appearance: button;
+
+}
+button, select {
+
+  text-transform: none;
+
+}
+button, input {
+
+  line-height: normal;
+
+}
+button, input, select, textarea {
+
+  margin: 0;
+  margin-left: 0px;
+  font-family: inherit;
+  font-size: 100%;
+
+}
+*, ::before, ::after {
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+}
+.divmasentidades {
+
+  text-align: center;
+
+}
+.divmasentidades {
+
+  text-align: center;
+
+}
+.shdfoot {
+
+  font-size: 11px !important;
+
+}
+.shdfoot {
+
+  font-size: 10px;
+  color: #000;
+
+}
+body {
+
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #333;
+
+}
+html {
+
+  font-size: 62.5%;
+
+}
+html {
+
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+
+}
