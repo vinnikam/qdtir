@@ -16,6 +16,9 @@
       <li *ngIf="_authService.estaAutenticado()" class="nav-item">
         <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/crearciu']" >Ciudadano-Crear</a>
       </li>
+      <li *ngIf="_authService.estaAutenticado()" class="nav-item">
+        <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/crearbus']" >Ciudadano-Buscar</a>
+      </li>
       <li *ngIf="_authService.estaAutenticado()"class="nav-item">
         <a class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/datoscontacto']" >Datos Contacto</a>
       </li>

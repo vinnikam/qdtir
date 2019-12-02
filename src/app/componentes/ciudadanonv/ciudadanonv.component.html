@@ -1,0 +1,167 @@
+
+<div class="container py-3">
+  <h2 class="login-header">Registrar Contribuyente</h2>
+  <div class="row">
+
+    <div class="col-md-10 mx-auto">
+      <form  class="login-container"  (ngSubmit)="this.registrar()" [formGroup]="formulario" >
+        <div class="form-group row">
+          <div class="col-sm-2">
+            <label >Tipo de Persona : </label>
+
+          </div>
+          <div class="col-sm-2">
+            <label >
+              <input type="radio" name="tipoPersona"  [value]="1" formControlName="tipoPersona"  (change)="this.cambiotp()"  > Juridica
+            </label>
+
+          </div>
+          <div class="col-sm-2">
+            <label >
+              <input type="radio" name="tipoPersona" [value]="2" formControlName="tipoPersona"    (change)="this.cambiotp()" [checked]='true'> Natural
+            </label>
+          </div>
+          <div class="col-sm-6">
+
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label >Tipo de Identificación : </label>
+
+            <select class="custom-select" class="form-control"  name="tipoDocumento" formControlName="tipoDocumento">
+              <option selected>Seleccione el tipo de Identificación</option>
+              <option value="4">CEDULA</option>
+              <option value="2">NIT</option>
+              <option value="3">PASAPORTE</option>
+            </select>
+
+          </div>
+          <div class="col-sm-6">
+            <label>Numero de Identificacion: </label>
+            <input type="text" name="numidentificacion" formControlName="nroIdentificacion" class="form-control" ngModel  autocomplete="off"/>
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="!tipoPersonaNat">
+          <div class="col-sm-6">
+            <label>Razon Social</label>
+            <input type="text" name="razonsocial" class="form-control" formControlName="razonsocial" ngModel  autocomplete="off"/>
+          </div>
+          <div class="col-sm-6">
+
+          </div>
+
+        </div>
+        <div class="form-group row" *ngIf="tipoPersonaNat">
+          <div class="col-sm-6">
+            <label>Primer Nombre</label>
+            <input type="text" name="primerNombre" class="form-control" formControlName="primerNombre" ngModel  autocomplete="off"/>
+          </div>
+          <div class="col-sm-6">
+            <label>Segundo Nombre</label>
+            <input type="text" name="segundoNombre" class="form-control" formControlName="segundoNombre" ngModel  autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row" *ngIf="tipoPersonaNat">
+          <div class="col-sm-6">
+            <label>Primer Apellido</label>
+            <input type="text" name="primerApellido" class="form-control" formControlName="primerApellido" ngModel autocomplete="off"/>
+          </div>
+          <div class="col-sm-6">
+            <label>Segundo Apellido</label>
+            <input type="text" name="segundoApellido" class="form-control" formControlName="segundoApellido" ngModel autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label>Direccion</label>
+            <input type="text" name="direccion" class="form-control" formControlName="direccion" ngModel autocomplete="off"/>
+          </div>
+
+          <div class="col-sm-6">
+            <label>Código Postal</label>
+            <input type="text" name="codPostal" class="form-control" formControlName="codPostal" ngModel autocomplete="off"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label>Pais</label>
+            <select class="custom-select" class="form-control"  formControlName="pais" name="pais" ngModel (change)="this.cambioPais()">
+
+              <option *ngFor="let pais of paises" [value]="pais.codigo">
+                {{pais.nombre}}
+              </option>
+            </select>
+
+          </div>
+          <div class="col-sm-6" *ngIf="escolombia">
+            <label>Departamento</label>
+            <select class="custom-select" class="form-control"  formControlName="departamento" name="departamento" ngModel (change)="this.cambioDepto()" >
+
+              <option *ngFor="let depto of deptos" [value]="depto.codigo">
+                {{depto.nombre}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6" *ngIf="escolombia">
+            <label>Municipio</label>
+            <select class="custom-select" class="form-control"  formControlName="municipio" name="municipio" ngModel>
+              <option *ngFor="let munic of municp" [value]="munic.codigo">
+                {{munic.nombre}}
+              </option>
+            </select>
+          </div>
+          <div class="col-sm-6" *ngIf="!escolombia ">
+            <label>Municipio</label>
+            <input type="text" name="municipio" [value]="" class="form-control" formControlName="municipio" autocomplete="off"/>
+          </div>
+          <div class="col-sm-6">
+
+          </div>
+        </div>
+        <div class="form-group row">
+
+          <div class="col-sm-6">
+            <label>Correo personal</label>
+            <input type="text" name="nuevoCorreo" class="form-control" formControlName="nuevoCorreo" ngModel autocomplete="off"/>
+
+          </div>
+          <div class="col-sm-6">
+            <label>Telefono</label>
+            <input type="text" name="telefono" class="form-control" formControlName="telefono" ngModel autocomplete="off"/>
+
+          </div>
+        </div>
+        <div class="form-group row" *ngIf="tipoPersonaNat">
+
+          <div class="col-sm-6">
+            <label >
+              <input type="checkbox" name="indBuzon"  [value]="1" formControlName="indBuzon"  > Usar Buzón Electronico.
+            </label>
+
+          </div>
+          <div class="col-sm-6">
+            <label >
+              <input type="checkbox" name="notif"  [value]="1" formControlName="notif"  > Notificaciones Electronicas
+            </label>
+
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+
+          </div>
+          <div class="col-sm-6">
+            <button class="btn btn-primary px-4 float-right" type="submit">Registrar</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

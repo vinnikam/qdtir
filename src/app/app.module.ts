@@ -20,13 +20,15 @@ import { HeaderComponent } from './componentes/header/header.component';
 import {CiudadanoService} from './servicios/ciudadano.service';
 import { AutenticarciudComponent } from './componentes/autenticarciud/autenticarciud.component';
 import {RouterModule, Routes} from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { CiudadanonvComponent } from './componentes/ciudadanonv/ciudadanonv.component';
 
 const appRoutes: Routes = [
   {path: '', component: AutenticacionComponent},
   {path: 'autenticar', component: AutenticacionComponent},
   {path: 'autenticarCiud', component: AutenticarciudComponent},
-  {path: 'crearciu', component: CiudadanoComponent, canActivate: [Seguridad]},
+  {path: 'crearbus', component: CiudadanoComponent, canActivate: [Seguridad]},
+  {path: 'crearciu', component: CiudadanonvComponent, canActivate: [Seguridad]},
   {path: 'datoscontacto', component: DatosContactoComponent, canActivate: [Seguridad]},
   {path: 'actividades', component: ActividadesEconomicasComponent, canActivate: [Seguridad]},
   {path: 'representantes', component: RepresentantesComponent, canActivate: [Seguridad]},
@@ -50,13 +52,15 @@ const appRoutes: Routes = [
     FooterComponent,
     HeaderComponent,
     AutenticarciudComponent,
+    CiudadanonvComponent,
 
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [AuthServiceService, Seguridad, CiudadanoService],
   bootstrap: [AppComponent]

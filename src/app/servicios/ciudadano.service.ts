@@ -13,10 +13,15 @@ export class CiudadanoService {
   ciudadanoActivo: Contribuyente;
   rolCiudadano: boolean;
 
-  server: string = 'http://10.180.220.35:7777/';
+  server: string = 'http://127.0.0.1:7101/';
   urlBuscar: string = 'ServiciosRITDQ/resources/contribuyente';
   urlPredios: string = 'ServiciosRITDQ/resources/consultas/predios/';
   urlVehiculos: string = 'ServiciosRITDQ/resources/consultas/vehiculos/';
+  urlPaises: string = 'ServiciosRITDQ/resources/contribuyente/paises/';
+  urlDeptos: string = 'ServiciosRITDQ/resources/contribuyente/deptos/';
+  urlmunic: string = 'ServiciosRITDQ/resources/contribuyente/municip/';
+  urlcrear: string = 'ServiciosRITDQ/resources/contribuyente/crearcontribuyente/';
+
 
 
   constructor(private http: HttpClient) { }
@@ -29,35 +34,38 @@ export class CiudadanoService {
     return this.http.post<Irespuesta>(`${this.server}${this.urlBuscar}`, datos).toPromise();
   }
   crear(ciudadano: Contribuyente): Promise<Irespuesta> {
-    return null; // this.http.post<Irespuesta>(this.server + this.urlBuscar, ciudadano).toPromise();
+    const datos = {
+      tipoPersona: 1
+    }
+    return this.http.post<Irespuesta>(`${this.server}${this.urlcrear}`, ciudadano).toPromise();
   }
   consultaPredios(ciudadano: Contribuyente): Promise<Irespuesta> {
 
     return  this.http.get<Irespuesta>(`${this.server}${this.urlPredios}${ciudadano.idSujeto}`).toPromise();
   }
-  consultaVehiculos(_idSujeto: number): Promise<Irespuesta> {
+  consultaVehiculos(_idsujeto: number): Promise<Irespuesta> {
     const datos = {
-      idSujeto : _idSujeto
+      idSujeto : _idsujeto
     }
     return  this.http.post<Irespuesta>(`${this.server}${this.urlPredios}`, datos).toPromise();
   }
-  consultaActivEcon(_idSujeto: number): Promise<Irespuesta> {
+  getPaises(): Promise<Irespuesta> {
     const datos = {
-      idSujeto : _idSujeto
+      codigo : 0
     }
-    return null; // this.http.post<Irespuesta>(this.server + this.urlBuscar, ciudadano).toPromise();
+    return  this.http.post<Irespuesta>(`${this.server}${this.urlPaises}`, null).toPromise();
   }
-  consultaEstablecimientos(_idSujeto: number): Promise<Irespuesta> {
+  getDeptos(dato: number): Promise<Irespuesta> {
     const datos = {
-      idSujeto : _idSujeto
+      codigo : dato
     }
-    return null; // this.http.post<Irespuesta>(this.server + this.urlBuscar, ciudadano).toPromise();
+    return this.http.post<Irespuesta>(`${this.server}${this.urlDeptos}`, datos).toPromise();
   }
-  consultaRepresentantes(_idSujeto: number): Promise<Irespuesta> {
+  getMunic(dato: number): Promise<Irespuesta> {
     const datos = {
-      idSujeto : _idSujeto
+      codigo : dato
     }
-    return null; // this.http.post<Irespuesta>(this.server + this.urlBuscar, ciudadano).toPromise();
+    return this.http.post<Irespuesta>(`${this.server}${this.urlmunic}`, datos).toPromise();
   }
 
 }

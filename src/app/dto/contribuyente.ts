@@ -8,4 +8,20 @@ export class Contribuyente {
   segundoApellido: string;
   matriculaMercantil: string;
   estadoRIT: string;
+  tipoPersona: number; // 1 NATURAL - 2 JURIDICA
+  direccion: string;
+  municipio: number;
+  departamento: number;
+  codPostal: number;
+  pais: number;
+  telefono: string;
+  tipoTelefono: string;
+  nuevoCorreo: string;
+  indBuzon: number;
+  notif: number;
+  usuario: string;
+  canal: string;
+  descuento: boolean;
+
+
 }

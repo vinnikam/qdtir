@@ -1,53 +1,93 @@
 <div *ngIf="!ciudService.rolCiudadano">ES FUNCIONARIO</div>
 <div *ngIf="ciudService.rolCiudadano">ES CIUDADANO</div>
 <div *ngIf="!ciudService.ciudadanoActivo && !ciudService.rolCiudadano">
-<h2 class="page-header">Buscar Ciudadano</h2>
-<form (submit)="buscar()">
+  <div class="container ">
+    <h2 class="login-header">Buscar Contibuyente</h2>
+    <div class="row">
 
-  <div class="form-group">
-    <label>Tipo de Identificación</label>
-    <select class="custom-select" class="form-control" [(ngModel)]="elCiudadano.tipoDocumento" name="tipoDocumento">
-      <option selected>Seleccione el tipo de Identificación</option>
-      <option value="4">CEDULA</option>
-      <option value="2">NIT</option>
-      <option value="3">PASAPORTE</option>
-    </select>
+      <div class="col-md-10 mx-auto">
+        <form class="login-container" (submit)="buscar()" >
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <label>Tipo de Identificación</label>
+              <select class="custom-select" class="form-control" [(ngModel)]="elCiudadano.tipoDocumento" name="tipoDocumento">
+                <option selected>Seleccione el tipo de Identificación</option>
+                <option value="4">CEDULA</option>
+                <option value="2">NIT</option>
+                <option value="3">PASAPORTE</option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label>Identificación</label>
+              <input type="text" [(ngModel)]="elCiudadano.nroIdentificacion"  name="nroIdentificacion" class="form-control"/>
+            </div>
+          </div>
 
+          <div class="form-group row">
+            <div class="col-sm-6">
+
+            </div>
+            <div class="col-sm-6">
+              <input type="submit" class="btn btn-primary px-4 float-right" value="Buscar"/>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <label>Identificación</label>
-    <input type="text" [(ngModel)]="elCiudadano.nroIdentificacion"  name="nroIdentificacion" class="form-control"/>
-  </div>
-  <input type="submit" class="btn btn-primary" value="Buscar"/>
-</form>
 </div>
 <div *ngIf="ciudService.ciudadanoActivo">
-  <h2 class="page-header">CIUDADANO ENCONTRADO</h2>
-  <ul class="list-group">
-    <li class="list-group-item"> Tipo Identificación :<strong> {{ciudService.ciudadanoActivo.tipoDocumento}}</strong></li>
-  </ul>
-  <ul class="list-group">
-    <li class="list-group-item">Identificacion : {{ciudService.ciudadanoActivo.nroIdentificacion}}</li>
-  </ul>
-  <ul class="list-group">
-    <li class="list-group-item">Primer Nombre : {{ciudService.ciudadanoActivo.primerNombre}}</li>
-  </ul>
-  <ul class="list-group">
-    <li class="list-group-item">Segundo Nombre : {{ciudService.ciudadanoActivo.segundoNombre}}</li>
-  </ul>
-  <ul class="list-group">
-    <li class="list-group-item">Primer Apellido : {{ciudService.ciudadanoActivo.primerApellido}}</li>
-  </ul>
-  <ul class="list-group">
-    <li class="list-group-item">Segundo Apellido : {{ciudService.ciudadanoActivo.segundoApellido}}</li>
-  </ul>
-  <ul class="list-group">
-    <li class="list-group-item">Número de Matrícula: {{ciudService.ciudadanoActivo.matriculaMercantil}}</li>
-  </ul>
-  <ul class="list-group">
-    <li class="list-group-item">Estado en el Rit: {{ciudService.ciudadanoActivo.estadoRIT}}</li>
-  </ul>
-  <button  *ngIf="!ciudService.rolCiudadano" type="button" class="btn btn-primary" (click)="nuevaBusqueda()">Nueva Busqueda</button>
+  <div class="container ">
+    <h2 class="titulo-header">CIUDADANO ENCONTRADO</h2>
+    <div class="row login-container">
+      <div class="col-md-10 mx-auto">
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <li class="list-group-item"> Tipo Identificación : <strong> {{ciudService.ciudadanoActivo.tipoDocumento}}</strong></li>
+          </div>
+          <div class="col-sm-6">
+            <li class="list-group-item"> Identificacion : {{ciudService.ciudadanoActivo.nroIdentificacion}}</li>
+          </div>
 
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <li class="list-group-item"> Primer Nombre : {{ciudService.ciudadanoActivo.primerNombre}}</li>
+          </div>
+          <div class="col-sm-6">
+            <li class="list-group-item"> Segundo Nombre : {{ciudService.ciudadanoActivo.segundoNombre}}</li>
+          </div>
+        </div>
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <li class="list-group-item"> Primer Apellido : {{ciudService.ciudadanoActivo.primerApellido}}</li>
+            </div>
+            <div class="col-sm-6">
+              <li class="list-group-item"> Segundo Apellido : {{ciudService.ciudadanoActivo.segundoApellido}}</li>
+            </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <li class="list-group-item"> Número de Matrícula: {{ciudService.ciudadanoActivo.matriculaMercantil}}</li>
+          </div>
+          <div class="col-sm-6">
+            <li class="list-group-item"> Estado en el Rit: {{ciudService.ciudadanoActivo.estadoRIT}}</li>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+        <button  *ngIf="!ciudService.rolCiudadano" type="button" class="btn btn-primary" (click)="nuevaBusqueda()">Nueva Busqueda</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 </div>
+
+
+
