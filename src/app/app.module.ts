@@ -22,6 +22,7 @@ import { AutenticarciudComponent } from './componentes/autenticarciud/autenticar
 import {RouterModule, Routes} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CiudadanonvComponent } from './componentes/ciudadanonv/ciudadanonv.component';
+import { Descuento1Component } from './componentes/descuento1/descuento1.component';
 
 const appRoutes: Routes = [
   {path: '', component: AutenticacionComponent},
@@ -35,6 +36,7 @@ const appRoutes: Routes = [
   {path: 'establecimientos', component: EstablecimientosComponent, canActivate: [Seguridad]},
   {path: 'vehiculos', component: VehiculosComponent, canActivate: [Seguridad]},
   {path: 'predios', component: PrediosComponent, canActivate: [Seguridad]}
+  {path: 'descuento', component: Descuento1Component, canActivate: [Seguridad]}
 ]
 
 @NgModule({
@@ -53,6 +55,7 @@ const appRoutes: Routes = [
     HeaderComponent,
     AutenticarciudComponent,
     CiudadanonvComponent,
+    Descuento1Component,
 
   ],
   imports: [
