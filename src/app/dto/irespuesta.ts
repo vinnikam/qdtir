@@ -1,5 +1,9 @@
 import {Contribuyente} from './contribuyente';
 import {Basicovo} from './basicovo';
+import {Representante} from './representante';
+import {Establecimiento} from './establecimiento';
+import {Actividadecon} from './actividadecon';
+import {Vehiculo} from './vehiculo';
 
 export interface Irespuesta {
   valor ?: string;
@@ -7,5 +11,13 @@ export interface Irespuesta {
   mensaje ?: string;
   contribuyente ?: Contribuyente;
   divpolitica ?: Basicovo[];
+  representantes ?: Representante[];
+  establecimientos ?: Establecimiento[];
+  actividades ?: Actividadecon[];
+  vehiculos ?: Actividadecon[];
+  predios ?: Actividadecon[];
+
+
+
 
 }

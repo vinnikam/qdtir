@@ -12,13 +12,15 @@
       <th scope="col">ORGANISMO TRANS.</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody *ngFor="let dato of lista">
 
     <tr class="table-light">
-      <th scope="row">Default</th>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
+      <th >{{dato.placa}}</th>
+      <th >{{dato.marca}}</th>
+      <th >{{dato.linea}}</th>
+      <th >{{dato.modelo}}</th>
+      <th >{{dato.clase.nombre}}</th>
+      <th >NO HAY</th>
     </tr>
     </tbody>
   </table>

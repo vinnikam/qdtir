@@ -41,15 +41,15 @@ export class CiudadanoService {
     }
     return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlcrear}`, ciudadano).toPromise();
   }
-  consultaPredios(ciudadano: Contribuyente): Promise<Irespuesta> {
+  consultaPredios(_idsujeto: number): Promise<Irespuesta> {
 
-    return  this.http.get<Irespuesta>(`${valores.ip_servidor}${this.urlPredios}${ciudadano.idSujeto}`).toPromise();
+    return  this.http.get<Irespuesta>(`${valores.ip_servidor}${this.urlPredios}${_idsujeto}`).toPromise();
   }
   consultaVehiculos(_idsujeto: number): Promise<Irespuesta> {
     const datos = {
       idSujeto : _idsujeto
     }
-    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlPredios}`, datos).toPromise();
+    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlVehiculos}`, datos).toPromise();
   }
   getPaises(): Promise<Irespuesta> {
     const datos = {
