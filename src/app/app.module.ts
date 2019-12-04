@@ -35,7 +35,7 @@ const appRoutes: Routes = [
   {path: 'representantes', component: RepresentantesComponent, canActivate: [Seguridad]},
   {path: 'establecimientos', component: EstablecimientosComponent, canActivate: [Seguridad]},
   {path: 'vehiculos', component: VehiculosComponent, canActivate: [Seguridad]},
-  {path: 'predios', component: PrediosComponent, canActivate: [Seguridad]}
+  {path: 'predios', component: PrediosComponent, canActivate: [Seguridad]},
   {path: 'descuento', component: Descuento1Component, canActivate: [Seguridad]}
 ]
 
