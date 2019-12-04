@@ -47,7 +47,7 @@ export class CiudadanoService {
     const datos = {
       idSujeto : _idsujeto
     }
-    return  this.http.post<Irespuesta>(`${this.server}${this.urlPredios}`, datos).toPromise();
+    return  this.http.post<Irespuesta>(`${this.server}${this.urlVehiculos}`, datos).toPromise();
   }
   getPaises(): Promise<Irespuesta> {
     const datos = {
