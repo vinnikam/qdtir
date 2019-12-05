@@ -10,13 +10,13 @@
     <th scope="col">ACCION</th>
   </tr>
   </thead>
-  <tbody>
+  <tbody *ngFor="let dato of lista">
 
   <tr class="table-light">
-    <th scope="row">Default</th>
-    <td>Column content</td>
-    <td>Column content</td>
-    <td>Column content</td>
+    <th >{{dato.nombre}}</th>
+    <td>{{dato.fechaApertura}}</td>
+    <td>{{dato.direccion}}</td>
+    <td>-</td>
   </tr>
   </tbody>
 </table>

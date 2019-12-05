@@ -4,19 +4,23 @@
   <table class="table table-hover">
     <thead>
     <tr>
-      <th scope="col">Type</th>
-      <th scope="col">Column heading</th>
-      <th scope="col">Column heading</th>
-      <th scope="col">Column heading</th>
+      <th scope="col">IDENTIFICACION</th>
+      <th scope="col">NOMBRE DEL REPRESENTANTE</th>
+      <th scope="col">CLASE DE REPRESENTACION</th>
+      <th scope="col">TIPO DE REPRESENTACION</th>
+      <th scope="col">FECHA</th>
+      <th scope="col">ACCION</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody *ngFor="let dato of lista">
 
     <tr class="table-light">
-      <th scope="row">Default</th>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
+      <th >{{dato.documento}}</th>
+      <td>{{dato.nombre}}</td>
+      <td>{{dato.claseRepres}}</td>
+      <td>{{dato.tipoRepres}}</td>
+      <td>{{dato.fechaInicio}}</td>
+      <td></td>
     </tr>
     </tbody>
   </table>

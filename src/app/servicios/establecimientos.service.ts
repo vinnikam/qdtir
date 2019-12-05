@@ -16,9 +16,9 @@ export class EstablecimientosService {
 
   constructor(private http: HttpClient) { }
 
-  consultar(idSujeto: number): Promise<Irespuesta> {
+  consultar(idsujeto: number): Promise<Irespuesta> {
     const datos = {
-      idSujeto : idSujeto
+      idSujeto : idsujeto
     }
     return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBuscar}`, datos).toPromise();
   }
