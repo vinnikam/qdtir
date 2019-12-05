@@ -57,6 +57,7 @@ export class CiudadanonvComponent implements OnInit {
   ngOnInit() {
     this.tipoPersonaNat = true;
     this.formulario.value.tipoPersona = 1;
+    this.formulario.value.tipoTelefono = 5;
     this.cargarPaises();
     this.cargarDeptos(49);
     this.cargarMunic(11);

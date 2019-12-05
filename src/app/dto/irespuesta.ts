@@ -8,4 +8,6 @@ export interface Irespuesta {
   contribuyente ?: Contribuyente;
   divpolitica ?: Basicovo[];
 
+  predios ?: any[];
+
 }

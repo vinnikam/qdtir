@@ -1,3 +1,25 @@
-<p>
-  predios works! prueba
-</p>
+<!--div *ngIf="ciudService.ciudadanoActivo" -->
+<div class="container ">
+  <h2 class="base-header-vehi">PREDIOS</h2>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="col">CHIP</th>
+      <th scope="col">Uso</th>
+      <th scope="col">Dirección Predio</th>
+      <th scope="col">Matricula</th>
+     
+    </tr>
+    </thead>
+    <tbody *ngFor="let x of predios">
+    <tr class="">
+      <td>{{x.}}</td>
+      <td>{{x.tipo.nombre}}</td>
+      <td>{{x.direccion}}</td>
+      <td>{{x.municipio.nombre}}</td>
+
+    </tr>
+    </tbody>
+  </table>
+</div>
+<!--/div-->

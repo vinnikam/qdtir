@@ -3,11 +3,11 @@ import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-establecimientos',
-  templateUrl: './establecimientos.component.html',
-  styleUrls: ['./establecimientos.component.css']
+  selector: 'app-descuento1',
+  templateUrl: './descuento1.component.html',
+  styleUrls: ['./descuento1.component.css']
 })
-export class EstablecimientosComponent implements OnInit {
+export class Descuento1Component implements OnInit {
 
   constructor(private ciudService: CiudadanoService,
               private router: Router) {
