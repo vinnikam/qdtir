@@ -12,6 +12,7 @@ import { Predio } from 'src/app/dto/predio';
 export class PrediosComponent implements OnInit {
   respuesta: Irespuesta;
   predios: Predio[];
+  //5847944,5847644
 
   constructor(private ciudService: CiudadanoService,
               private router: Router) {
@@ -20,6 +21,7 @@ export class PrediosComponent implements OnInit {
       this.router.navigate(['/crearciu']);
     }else {
       this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
+      //this.consultar(5847944);
     }
   }
   ngOnInit() {

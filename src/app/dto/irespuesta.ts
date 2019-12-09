@@ -4,6 +4,7 @@ import {Representante} from './representante';
 import {Establecimiento} from './establecimiento';
 import {Actividadecon} from './actividadecon';
 import {Vehiculo} from './vehiculo';
+import { Predio } from './predio';
 
 export interface Irespuesta {
   valor ?: string;
@@ -15,11 +16,7 @@ export interface Irespuesta {
   establecimientos ?: Establecimiento[];
   actividades ?: Actividadecon[];
   vehiculos ?: Actividadecon[];
-  predios ?: Actividadecon[];
+  predios ?: Predio[];
 
-
-
-
-  predios ?: any[];
 
 }

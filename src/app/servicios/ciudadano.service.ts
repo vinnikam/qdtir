@@ -14,7 +14,7 @@ export class CiudadanoService {
   ciudadanoActivo: Contribuyente;
   rolCiudadano: boolean;
 
-  // server: string = 'http://127.0.0.1:7101/';
+  // server: string = 'http://10.180.52.86:7101/';
 
   urlBuscar: string = 'ServiciosRITDQ/resources/contribuyente';
   urlPredios: string = 'ServiciosRITDQ/resources/consultas/predios/';
