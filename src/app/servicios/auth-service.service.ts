@@ -23,10 +23,12 @@ export class AuthServiceService {
   }
   estaAutenticado() {
     this.authToken  = JSON.stringify( localStorage.getItem('id_token'));
-    console.log(this.authToken);
+    // console.log(this.authToken);
     if (this.authToken !== 'null') {
+      // console.log('autenticado');
       return true;
     } else {
+      // console.log('no autenticado');
       return false;
     }
   }
