@@ -27,7 +27,7 @@
 </table>
 </div>
 <p-dialog header="CREAR" [modal]="true" [positionTop]="100"  [(visible)]="creardialog" [style]="{width: '500px', height: '200px'}"
-          [closable]="false" [baseZIndex]="10000">
+          [closable]="true" [baseZIndex]="10000">
   <div class="container">
     <div >
       <form  class="base-container"  (ngSubmit)="this.crearEsta()" [formGroup]="formulario" >
@@ -41,21 +41,29 @@
         <div class="form-group row">
           <div class="col-sm-9">
             <label>fecha de apertura: </label>
-            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+            <p-calendar  name="fechaApertura" formControlName="fechaApertura"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
           </div>
 
         </div>
         <div class="form-group row">
           <div class="col-sm-9">
             <label>Dirección: </label>
-            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+            <input type="text" name="direccion" formControlName="direccion" class="form-control" ngModel  autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>Codigo Postal: </label>
+            <input type="text" name="codPostal" formControlName="codPostal" class="form-control" ngModel  [placeholder]="11001" autocomplete="off"/>
           </div>
 
         </div>
         <div class="form-group row">
         <div class="col-sm-9">
           <label>Teléfono: </label>
-          <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+          <input type="text" name="telefono1" formControlName="telefono1" class="form-control" ngModel  autocomplete="off"/>
         </div>
 
       </div>

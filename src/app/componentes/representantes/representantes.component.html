@@ -1,6 +1,11 @@
 <!--div *ngIf="ciudService.ciudadanoActivo" -->
 <div class="container ">
   <h2 class="base-header-repres">REPRESENTANTES</h2>
+  <div style="text-align:left">
+
+    <button class="btn  px-4 float-right"  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="crear()"></button>
+
+  </div>
   <table class="table table-hover">
     <thead>
     <tr>
@@ -25,4 +30,48 @@
     </tbody>
   </table>
 </div>
-<!--/div-->
+<p-dialog header="CREAR" [modal]="true" [positionTop]="100"  [(visible)]="creardialog" [style]="{width: '500px', height: '200px'}"
+          [closable]="false" [baseZIndex]="10000">
+  <div class="container">
+    <div >
+      <form  class="base-container"  (ngSubmit)="this.crearEsta()" [formGroup]="formulario" >
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>Nombre del Establecimiento: </label>
+            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>fecha de apertura: </label>
+            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>Dirección: </label>
+            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>Teléfono: </label>
+            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <button class="btn  px-4 float-left"  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="guardar()"></button>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</p-dialog>

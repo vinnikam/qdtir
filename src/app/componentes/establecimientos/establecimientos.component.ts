@@ -6,6 +6,8 @@ import {EstablecimientosService} from '../../servicios/establecimientos.service'
 import {Actividadecon} from '../../dto/actividadecon';
 import {Establecimiento} from '../../dto/establecimiento';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {es} from '../../config/Propiedades';
+import {Contribuyente} from '../../dto/contribuyente';
 
 @Component({
   selector: 'app-establecimientos',
@@ -19,12 +21,23 @@ export class EstablecimientosComponent implements OnInit {
 
   creardialog: boolean;
   formulario: FormGroup;
+  es: any;
+  establecimiento: Establecimiento;
+
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private estaServ: EstablecimientosService ,
               private formBuilder: FormBuilder) {
       this.formulario = this.formBuilder.group({
-        nombre: []
+        nombre: [],
+        fechaApertura: [],
+        direccion: [],
+        telefono1: [],
+        codPostal: [],
+        pais: ['49'] ,
+        municipio: ['11001'],
+        ciudad: ['11001'],
+        depto: ['11']
 
       });
       if (this.ciudService.ciudadanoActivo === null) {
@@ -39,6 +52,7 @@ export class EstablecimientosComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.es = es;
   }
   consultar(idsujeto: number ) {
 
@@ -62,6 +76,24 @@ export class EstablecimientosComponent implements OnInit {
 
   }
   guardar() {
+
+    const jsonString = JSON.stringify(this.formulario.value);
+    this.establecimiento = JSON.parse(jsonString) as Establecimiento;
+    this.establecimiento.idSujeto = this.ciudService.ciudadanoActivo.idSujeto;
+    alert(this.establecimiento);
+    const x: Promise<Irespuesta> = this.estaServ.crear(this.establecimiento);
+
+    x.then((value: Irespuesta) => {
+      this.respuesta = value;
+      // alert(value);
+      if (this.respuesta.codigoError === '0') {
+         alert('CREO ');
+
+      } else {
+        alert('NO CREO ');
+      }
+    })
+      .catch(() => {alert('Error tecnico en guardar establecimiento '); });
     this.creardialog = false;
   }
 }

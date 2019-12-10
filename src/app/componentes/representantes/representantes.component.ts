@@ -5,6 +5,7 @@ import {RepresentantesService} from '../../servicios/representantes.service';
 import {Irespuesta} from '../../dto/irespuesta';
 import {Establecimiento} from '../../dto/establecimiento';
 import {Representante} from '../../dto/representante';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-representantes',
@@ -15,9 +16,17 @@ export class RepresentantesComponent implements OnInit {
   lista: Representante[];
   respuesta: Irespuesta;
 
+  creardialog: boolean;
+  formulario: FormGroup;
+
 
   constructor(private ciudService: CiudadanoService,
-              private router: Router, private represerv: RepresentantesService) {
+              private router: Router, private represerv: RepresentantesService,
+              private formBuilder: FormBuilder) {
+    this.formulario = this.formBuilder.group({
+      nombre: []
+
+    });
     if (this.ciudService.ciudadanoActivo === null) {
       alert('No hay ciudadano activo');
       this.router.navigate(['/crearciu']);
@@ -47,5 +56,15 @@ export class RepresentantesComponent implements OnInit {
     })
       .catch(() => {alert('Error tecnico en la consulta del servicio Buscar actividades'); });
 
+  }
+
+  crear() {
+    this.creardialog = true;
+  }
+  crearEsta() {
+
+  }
+  guardar() {
+    this.creardialog = false;
   }
 }

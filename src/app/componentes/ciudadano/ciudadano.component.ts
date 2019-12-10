@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Contribuyente} from '../../dto/contribuyente';
 import {Irespuesta} from '../../dto/irespuesta';
+import {AuthServiceService} from '../../servicios/auth-service.service';
 
 @Component({
   selector: 'app-ciudadano',
@@ -15,11 +16,12 @@ export class CiudadanoComponent implements OnInit {
 
   private respuesta: Irespuesta;
 
-  constructor(private ciudService: CiudadanoService) {
+  constructor(private ciudService: CiudadanoService, private autenticservice: AuthServiceService) {
     this.elCiudadano = new Contribuyente();
   }
 
   ngOnInit() {
+    this.autenticservice.
   }
   buscar() {
 

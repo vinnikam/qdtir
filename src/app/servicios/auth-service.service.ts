@@ -51,7 +51,6 @@ export class AuthServiceService {
     }
     return this.http.post<Irespuesta>(`${this.urlLoginCiudadano}`, datosC).toPromise();
   }
-
   loginFuncionario(ciudadano: Contribuyente): Promise<Irespuesta> {
     const datosF = {
       usuarioauten: ciudadano.usuario,

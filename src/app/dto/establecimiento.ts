@@ -5,9 +5,14 @@ export class Establecimiento {
   fechaCierre ?: string;
   nombre ?: number;
   matricula ?: number;
-  direccion ?: number;
+  direccion ?: string;
   telefono1 ?: number;
   telefono2 ?: number;
   estadomatricula ?: number;
   tipo ?: number;
+  pais?: number;
+  municipio?: number;
+  ciudad?: number;
+  depto?: number;
+  codPostal?: number;
 }
