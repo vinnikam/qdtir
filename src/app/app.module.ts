@@ -27,6 +27,9 @@ import {TabMenuModule} from 'primeng/tabmenu';
 
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {MenubarModule} from 'primeng/menubar';
+import {ButtonModule} from 'primeng/button';
+import {DialogModule} from 'primeng/dialog';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 const appRoutes: Routes = [
@@ -60,7 +63,7 @@ const appRoutes: Routes = [
     HeaderComponent,
     AutenticarciudComponent,
     CiudadanonvComponent,
-    Descuento1Component,
+    Descuento1Component
 
   ],
   imports: [
@@ -71,7 +74,10 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     TabMenuModule,
     AngularFontAwesomeModule,
-    MenubarModule
+    MenubarModule,
+    ButtonModule,
+    DialogModule,
+    BrowserAnimationsModule
   ],
   providers: [AuthServiceService, Seguridad, CiudadanoService],
   bootstrap: [AppComponent]

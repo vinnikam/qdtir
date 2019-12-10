@@ -5,6 +5,7 @@ import {Irespuesta} from '../../dto/irespuesta';
 import {EstablecimientosService} from '../../servicios/establecimientos.service';
 import {Actividadecon} from '../../dto/actividadecon';
 import {Establecimiento} from '../../dto/establecimiento';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-establecimientos',
@@ -16,8 +17,16 @@ export class EstablecimientosComponent implements OnInit {
   lista: Establecimiento[];
   respuesta: Irespuesta;
 
+  creardialog: boolean;
+  formulario: FormGroup;
+
   constructor(private ciudService: CiudadanoService,
-              private router: Router, private estaServ: EstablecimientosService ) {
+              private router: Router, private estaServ: EstablecimientosService ,
+              private formBuilder: FormBuilder) {
+      this.formulario = this.formBuilder.group({
+        nombre: []
+
+      });
       if (this.ciudService.ciudadanoActivo === null) {
       alert('No hay ciudadano activo');
       this.router.navigate(['/crearciu']);
@@ -26,6 +35,7 @@ export class EstablecimientosComponent implements OnInit {
           this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
         }
     }
+      this.creardialog = false;
   }
 
   ngOnInit() {
@@ -44,5 +54,14 @@ export class EstablecimientosComponent implements OnInit {
     })
       .catch(() => {alert('Error tecnico en la consulta del servicio Buscar actividades'); });
 
+  }
+  crear() {
+    this.creardialog = true;
+  }
+  crearEsta() {
+
+  }
+  guardar() {
+    this.creardialog = false;
   }
 }
