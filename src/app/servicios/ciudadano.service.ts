@@ -13,6 +13,7 @@ import {tap} from 'rxjs/operators';
 export class CiudadanoService {
   ciudadanoActivo: Contribuyente;
   rolCiudadano: boolean;
+  autenticado: any;
 
   // server: string = 'http://127.0.0.1:7101/';
 

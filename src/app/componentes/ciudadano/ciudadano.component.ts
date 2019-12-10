@@ -10,7 +10,7 @@ import {Irespuesta} from '../../dto/irespuesta';
 })
 export class CiudadanoComponent implements OnInit {
   tipoiden: string;
-  identificacion; string;
+  identificacion: string;
   elCiudadano: Contribuyente;
 
   private respuesta: Irespuesta;

@@ -16,8 +16,6 @@ export interface Irespuesta {
   actividades ?: Actividadecon[];
   vehiculos ?: Actividadecon[];
   predios ?: Actividadecon[];
-
-
-
+  authenticated ?: boolean;
 
 }
