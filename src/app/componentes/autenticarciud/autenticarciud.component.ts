@@ -35,7 +35,7 @@ export class AutenticarciudComponent implements OnInit {
           codTId: this.elCiudadano.tipoDocumento,
           nroId: this.elCiudadano.nroIdentificacion
         }
-        this._ciudadano.autenticado = datos;
+        this._authService.datos = datos;
 
         this.router.navigate(['/crearbus']);
 
