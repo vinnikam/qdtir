@@ -36,15 +36,16 @@ export class AutenticarciudComponent implements OnInit {
           nroId: this.elCiudadano.nroIdentificacion
         }
         this._authService.datos = datos;
+        this._ciudadano.rolCiudadano = true;
 
         this.router.navigate(['/crearbus']);
 
-      }else{
+      } else {
         alert('Verifique sus credenciales. ');
         this._ciudadano.autenticado = null;
       }
 
-    //return false;
+    // return false;
 
     })
       .catch((err ) => {alert('Error tecnico en la consulta de autenticacion del ciudadano'+ err) ; });

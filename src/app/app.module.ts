@@ -31,6 +31,7 @@ import {ButtonModule} from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CalendarModule} from 'primeng/calendar';
+import {TableModule} from 'primeng/table';
 
 
 const appRoutes: Routes = [
@@ -79,7 +80,8 @@ const appRoutes: Routes = [
     ButtonModule,
     DialogModule,
     BrowserAnimationsModule,
-    CalendarModule
+    CalendarModule,
+    TableModule
   ],
   providers: [AuthServiceService, Seguridad, CiudadanoService],
   bootstrap: [AppComponent]

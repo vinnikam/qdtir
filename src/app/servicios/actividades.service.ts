@@ -4,6 +4,7 @@ import {valores} from '../config/Propiedades';
 import {Irespuesta} from '../dto/irespuesta';
 import {Representante} from '../dto/representante';
 import {Actividadecon} from '../dto/actividadecon';
+import {Actividad} from '../dto/actividad';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +23,11 @@ export class ActividadesService {
     }
     return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBuscar}`, datos).toPromise();
   }
-  borrar(dato: Actividadecon): Promise<Irespuesta> {
+  borrar(dato: Actividad): Promise<Irespuesta> {
 
     return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBuscar}`, dato).toPromise();
   }
-  crear(dato: Actividadecon): Promise<Irespuesta> {
+  crear(dato: Actividad): Promise<Irespuesta> {
 
     return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlCrear}`, dato).toPromise();
   }

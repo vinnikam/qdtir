@@ -3,6 +3,7 @@ import {AuthServiceService} from '../../servicios/auth-service.service';
 import {Router} from '@angular/router';
 import {Irespuesta} from "../../dto/irespuesta";
 import {Contribuyente} from "../../dto/contribuyente";
+import {CiudadanoService} from '../../servicios/ciudadano.service';
 
 @Component({
   selector: 'app-autenticacion',
@@ -14,9 +15,9 @@ export class AutenticacionComponent implements OnInit {
   private respuesta: Irespuesta;
 
   constructor(private _authService: AuthServiceService,
-              private router: Router) {
+              private router: Router, private _ciudadservice: CiudadanoService) {
     this.elCiudadano = new Contribuyente();
-    console.log("entro dijo la muda");
+    console.log('entro dijo la muda');
   }
 
   ngOnInit() {
@@ -28,12 +29,13 @@ export class AutenticacionComponent implements OnInit {
       // alert('Consumio servicio autenticacion');
       if (this.respuesta.codigoError === '0') {
         alert('Usuario Existe. ');
+        this._ciudadservice.rolCiudadano = false;
         this.router.navigate(['/crearbus']);
 
-      }else{
+      } else {
         alert('Verifique sus credenciales. ');
       }
-    //this._authService.ingresarFuncionario();
+    // this._authService.ingresarFuncionario();
 
     })
       .catch(() => {alert('Error tecnico en la consulta de autenticacion del funcionario'); });

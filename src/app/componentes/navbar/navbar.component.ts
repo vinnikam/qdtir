@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthServiceService} from '../../servicios/auth-service.service';
 import {Router} from '@angular/router';
 import {MenuItem} from 'primeng';
+import {CiudadanoService} from '../../servicios/ciudadano.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,15 +11,16 @@ import {MenuItem} from 'primeng';
 })
 export class NavbarComponent implements OnInit {
 
-  items1: MenuItem[];
+  itemsingreso: MenuItem[];
 
-  items2: MenuItem[];
+  itemsciud: MenuItem[];
+  itemsfunc: MenuItem[];
 
-  activeItem: MenuItem;
+  item: MenuItem;
 
   constructor(private _authservice: AuthServiceService,
-              private router: Router) {
-    this.items1 = [
+              private router: Router, private ciudservic: CiudadanoService) {
+    this.itemsingreso = [
       {label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'},
       {label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/autenticarCiud'}
     ];
@@ -26,34 +28,47 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.items1 = [
-      {label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'},
-      {label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/autenticarCiud'}
-    ];
-    this.items2 = [
-      {label: 'Contribuyente', icon: 'pi pi-user-plus',
-        items: [
-          {label: 'Crear', icon: 'pi pi-user-plus', routerLink: '/crearciu'},
-          {label: 'Buscar', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
-          {label: 'Datos de Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
-          {label: 'Datos 1 %', icon: 'pi pi-dollar', routerLink: '/descuento'}
-        ]
-      },
-      {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
-      {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
-      {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'},
-      {label: 'Predios', icon: 'pi pi-home', routerLink: '/predios'},
-      {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'},
-      {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
-    ];
+    alert(this.ciudservic.rolCiudadano);
 
+      this.itemsingreso = [
+        {label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'},
+        {label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/autenticarCiud'}];
 
-/*-
-*  */
+      this.itemsciud = [
+          {label: 'Contribuyente', icon: 'pi pi-user-plus',
+            items: [
+              {label: 'Datos de Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
+              {label: 'Datos 1 %', icon: 'pi pi-dollar', routerLink: '/descuento'}
+            ]
+          },
+          {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
+          {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
+          {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'},
+          {label: 'Predios', icon: 'pi pi-home', routerLink: '/predios'},
+          {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'},
+          {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
+       ];
+
+        this.itemsfunc = [
+          {label: 'Contribuyente', icon: 'pi pi-user-plus',
+            items: [
+              {label: 'Crear', icon: 'pi pi-user-plus', routerLink: '/crearciu'},
+              {label: 'Buscar', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
+              {label: 'Datos de Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
+              {label: 'Datos 1 %', icon: 'pi pi-dollar', routerLink: '/descuento'}
+            ]
+          },
+          {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
+          {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
+          {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'},
+          {label: 'Predios', icon: 'pi pi-home', routerLink: '/predios'},
+          {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'},
+          {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
+        ];
 
   }
   closeItem(event, index) {
-    this.items2 = this.items2.filter((item, i) => i !== index);
+    this.itemsciud = this.itemsciud.filter((item, i) => i !== index);
     event.preventDefault();
   }
 

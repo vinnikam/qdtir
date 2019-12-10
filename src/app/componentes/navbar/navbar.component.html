@@ -1,5 +1,5 @@
-<div class="container" *ngIf="_authservice.estaAutenticado()">
-  <p-menubar [model]="items2" >
+<div class="container" *ngIf="!_authservice.estaAutenticado()">
+  <p-menubar [model]="itemsingreso" >
     <ng-template pTemplate="item" let-item let-i="index">
       <div style="position: relative; text-align: left; min-width: 10em">
         <div class="ui-menuitem-icon" [ngClass]="item.icon" *ngIf="item.icon" style="font-size: 2em"></div>
@@ -12,8 +12,8 @@
   </p-menubar>
 
 </div>
-<div class="container" align="left" *ngIf="!_authservice.estaAutenticado()">
-  <p-menubar [model]="items1" >
+<div class="container" align="left" *ngIf="_authservice.estaAutenticado()">
+  <p-menubar [model]="itemsciud" >
     <ng-template pTemplate="item" let-item let-i="index">
       <div style="position: relative; text-align: left; min-width: 10em">
         <div class="ui-menuitem-icon" [ngClass]="item.icon" *ngIf="item.icon" style="font-size: 2em"></div>

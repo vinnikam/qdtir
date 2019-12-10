@@ -21,9 +21,14 @@ export class CiudadanoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.autenticservice.
+    if (this.autenticservice.datos !== undefined){
+      this.elCiudadano.nroIdentificacion = this.autenticservice.datos.nroId;
+      this.elCiudadano.tipoDocumento = this.autenticservice.datos.codTId;
+      this.buscar();
+    }
   }
   buscar() {
+
 
     const x: Promise<Irespuesta> = this.ciudService.buscar(this.elCiudadano);
     x.then((value: Irespuesta) => {

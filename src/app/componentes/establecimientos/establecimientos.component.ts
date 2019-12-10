@@ -20,9 +20,12 @@ export class EstablecimientosComponent implements OnInit {
   respuesta: Irespuesta;
 
   creardialog: boolean;
+  borrardialog: boolean;
   formulario: FormGroup;
+  formularioborra: FormGroup;
   es: any;
   establecimiento: Establecimiento;
+  establecimientoborra: Establecimiento;
 
 
   constructor(private ciudService: CiudadanoService,
@@ -40,15 +43,22 @@ export class EstablecimientosComponent implements OnInit {
         depto: ['11']
 
       });
+      this.formularioborra = this.formBuilder.group({
+        fechaCierre: []
+
+      });
       if (this.ciudService.ciudadanoActivo === null) {
-      alert('No hay ciudadano activo');
-      this.router.navigate(['/crearciu']);
-    } else {
+        alert('No hay ciudadano activo');
+        this.router.navigate(['/crearciu']);
+      } else {
         if (this.ciudService.ciudadanoActivo !== undefined) {
           this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
+        } else {
+          this.consultar(363337);
         }
     }
       this.creardialog = false;
+      this.borrardialog = false;
   }
 
   ngOnInit() {
@@ -69,18 +79,17 @@ export class EstablecimientosComponent implements OnInit {
       .catch(() => {alert('Error tecnico en la consulta del servicio Buscar actividades'); });
 
   }
-  crear() {
+  // VISUALIZA EL DIALOG DE CREAR
+  vercrear() {
     this.creardialog = true;
   }
-  crearEsta() {
 
-  }
   guardar() {
 
     const jsonString = JSON.stringify(this.formulario.value);
     this.establecimiento = JSON.parse(jsonString) as Establecimiento;
     this.establecimiento.idSujeto = this.ciudService.ciudadanoActivo.idSujeto;
-    alert(this.establecimiento);
+    // alert(this.establecimiento);
     const x: Promise<Irespuesta> = this.estaServ.crear(this.establecimiento);
 
     x.then((value: Irespuesta) => {
@@ -88,6 +97,8 @@ export class EstablecimientosComponent implements OnInit {
       // alert(value);
       if (this.respuesta.codigoError === '0') {
          alert('CREO ');
+         this.establecimiento = undefined;
+         this.consultar(this.establecimiento.idSujeto);
 
       } else {
         alert('NO CREO ');
@@ -95,5 +106,32 @@ export class EstablecimientosComponent implements OnInit {
     })
       .catch(() => {alert('Error tecnico en guardar establecimiento '); });
     this.creardialog = false;
+  }
+  verborra(elesta: Establecimiento) {
+    this.borrardialog = true;
+    this.establecimientoborra = elesta;
+  }
+  borrar() {
+    const jsonString = JSON.stringify(this.formularioborra.value);
+    this.establecimiento = JSON.parse(jsonString) as Establecimiento;
+    this.establecimientoborra.fechaCierre = this.establecimiento.fechaCierre;
+    // alert(this.establecimiento);
+    const x: Promise<Irespuesta> = this.estaServ.borrar(this.establecimientoborra);
+
+    x.then((value: Irespuesta) => {
+      this.respuesta = value;
+      // alert(value);
+      if (this.respuesta.codigoError === '0') {
+        alert('BORRO ');
+        this.establecimiento = undefined;
+        this.consultar(this.establecimientoborra.idSujeto);
+
+      } else {
+        alert('NO BORRO ');
+      }
+    })
+      .catch(() => {alert('Error tecnico en borrar establecimiento '); });
+    this.creardialog = false;
+
   }
 }

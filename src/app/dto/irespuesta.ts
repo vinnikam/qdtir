@@ -13,9 +13,9 @@ export interface Irespuesta {
   divpolitica ?: Basicovo[];
   representantes ?: Representante[];
   establecimientos ?: Establecimiento[];
-  actividades ?: Actividadecon[];
-  vehiculos ?: Actividadecon[];
-  predios ?: Actividadecon[];
+  actividades ?: Actividadecon;
+  vehiculos ?: Vehiculo[];
+  predios ?: any[];
   authenticated ?: boolean;
 
 }

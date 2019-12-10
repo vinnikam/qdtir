@@ -13,7 +13,7 @@ export class AuthServiceService {
   urlLoginCiudadano: string = 'http://10.180.4.88/SDHLogin/SDHREST/login';
   urlLoginFuncionario: string = 'ServiciosRITDQ/resources/consultas/autenticar';
   private doc: string;
-  datos : any;
+  datos: any;
 
 
   constructor(private ciudService: CiudadanoService, private http: HttpClient) { }

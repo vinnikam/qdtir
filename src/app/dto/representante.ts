@@ -7,4 +7,5 @@ export class Representante {
   fechaInicio ?: string;
   claseRepres ?: string;
   tipoRepres ?: string;
+  fechaCierre ?: string;
 }
