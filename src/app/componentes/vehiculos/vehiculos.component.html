@@ -1,3 +1,28 @@
-<p>
-  vehiculos works!
-</p>
+<!--div *ngIf="ciudService.ciudadanoActivo" -->
+<div class="container ">
+  <h2 class="base-header-vehi">VEHICULOS</h2>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="col">PLACA</th>
+      <th scope="col">MARCA</th>
+      <th scope="col">LINEA</th>
+      <th scope="col">MODELO</th>
+      <th scope="col">CLASE</th>
+      <th scope="col">ORGANISMO TRANS.</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let dato of lista">
+
+    <tr class="table-light">
+      <th >{{dato.placa}}</th>
+      <th >{{dato.marca}}</th>
+      <th >{{dato.linea}}</th>
+      <th >{{dato.modelo}}</th>
+      <th >{{dato.clase.nombre}}</th>
+      <th >NO HAY</th>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<!--/div-->

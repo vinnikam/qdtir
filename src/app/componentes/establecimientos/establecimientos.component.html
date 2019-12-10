@@ -1,3 +1,24 @@
-<p>
-  establecimientos works!
-</p>
+<!--div *ngIf="ciudService.ciudadanoActivo" -->
+  <div class="container ">
+    <h2 class="base-header-estab">ESTABLECIMIENTOS</h2>
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th scope="col">NOMBRE</th>
+    <th scope="col">FECHA APERTURA</th>
+    <th scope="col">DIRECCIONES</th>
+    <th scope="col">ACCION</th>
+  </tr>
+  </thead>
+  <tbody *ngFor="let dato of lista">
+
+  <tr class="table-light">
+    <th >{{dato.nombre}}</th>
+    <td>{{dato.fechaApertura}}</td>
+    <td>{{dato.direccion}}</td>
+    <td>-</td>
+  </tr>
+  </tbody>
+</table>
+</div>
+<!--/div-->

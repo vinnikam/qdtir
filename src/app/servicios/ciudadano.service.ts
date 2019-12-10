@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import {Irespuesta} from '../dto/irespuesta';
 import {Contribuyente} from '../dto/contribuyente';
+import {valores} from '../config/Propiedades';
 // tslint:disable-next-line:import-blacklist
 import { Observable } from 'rxjs';
 
@@ -13,7 +14,8 @@ export class CiudadanoService {
   ciudadanoActivo: Contribuyente;
   rolCiudadano: boolean;
 
-  server: string = 'http://127.0.0.1:7101/';
+  // server: string = 'http://127.0.0.1:7101/';
+
   urlBuscar: string = 'ServiciosRITDQ/resources/contribuyente';
   urlPredios: string = 'ServiciosRITDQ/resources/consultas/predios/';
   urlVehiculos: string = 'ServiciosRITDQ/resources/consultas/vehiculos/';
@@ -31,41 +33,43 @@ export class CiudadanoService {
       codTId: ciudadano.tipoDocumento,
       nroId: ciudadano.nroIdentificacion
     }
-    return this.http.post<Irespuesta>(`${this.server}${this.urlBuscar}`, datos).toPromise();
+    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBuscar}`, datos).toPromise();
   }
   crear(ciudadano: Contribuyente): Promise<Irespuesta> {
     const datos = {
       tipoPersona: 1
     }
-    return this.http.post<Irespuesta>(`${this.server}${this.urlcrear}`, ciudadano).toPromise();
+    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlcrear}`, ciudadano).toPromise();
   }
-  consultaPredios(ciudadano: Contribuyente): Promise<Irespuesta> {
+  consultaPredios(_idsujeto: number): Promise<Irespuesta> {
 
-    return  this.http.get<Irespuesta>(`${this.server}${this.urlPredios}${ciudadano.idSujeto}`).toPromise();
+    return  this.http.get<Irespuesta>(`${valores.ip_servidor}${this.urlPredios}${_idsujeto}`).toPromise();
   }
   consultaVehiculos(_idsujeto: number): Promise<Irespuesta> {
     const datos = {
       idSujeto : _idsujeto
     }
-    return  this.http.post<Irespuesta>(`${this.server}${this.urlPredios}`, datos).toPromise();
+    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlVehiculos}`, datos).toPromise();
   }
   getPaises(): Promise<Irespuesta> {
     const datos = {
       codigo : 0
     }
-    return  this.http.post<Irespuesta>(`${this.server}${this.urlPaises}`, null).toPromise();
+    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlPaises}`, null).toPromise();
   }
   getDeptos(dato: number): Promise<Irespuesta> {
     const datos = {
       codigo : dato
     }
-    return this.http.post<Irespuesta>(`${this.server}${this.urlDeptos}`, datos).toPromise();
+    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlDeptos}`, datos).toPromise();
   }
   getMunic(dato: number): Promise<Irespuesta> {
     const datos = {
       codigo : dato
     }
-    return this.http.post<Irespuesta>(`${this.server}${this.urlmunic}`, datos).toPromise();
+    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlmunic}`, datos).toPromise();
   }
+
+
 
 }

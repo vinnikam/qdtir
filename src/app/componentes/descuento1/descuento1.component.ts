@@ -3,11 +3,11 @@ import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-predios',
-  templateUrl: './predios.component.html',
-  styleUrls: ['./predios.component.css']
+  selector: 'app-descuento1',
+  templateUrl: './descuento1.component.html',
+  styleUrls: ['./descuento1.component.css']
 })
-export class PrediosComponent implements OnInit {
+export class Descuento1Component implements OnInit {
 
   constructor(private ciudService: CiudadanoService,
               private router: Router) {
@@ -16,6 +16,7 @@ export class PrediosComponent implements OnInit {
       this.router.navigate(['/crearciu']);
     }
   }
+
   ngOnInit() {
   }
 

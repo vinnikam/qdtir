@@ -1,3 +1,28 @@
-<p>
-    NO HAY
-</p>
+<!--div *ngIf="ciudService.ciudadanoActivo" -->
+<div class="container ">
+  <h2 class="base-header-repres">REPRESENTANTES</h2>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="col">IDENTIFICACION</th>
+      <th scope="col">NOMBRE DEL REPRESENTANTE</th>
+      <th scope="col">CLASE DE REPRESENTACION</th>
+      <th scope="col">TIPO DE REPRESENTACION</th>
+      <th scope="col">FECHA</th>
+      <th scope="col">ACCION</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let dato of lista">
+
+    <tr class="table-light">
+      <th >{{dato.documento}}</th>
+      <td>{{dato.nombre}}</td>
+      <td>{{dato.claseRepres}}</td>
+      <td>{{dato.tipoRepres}}</td>
+      <td>{{dato.fechaInicio}}</td>
+      <td></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<!--/div-->
