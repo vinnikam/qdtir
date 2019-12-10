@@ -28,7 +28,7 @@ export class AutenticarciudComponent implements OnInit {
     x.then((value: Irespuesta) => {
       this.respuesta = value;
       // alert('Consumio servicio autenticacion');
-      if (this.respuesta === 'SSOLoginAuthSuccessful') {
+      if (this.respuesta.authenticated) {
         this._authService.ingresar();
        // this.router.navigate(['/crearciu']);
         const datos = {
@@ -36,6 +36,7 @@ export class AutenticarciudComponent implements OnInit {
           nroId: this.elCiudadano.nroIdentificacion
         }
         this._ciudadano.autenticado = datos;
+
         this.router.navigate(['/crearbus']);
 
       }else{

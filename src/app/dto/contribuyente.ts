@@ -22,6 +22,6 @@ export class Contribuyente {
   usuario: string;
   canal: string;
   descuento: boolean;
-
+  clave: string;
 
 }
