@@ -1,6 +1,37 @@
 <!--div *ngIf="ciudService.ciudadanoActivo" -->
 <div class="container ">
   <h2 class="base-header-activ">ACTIVIDADES ECONOMICAS</h2>
+
+
+  <p-table [value]="lista" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" width="10%">CODIGO HACENDARIO</th>
+        <th scope="col" width="65%">DESCRIPCION</th>
+        <th scope="col" width="15%">FECHA INICIO</th>
+        <th scope="col" width="10%">ACCION</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-dato>
+      <tr >
+        <td >{{dato.codigo}}</td>
+        <td >{{dato.descripcion}}</td>
+        <td >{{dato.fec_inicio}}</td>
+        <td style="text-align:center" ><button class="btn"  pButton type="button"  icon="pi pi-trash" (click)="verborra(dato)"></button>
+
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary" let-rowData>
+      <div style="text-align:left">
+        <button class="btn "  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="vercrear()"></button>
+      </div>
+    </ng-template>
+
+  </p-table>
+
+<!--
   <table class="table table-hover">
     <thead>
     <tr>
@@ -13,12 +44,84 @@
     <tbody *ngFor="let dato of lista">
 
     <tr class="table-light">
-      <th >{{dato}}</th>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
+      <th >{{dato.codigo}}</th>
+      <td>{{dato.descripcion}}</td>
+      <td>{{dato.fec_inicio}}</td>
+      <td>-</td>
     </tr>
     </tbody>
-  </table>
+  </table>-->
 </div>
+<p-dialog header="CREAR" [modal]="true" [positionTop]="100"  [(visible)]="creardialog" [style]="{width: '500px', height: '200px'}"
+          [closable]="true" [baseZIndex]="10000">
+  <div class="container">
+    <div >
+      <form  class="base-container"  (ngSubmit)="this.guardar()" [formGroup]="formulario" >
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>Nombre del Establecimiento: </label>
+            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>fecha de apertura: </label>
+            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>Dirección: </label>
+            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>Teléfono: </label>
+            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <button class="btn  px-4 float-left"  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="guardar()"></button>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</p-dialog>
+<p-dialog header="BORRAR" [modal]="true" [positionTop]="100"  [(visible)]="borrardialog" [style]="{width: '500px', height: '200px'}"
+          [closable]="true" [baseZIndex]="10000">
+  <div class="container">
+    <div >
+      <form  class="base-container"  (ngSubmit)="this.borrar()" [formGroup]="formularioborra" >
+
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>fecha de Cierra: </label>
+            <p-calendar  name="fechaCierre" formControlName="fechaCierre"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <button class="btn  px-4 float-left"  pButton type="button" label="Borrar" icon="pi pi-check" (click)="borrar()"></button>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</p-dialog>
+
 <!--/div-->

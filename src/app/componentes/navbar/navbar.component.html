@@ -1,3 +1,33 @@
+<div class="container" *ngIf="!_authservice.estaAutenticado()">
+  <p-menubar [model]="itemsingreso" >
+    <ng-template pTemplate="item" let-item let-i="index">
+      <div style="position: relative; text-align: left; min-width: 10em">
+        <div class="ui-menuitem-icon" [ngClass]="item.icon" *ngIf="item.icon" style="font-size: 2em"></div>
+        <div class="ui-menuitem-text" style="font-size: 1em">
+          {{item.label}}
+        </div>
+
+      </div>
+    </ng-template>
+  </p-menubar>
+
+</div>
+<div class="container" align="left" *ngIf="_authservice.estaAutenticado()">
+  <p-menubar [model]="itemsciud" >
+    <ng-template pTemplate="item" let-item let-i="index">
+      <div style="position: relative; text-align: left; min-width: 10em">
+        <div class="ui-menuitem-icon" [ngClass]="item.icon" *ngIf="item.icon" style="font-size: 2em"></div>
+        <div class="ui-menuitem-text" style="font-size: 1em">
+          {{item.label}}
+        </div>
+
+
+      </div>
+    </ng-template>
+  </p-menubar>
+
+</div>
+<!--
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="#">RIT-DQ</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,4 +77,4 @@
 
   </div>
 
-</nav>
+</nav> -->

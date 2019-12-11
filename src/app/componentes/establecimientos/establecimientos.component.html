@@ -1,24 +1,111 @@
 <!--div *ngIf="ciudService.ciudadanoActivo" -->
   <div class="container ">
     <h2 class="base-header-estab">ESTABLECIMIENTOS</h2>
-<table class="table table-hover">
-  <thead>
-  <tr>
-    <th scope="col">NOMBRE</th>
-    <th scope="col">FECHA APERTURA</th>
-    <th scope="col">DIRECCIONES</th>
-    <th scope="col">ACCION</th>
-  </tr>
-  </thead>
-  <tbody *ngFor="let dato of lista">
 
-  <tr class="table-light">
-    <th >{{dato.nombre}}</th>
-    <td>{{dato.fechaApertura}}</td>
-    <td>{{dato.direccion}}</td>
-    <td>-</td>
-  </tr>
-  </tbody>
-</table>
+    <p-table [value]="lista" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
+      <ng-template pTemplate="header">
+        <tr>
+          <th scope="col" width="40%">NOMBRE</th>
+          <th scope="col" width="35%">DIRECCION</th>
+          <th scope="col" width="15%">FECHA APERTURA</th>
+          <th scope="col" width="10%">ACCION</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-dato>
+        <tr >
+          <td >{{dato.nombre}}</td>
+          <td>{{dato.direccion}}</td>
+          <td>{{dato.fechaApertura}}</td>
+          <td style="text-align:center"><button class="btn"  pButton type="button"  icon="pi pi-trash" (click)="verborra(dato)"></button>
+
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary" let-rowData>
+        <div style="text-align:left">
+          <button class="btn "  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="vercrear()"></button>
+        </div>
+      </ng-template>
+    </p-table>
+
 </div>
+<p-dialog header="CREAR" [modal]="true" [positionTop]="100"  [(visible)]="creardialog" [style]="{width: '500px', height: '200px'}"
+          [closable]="true" [baseZIndex]="10000">
+  <div class="container">
+    <div >
+      <form  class="base-container"  (ngSubmit)="this.guardar()" [formGroup]="formulario" >
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>Nombre del Establecimiento: </label>
+            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>fecha de apertura: </label>
+            <p-calendar  name="fechaApertura" formControlName="fechaApertura"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>Dirección: </label>
+            <input type="text" name="direccion" formControlName="direccion" class="form-control" ngModel  autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>Codigo Postal: </label>
+            <input type="text" name="codPostal" formControlName="codPostal" class="form-control" ngModel  [placeholder]="11001" autocomplete="off"/>
+          </div>
+
+        </div>
+        <div class="form-group row">
+        <div class="col-sm-9">
+          <label>Teléfono: </label>
+          <input type="text" name="telefono1" formControlName="telefono1" class="form-control" ngModel  autocomplete="off"/>
+        </div>
+
+      </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <button class="btn  px-4 float-left"  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="guardar()"></button>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</p-dialog>
+<p-dialog header="BORRAR" [modal]="true" [positionTop]="100"  [(visible)]="borrardialog" [style]="{width: '500px', height: '200px'}"
+          [closable]="true" [baseZIndex]="10000">
+  <div class="container">
+    <div >
+      <form  class="base-container"  (ngSubmit)="this.borrar()" [formGroup]="formularioborra" >
+
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>Fecha de Cese: </label>
+            <p-calendar  name="fechaCierre" formControlName="fechaCierre"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <button class="btn  px-4 float-left"  pButton type="button" label="Borrar" icon="pi pi-check" (click)="borrar()"></button>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</p-dialog>
 <!--/div-->

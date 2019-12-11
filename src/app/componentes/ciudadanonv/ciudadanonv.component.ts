@@ -65,7 +65,7 @@ export class CiudadanonvComponent implements OnInit {
   }
   registrar(): void {
     const jsonString = JSON.stringify(this.formulario.value);
-    console.log(jsonString);
+    // console.log(jsonString);
     this.contribuyente = JSON.parse(jsonString) as Contribuyente;
     console.log(this.contribuyente);
 

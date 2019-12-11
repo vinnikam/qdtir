@@ -23,6 +23,16 @@ import {RouterModule, Routes} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CiudadanonvComponent } from './componentes/ciudadanonv/ciudadanonv.component';
 import { Descuento1Component } from './componentes/descuento1/descuento1.component';
+import {TabMenuModule} from 'primeng/tabmenu';
+
+import {AngularFontAwesomeModule} from 'angular-font-awesome';
+import {MenubarModule} from 'primeng/menubar';
+import {ButtonModule} from 'primeng/button';
+import {DialogModule} from 'primeng/dialog';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CalendarModule} from 'primeng/calendar';
+import {TableModule} from 'primeng/table';
+
 
 const appRoutes: Routes = [
   {path: '', component: AutenticacionComponent},
@@ -55,7 +65,7 @@ const appRoutes: Routes = [
     HeaderComponent,
     AutenticarciudComponent,
     CiudadanonvComponent,
-    Descuento1Component,
+    Descuento1Component
 
   ],
   imports: [
@@ -63,7 +73,15 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TabMenuModule,
+    AngularFontAwesomeModule,
+    MenubarModule,
+    ButtonModule,
+    DialogModule,
+    BrowserAnimationsModule,
+    CalendarModule,
+    TableModule
   ],
   providers: [AuthServiceService, Seguridad, CiudadanoService],
   bootstrap: [AppComponent]
