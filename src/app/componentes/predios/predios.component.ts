@@ -36,6 +36,7 @@ export class PrediosComponent implements OnInit {
         this.predios = this.respuesta.predios;
 
       } else {
+        ;
         alert(this.respuesta.mensaje);
         this.ciudService.ciudadanoActivo = null;
       }

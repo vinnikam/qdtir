@@ -7,6 +7,7 @@ export class Predio {
     msoDelSuelo ?: Basicovo;
     mireccionPredio ?: string;
     matriculaInmobiliaria ?: string;
+    ;
 
 
 }
