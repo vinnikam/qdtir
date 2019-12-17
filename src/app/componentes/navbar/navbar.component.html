@@ -41,6 +41,7 @@
   </p-menubar>
 
 </div>
+
 <div class="container" *ngIf="this._authservice.estaAutenticado() && this._authservice.perfilusuario === 3">
   <p-menubar [model]="this.itemsadm" >
     <ng-template pTemplate="item" let-item let-i="index">

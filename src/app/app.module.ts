@@ -34,12 +34,14 @@ import {CalendarModule} from 'primeng/calendar';
 import {TableModule} from 'primeng/table';
 import { GestionfuncComponent } from './componentes/gestionfunc/gestionfunc.component';
 import {NavbarserviceService} from './servicios/navbarservice.service';
+import { AutentadminComponent } from './componentes/autentadmin/autentadmin.component';
 
 
 const appRoutes: Routes = [
   {path: '', component: AutenticacionComponent},
   {path: 'autenticar', component: AutenticacionComponent},
   {path: 'autenticarCiud', component: AutenticarciudComponent},
+  {path: 'autenticaadmin', component: AutentadminComponent},
   {path: 'crearbus', component: CiudadanoComponent, canActivate: [Seguridad]},
   {path: 'crearciu', component: CiudadanonvComponent, canActivate: [Seguridad]},
   {path: 'datoscontacto', component: DatosContactoComponent, canActivate: [Seguridad]},
@@ -69,7 +71,8 @@ const appRoutes: Routes = [
     AutenticarciudComponent,
     CiudadanonvComponent,
     Descuento1Component,
-    GestionfuncComponent
+    GestionfuncComponent,
+    AutentadminComponent
 
   ],
   imports: [
