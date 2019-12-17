@@ -14,6 +14,7 @@ export class AuthServiceService {
   urlLoginFuncionario: string = 'ServiciosRITDQ/resources/consultas/autenticar';
   private doc: string;
   datos: any;
+  perfilusuario: number;//1 - ciudadano - 2 funcionario - 3 - admin
 
 
   constructor(private ciudService: CiudadanoService, private http: HttpClient) { }
@@ -26,10 +27,18 @@ export class AuthServiceService {
   ingresar() {
      localStorage.setItem('id_token', 'haytoken');
      this.ciudService.rolCiudadano = true;
+     this.perfilusuario = 1;
   }
-  ingresarFuncionario() {
+  ingresarFuncionario(usuario: string) {
     localStorage.setItem('id_token', 'haytoken');
     this.ciudService.rolCiudadano = false;
+    this.perfilusuario = 2;
+    // VERIFICA QUE SEA ADMINISTRADOR
+    if (usuario === 'gabriceno') {
+      this.perfilusuario = 3;
+    }else {
+      this.perfilusuario = 2;
+    }
   }
   estaAutenticado() {
     this.authToken  = JSON.stringify( localStorage.getItem('id_token'));
@@ -42,6 +51,7 @@ export class AuthServiceService {
       return false;
     }
   }
+
 
   loginCiudadano(ciudadano: Contribuyente): Promise<Irespuesta> {
     const datosC = {

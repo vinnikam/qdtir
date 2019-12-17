@@ -1,25 +1,25 @@
 <!--div *ngIf="ciudService.ciudadanoActivo" -->
 <div class="container ">
   <h2 class="base-header-vehi">PREDIOS</h2>
-  <table class="table table-hover">
-    <thead>
-    <tr>
-      <th scope="col">CHIP</th>
-      <th scope="col">Uso</th>
-      <th scope="col">Dirección Predio</th>
-      <th scope="col">Matricula</th>
-      <th scope="col">Matricula</th>
-    </tr>
-    </thead>
-    <tbody *ngFor="let x of predios">
-    <tr class="">
-      <td>{{x.chip}}</td>
-      <td>{{x.Uso}}</td>
-      <td>{{x.mireccionPredio}}</td>
-      <td>{{x.Matricula}}</td>
-      <td>{{x.Matricula}}</td>
-    </tr>
-    </tbody>
-  </table>
+  <p-table [value]="predios" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" width="15%">CHIP</th>
+        <th scope="col" width="40%">DIRECCION</th>
+        <th scope="col" width="15%">MATRICULA</th>
+        <th scope="col" width="30%">USO</th>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-dato>
+      <tr >
+        <td>{{dato.chip}}</td>
+        <td>{{dato.direccionPredio}}</td>
+        <td>{{dato.matriculaInmobiliaria}}</td>
+        <td>{{dato.usoDelSuelo.nombre}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
 </div>
 <!--/div-->

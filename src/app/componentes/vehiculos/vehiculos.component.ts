@@ -23,7 +23,7 @@ export class VehiculosComponent implements OnInit {
       if (this.ciudService.ciudadanoActivo !== undefined) {
         this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
       } else {
-        this.consultar(1);
+        this.consultar(4881773);
       }
     }
   }

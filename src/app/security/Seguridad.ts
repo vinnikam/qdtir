@@ -11,7 +11,7 @@ export class Seguridad implements CanActivate {
   canActivate() {
     if (this._authService.estaAutenticado()) {
       return true;
-    }else {
+    } else {
       this.router.navigate(['/autenticar']);
       return false;
     }

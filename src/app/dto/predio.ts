@@ -4,10 +4,10 @@ export class Predio {
 
 
     chip ?: string;
-    msoDelSuelo ?: Basicovo;
-    mireccionPredio ?: string;
+    usoDelSuelo ?: Basicovo;
+    direccionPredio ?: string;
     matriculaInmobiliaria ?: string;
-    ;
+
 
 
 }

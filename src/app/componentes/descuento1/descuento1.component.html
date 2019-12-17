@@ -1,3 +1,25 @@
-<div *ngIf="!ciudService.ciudadanoActivo && !ciudService.rolCiudadano">
-TABLA DE MARCACIONES DEL 1% POR AÑO
+<!--div *ngIf="!ciudService.ciudadanoActivo && !ciudService.rolCiudadano"-->
+<div class="container ">
+  <h2 class="base-header-vehi">MARCACIONES DEL 1% POR AÑO</h2>
+  <p-table [value]="lista" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" width="15%">CHIP</th>
+        <th scope="col" width="40%">DIRECCION</th>
+        <th scope="col" width="15%">MATRICULA</th>
+        <th scope="col" width="30%">USO</th>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-dato>
+      <tr >
+        <td>{{dato.chip}}</td>
+        <td>{{dato.direccionPredio}}</td>
+        <td>{{dato.matriculaInmobiliaria}}</td>
+        <td>{{dato.usoDelSuelo.nombre}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
 </div>
+<!--/div-->

@@ -1,28 +1,29 @@
 <!--div *ngIf="ciudService.ciudadanoActivo" -->
 <div class="container ">
   <h2 class="base-header-vehi">VEHICULOS</h2>
-  <table class="table table-hover">
-    <thead>
-    <tr>
-      <th scope="col">PLACA</th>
-      <th scope="col">MARCA</th>
-      <th scope="col">LINEA</th>
-      <th scope="col">MODELO</th>
-      <th scope="col">CLASE</th>
-      <th scope="col">ORGANISMO TRANS.</th>
-    </tr>
-    </thead>
-    <tbody *ngFor="let dato of lista">
+  <p-table [value]="lista" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" width="10%">PLACA</th>
+        <th scope="col" width="30%">MARCA</th>
+        <th scope="col" width="20%">LINEA</th>
+        <th scope="col" width="10%">MODELO</th>
+        <th scope="col" width="20%">CLASE</th>
+        <th scope="col" width="10%">ORGANISMO TRANS.</th>
 
-    <tr class="table-light">
-      <th >{{dato.placa}}</th>
-      <th >{{dato.marca.nombre}}</th>
-      <th >{{dato.linea.nombre}}</th>
-      <th >{{dato.modelo}}</th>
-      <th >{{dato.clase.nombre}}</th>
-      <th >NO HAY</th>
-    </tr>
-    </tbody>
-  </table>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-dato>
+      <tr >
+        <td>{{dato.placa}}</td>
+        <td >{{dato.marca.nombre}}</td>
+        <td >{{dato.linea.nombre}}</td>
+        <td >{{dato.modelo}}</td>
+        <td >{{dato.clase.nombre}}</td>
+        <td >NO HAY</td>
+
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
 <!--/div-->

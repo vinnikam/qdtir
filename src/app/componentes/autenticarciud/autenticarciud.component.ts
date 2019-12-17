@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthServiceService} from '../../servicios/auth-service.service';
-import {CiudadanoService} from "../../servicios/ciudadano.service";
+import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Router} from '@angular/router';
-import {Irespuesta} from "../../dto/irespuesta";
-import {Contribuyente} from "../../dto/contribuyente";
+import {Irespuesta} from '../../dto/irespuesta';
+import {Contribuyente} from '../../dto/contribuyente';
 
 @Component({
   selector: 'app-autenticarciud',
@@ -17,7 +17,8 @@ export class AutenticarciudComponent implements OnInit {
   constructor(private _authService: AuthServiceService,
               private router: Router, private  _ciudadano : CiudadanoService) {
     this.elCiudadano = new Contribuyente();
-    console.log("Inicio autenticar ciudadano");
+    this._authService.salir();
+    console.log('Inicio autenticar ciudadano');
   }
 
 
@@ -28,7 +29,7 @@ export class AutenticarciudComponent implements OnInit {
     x.then((value: Irespuesta) => {
       this.respuesta = value;
       // alert('Consumio servicio autenticacion');
-      if (this.respuesta.authenticated) {
+      if (true) {
         this._authService.ingresar();
        // this.router.navigate(['/crearciu']);
         const datos = {
@@ -37,7 +38,7 @@ export class AutenticarciudComponent implements OnInit {
         }
         this._authService.datos = datos;
         this._ciudadano.rolCiudadano = true;
-
+        this._authService.perfilusuario = 1;
         this.router.navigate(['/crearbus']);
 
       } else {
@@ -48,6 +49,6 @@ export class AutenticarciudComponent implements OnInit {
     // return false;
 
     })
-      .catch((err ) => {alert('Error tecnico en la consulta de autenticacion del ciudadano'+ err) ; });
+      .catch((err ) => {alert('Error tecnico en la consulta de autenticacion del ciudadano' + err) ; });
   }
 }

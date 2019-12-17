@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthServiceService} from '../../servicios/auth-service.service';
 import {Router} from '@angular/router';
-import {Irespuesta} from "../../dto/irespuesta";
-import {Contribuyente} from "../../dto/contribuyente";
+
 import {CiudadanoService} from '../../servicios/ciudadano.service';
+import {Irespuesta} from '../../dto/irespuesta';
+import {Contribuyente} from '../../dto/contribuyente';
+import {NavbarComponent} from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-autenticacion',
@@ -17,20 +19,22 @@ export class AutenticacionComponent implements OnInit {
   constructor(private _authService: AuthServiceService,
               private router: Router, private _ciudadservice: CiudadanoService) {
     this.elCiudadano = new Contribuyente();
-    console.log('entro dijo la muda');
+    this._authService.salir();
   }
 
   ngOnInit() {
   }
   ingresarFuncionario() {
+
     const x: Promise<Irespuesta> = this._authService.loginFuncionario(this.elCiudadano);
     x.then((value: Irespuesta) => {
       this.respuesta = value;
       // alert('Consumio servicio autenticacion');
       if (this.respuesta.codigoError === '0') {
-        alert('Usuario Existe. ');
-        this._ciudadservice.rolCiudadano = false;
-        this.router.navigate(['/crearbus']);
+        // alert('Usuario Existe. ');
+        this._ciudadservice.rolCiudadano = false ;
+        this._authService.ingresarFuncionario(this.elCiudadano.usuario);
+        this.router.navigate(['crearbus']);
 
       } else {
         alert('Verifique sus credenciales. ');
@@ -40,7 +44,6 @@ export class AutenticacionComponent implements OnInit {
     })
       .catch(() => {alert('Error tecnico en la consulta de autenticacion del funcionario'); });
 
+
   }
-
-
 }

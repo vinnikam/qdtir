@@ -18,6 +18,7 @@ export class CiudadanoComponent implements OnInit {
 
   constructor(private ciudService: CiudadanoService, private autenticservice: AuthServiceService) {
     this.elCiudadano = new Contribuyente();
+    // alert(' Entro -');
   }
 
   ngOnInit() {
@@ -34,14 +35,14 @@ export class CiudadanoComponent implements OnInit {
     x.then((value: Irespuesta) => {
        this.respuesta = value;
       // alert('Consumio servicio autenticacion');
-       alert(value);
+       // alert(value);
       if (this.respuesta.codigoError === '0') {
-        alert('Usuario Existe. ');
+        // alert('Usuario Existe. ');
         // carga el contribuyente
         this.ciudService.ciudadanoActivo = this.respuesta.contribuyente;
 
       } else {
-        alert(this.respuesta.mensaje);
+        // alert(this.respuesta.mensaje);
         this.ciudService.ciudadanoActivo = null;
       }
     })

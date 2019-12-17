@@ -5,6 +5,7 @@ import {Establecimiento} from './establecimiento';
 import {Actividadecon} from './actividadecon';
 import {Vehiculo} from './vehiculo';
 import { Predio } from './predio';
+import {Descuentovo} from './descuentovo';
 
 export interface Irespuesta {
   valor ?: string;
@@ -14,16 +15,15 @@ export interface Irespuesta {
   divpolitica ?: Basicovo[];
   representantes ?: Representante[];
   establecimientos ?: Establecimiento[];
-<<<<<<< HEAD
-  actividades ?: Actividadecon[];
-  vehiculos ?: Actividadecon[];
+
+  actividades ?: Actividadecon;
+
+  vehiculos ?: Vehiculo[];
   predios ?: Predio[];
 
-=======
-  actividades ?: Actividadecon;
-  vehiculos ?: Vehiculo[];
-  predios ?: any[];
   authenticated ?: boolean;
->>>>>>> 08d03d1697bde508e2c201ed90b9251447b7da4f
+
+  descuentos1 ?: Descuentovo[];
+
 
 }

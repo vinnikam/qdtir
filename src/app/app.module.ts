@@ -32,6 +32,8 @@ import {DialogModule} from 'primeng/dialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CalendarModule} from 'primeng/calendar';
 import {TableModule} from 'primeng/table';
+import { GestionfuncComponent } from './componentes/gestionfunc/gestionfunc.component';
+import {NavbarserviceService} from './servicios/navbarservice.service';
 
 
 const appRoutes: Routes = [
@@ -46,6 +48,7 @@ const appRoutes: Routes = [
   {path: 'establecimientos', component: EstablecimientosComponent, canActivate: [Seguridad]},
   {path: 'vehiculos', component: VehiculosComponent, canActivate: [Seguridad]},
   {path: 'predios', component: PrediosComponent, canActivate: [Seguridad]},
+  {path: 'gestionfuncionario', component: GestionfuncComponent, canActivate: [Seguridad]},
   {path: 'descuento', component: Descuento1Component, canActivate: [Seguridad]}
 ]
 
@@ -65,7 +68,8 @@ const appRoutes: Routes = [
     HeaderComponent,
     AutenticarciudComponent,
     CiudadanonvComponent,
-    Descuento1Component
+    Descuento1Component,
+    GestionfuncComponent
 
   ],
   imports: [
@@ -83,7 +87,7 @@ const appRoutes: Routes = [
     CalendarModule,
     TableModule
   ],
-  providers: [AuthServiceService, Seguridad, CiudadanoService],
+  providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

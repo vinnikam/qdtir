@@ -1,5 +1,5 @@
-<div class="container" *ngIf="!_authservice.estaAutenticado()">
-  <p-menubar [model]="itemsingreso" >
+<div class="container" *ngIf="!this._authservice.estaAutenticado()">
+  <p-menubar [model]="this.itemsingreso" >
     <ng-template pTemplate="item" let-item let-i="index">
       <div style="position: relative; text-align: left; min-width: 10em">
         <div class="ui-menuitem-icon" [ngClass]="item.icon" *ngIf="item.icon" style="font-size: 2em"></div>
@@ -12,8 +12,8 @@
   </p-menubar>
 
 </div>
-<div class="container" align="left" *ngIf="_authservice.estaAutenticado()">
-  <p-menubar [model]="itemsciud" >
+<div class="container" *ngIf="this._authservice.estaAutenticado() && this._authservice.perfilusuario === 1">
+  <p-menubar [model]="this.itemsciud" >
     <ng-template pTemplate="item" let-item let-i="index">
       <div style="position: relative; text-align: left; min-width: 10em">
         <div class="ui-menuitem-icon" [ngClass]="item.icon" *ngIf="item.icon" style="font-size: 2em"></div>
@@ -21,6 +21,34 @@
           {{item.label}}
         </div>
 
+      </div>
+    </ng-template>
+  </p-menubar>
+
+</div>
+<div class="container" *ngIf="this._authservice.estaAutenticado() && this._authservice.perfilusuario === 2">
+
+  <p-menubar [model]="this.itemsfunc" >
+    <ng-template pTemplate="item" let-item let-i="index">
+      <div style="position: relative; text-align: left; min-width: 10em">
+        <div class="ui-menuitem-icon" [ngClass]="item.icon" *ngIf="item.icon" style="font-size: 2em"></div>
+        <div class="ui-menuitem-text" style="font-size: 1em">
+          {{item.label}}
+        </div>
+
+      </div>
+    </ng-template>
+  </p-menubar>
+
+</div>
+<div class="container" *ngIf="this._authservice.estaAutenticado() && this._authservice.perfilusuario === 3">
+  <p-menubar [model]="this.itemsadm" >
+    <ng-template pTemplate="item" let-item let-i="index">
+      <div style="position: relative; text-align: left; min-width: 10em">
+        <div class="ui-menuitem-icon" [ngClass]="item.icon" *ngIf="item.icon" style="font-size: 2em"></div>
+        <div class="ui-menuitem-text" style="font-size: 1em">
+          {{item.label}}
+        </div>
 
       </div>
     </ng-template>
