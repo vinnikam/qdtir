@@ -1,0 +1,77 @@
+
+<div class="container py-3">
+  <h2 class="base-header">Registrar Contribuyente</h2>
+  <div class="row">
+
+    <div class="col-md-10 mx-auto">
+      <form  class="base-container"  (ngSubmit)="this.ejecutaaccion()" [formGroup]="formulario" >
+        <div class="form-group row">
+          <div class="col-sm-2">
+            <label >Tipo de Persona : </label>
+
+          </div>
+          <div class="col-sm-2">
+            <label >
+              <input type="radio" name="tipoPersona"  [value]="1" formControlName="tipoPersona"  (change)="this.cambiotp()"  > Juridica
+            </label>
+
+          </div>
+          <div class="col-sm-2">
+            <label >
+              <input type="radio" name="tipoPersona" [value]="2" formControlName="tipoPersona"    (change)="this.cambiotp()" [checked]='true'> Natural
+            </label>
+          </div>
+          <div class="col-sm-6">
+
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label >Tipo de Identificación : </label>
+
+            <select class="custom-select" class="form-control"  name="tipoDocumento" formControlName="tipoDocumento">
+              <option selected>Seleccione el tipo de Identificación</option>
+              <option value="4">CEDULA</option>
+              <option value="3">NIT</option>
+              <option value="5">PASAPORTE</option>
+              <option value="6">CARNET DIPLOMATICO</option>
+              <option value="9">NIT EXTRANJERO</option>
+            </select>
+
+          </div>
+          <div class="col-sm-6">
+            <label>Numero de Identificacion: </label>
+            <input type="text" name="numidentificacion" formControlName="nroIdentificacion" class="form-control" ngModel  autocomplete="off"/>
+          </div>
+        </div>
+
+
+
+
+        <div class="form-group row">
+
+          <div class="col-sm-6">
+            <label>Correo personal</label>
+            <input type="text" name="nuevoCorreo" class="form-control" formControlName="nuevoCorreo" ngModel autocomplete="off"/>
+
+          </div>
+          <div class="col-sm-6">
+            <label>Telefono</label>
+            <input type="text" name="telefono" class="form-control" formControlName="telefono" ngModel autocomplete="off"/>
+
+          </div>
+        </div>
+
+        <div class="form-group row" *ngIf="!opccrear">
+          <div class="col-sm-6">
+            <button class="btn btn-primary px-4 float-right" type="submit">Registrar</button>
+          </div>
+          <div class="col-sm-6" *ngIf="opccrear">
+            <button class="btn btn-primary px-4 float-right" type="submit">Registrar</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
