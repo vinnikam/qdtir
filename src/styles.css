@@ -154,5 +154,14 @@ body {
   text-transform: uppercase;
   color: #fff;
 }
+.base-header-admi {
+  background: #038c3a;
+  padding: 20px;
+  font-size: 1.4em;
+  font-weight: normal;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+}
 
 
