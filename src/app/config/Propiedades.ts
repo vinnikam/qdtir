@@ -1,5 +1,7 @@
 export const valores = {
-  ip_servidor : 'http://10.180.52.86:7101/'
+  ip_servidor : 'http://127.0.0.1:7101/',
+  admin: 'adminrit',
+  clave: '9102qdtir'
 }
 export const es = {
   // date

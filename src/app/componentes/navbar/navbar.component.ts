@@ -74,21 +74,12 @@ export class NavbarComponent implements OnInit {
         {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
       ];
     this.itemsadm = [
-      {label: 'Contribuyente', icon: 'pi pi-user-plus',
+      {label: 'Funcionario', icon: 'pi pi-user-plus',
         items: [
-          {label: 'Crear', icon: 'pi pi-user-plus', routerLink: '/crearciu'},
-          {label: 'Buscar', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
-          {label: 'Datos de Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
-          {label: 'Datos 1 %', icon: 'pi pi-dollar', routerLink: '/descuento'}
+          {label: 'Crear / Inactivar', icon: 'pi pi-user-plus', routerLink: '/gestionfuncionario'},
         ]
       },
-      {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
-      {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
-      {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'},
-      {label: 'Predios', icon: 'pi pi-home', routerLink: '/predios'},
-      {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'},
-      {label: 'Gestion Funcionario', icon: 'pi pi-align-center mx-auto', routerLink: '/gestionfuncionario'},
-      {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
+      {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salirAdmin(); }}
     ];
    /* if (this._authservice.perfilusuario === 3) {
         alert('Adiciona');
@@ -109,6 +100,14 @@ export class NavbarComponent implements OnInit {
     // this._flashMessagesService.show('Salio de la aplicacion', { cssClass: 'alert-success', timeout: 2000 });
 
     this.router.navigate(['/autenticar']);
+
+  }
+  salirAdmin() {
+    this._authservice.salir();
+    // alert ('salir');
+    // this._flashMessagesService.show('Salio de la aplicacion', { cssClass: 'alert-success', timeout: 2000 });
+
+    this.router.navigate(['/autenticaadmin']);
 
   }
 }

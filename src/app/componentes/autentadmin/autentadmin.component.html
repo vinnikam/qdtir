@@ -1,0 +1,24 @@
+<div class="container py-3 ">
+  <h2 class="base-header-admi">Ingresar ADMINISTRADOR</h2>
+  <div class="row">
+
+    <div class="col-md-6 mx-auto">
+      <form class="base-container" (submit)="validar()" >
+        <div class="form-group">
+          <div class="col-sm-10">
+            <label>Usuario</label>
+            <input type="text" [(ngModel)]="usuario"  name="usuario" class="form-control" autocomplete="off"/>
+          </div>
+          <div class="col-sm-10">
+            <label>Clave</label>
+            <input type="password" [(ngModel)]="clave"  name="clave" class="form-control" autocomplete="off"/>
+          </div>
+        </div>
+        <input type="submit" class="btn btn-success px-4 float-left" value="AUTENTICAR"/>
+
+
+      </form>
+    </div>
+  </div>
+</div>
+

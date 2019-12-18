@@ -4,6 +4,7 @@ import {CiudadanoService} from './ciudadano.service';
 import {Irespuesta} from '../dto/irespuesta';
 import {Contribuyente} from '../dto/contribuyente';
 import {HttpClient} from "@angular/common/http";
+import {valores} from '../config/Propiedades';
 
 @Injectable()
 export class AuthServiceService {
@@ -33,13 +34,7 @@ export class AuthServiceService {
     localStorage.setItem('id_token', 'haytoken');
     this.ciudService.rolCiudadano = false;
     this.perfilusuario = 2;
-    // VERIFICA QUE SEA ADMINISTRADOR
-    if (usuario === 'gabriceno') {
-      this.perfilusuario = 3;
-    }else {
-      this.perfilusuario = 2;
     }
-  }
   estaAutenticado() {
     this.authToken  = JSON.stringify( localStorage.getItem('id_token'));
     // console.log(this.authToken);
@@ -70,7 +65,19 @@ export class AuthServiceService {
     return this.http.post<Irespuesta>(`${this.server}${this.urlLoginFuncionario}`, datosF).toPromise();
   }
 
+  autentAdmin(usuario: string, clave: string): boolean {
+    if (usuario === valores.admin && clave === valores.clave){
+      this.ingresaadmin(usuario);
+      return true;
+    } else {
+      return false;
+    }
 
+  }
+  ingresaadmin(usuario: string) {
+    localStorage.setItem('id_token', 'haytoken');
+    this.perfilusuario = 3;
+  }
   tipoIdentificacion(tipo : string) {
 
     if ("4" == tipo) {
