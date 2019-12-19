@@ -1,1 +1,74 @@
-<p>ingresar</p>
+
+<div class="container py-3">
+  <h2 class="base-header">Registrar Contribuyente</h2>
+  <div class="row">
+
+    <div class="col-md-10 mx-auto">
+      <form  class="base-container"  (ngSubmit)="this.ejecutaaccion()" [formGroup]="formulario" >
+        <div class="form-group row">
+          <div class="col-sm-2">
+            <label >Acción : </label>
+
+          </div>
+          <div class="col-sm-2">
+            <label >
+              <input type="radio" name="tipoAccion"  [value]="1" formControlName="tipoAccion"  (change)="this.ejecutaaccion()"  > Crear
+            </label>
+
+          </div>
+          <div class="col-sm-2">
+            <label >
+              <input type="radio" name="tipoAccion" [value]="2" formControlName="tipoAccion"    (change)="this.ejecutaaccion()" [checked]='true'> Inactivar
+            </label>
+          </div>
+          <div class="col-sm-6">
+
+          </div>
+        </div>
+
+        <div class="form-group row">
+
+          <div class="col-sm-6">
+            <label>Usuario</label>
+            <input type="text" name="usuario" class="form-control" formControlName="usuario" ngModel autocomplete="off"/>
+
+          </div>
+
+        </div>
+
+        <div class="form-group row"  *ngIf="ocultarCrear">
+            <div class="col-sm-2">
+                <label >Fecha inicio : </label>
+              </div>
+          <div class="col-sm-6">
+            <p-calendar  name="fechaInicio" formControlName="fechaInicio"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
+          </div>
+
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-2">
+                <label >Fecha fin : </label>
+
+              </div>
+          <div class="col-sm-6">
+            <p-calendar  name="fechaFin" formControlName="fechaFin"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
+          </div>
+
+        </div>
+
+        <div class="form-group row" *ngIf="ocultarCrear">
+          <div class="col-sm-6">
+            <button class="btn btn-primary px-4 float-right" type="submit">Registrar</button>
+          </div>
+          <div class="col-sm-6" *ngIf="!ocultarCrear">
+            <button class="btn btn-primary px-4 float-right" type="submit">Deshabilitar</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
