@@ -7,67 +7,64 @@
       <form  class="base-container"  (ngSubmit)="this.ejecutaaccion()" [formGroup]="formulario" >
         <div class="form-group row">
           <div class="col-sm-2">
-            <label >Tipo de Persona : </label>
+            <label >Acción : </label>
 
           </div>
           <div class="col-sm-2">
             <label >
-              <input type="radio" name="tipoPersona"  [value]="1" formControlName="tipoPersona"  (change)="this.cambiotp()"  > Juridica
+              <input type="radio" name="tipoAccion"  [value]="1" formControlName="tipoAccion"  (change)="this.ejecutaaccion()"  > Crear
             </label>
 
           </div>
           <div class="col-sm-2">
             <label >
-              <input type="radio" name="tipoPersona" [value]="2" formControlName="tipoPersona"    (change)="this.cambiotp()" [checked]='true'> Natural
+              <input type="radio" name="tipoAccion" [value]="2" formControlName="tipoAccion"    (change)="this.ejecutaaccion()" [checked]='true'> Inactivar
             </label>
           </div>
           <div class="col-sm-6">
 
           </div>
         </div>
-        <div class="form-group row">
-          <div class="col-sm-6">
-            <label >Tipo de Identificación : </label>
-
-            <select class="custom-select" class="form-control"  name="tipoDocumento" formControlName="tipoDocumento">
-              <option selected>Seleccione el tipo de Identificación</option>
-              <option value="4">CEDULA</option>
-              <option value="3">NIT</option>
-              <option value="5">PASAPORTE</option>
-              <option value="6">CARNET DIPLOMATICO</option>
-              <option value="9">NIT EXTRANJERO</option>
-            </select>
-
-          </div>
-          <div class="col-sm-6">
-            <label>Numero de Identificacion: </label>
-            <input type="text" name="numidentificacion" formControlName="nroIdentificacion" class="form-control" ngModel  autocomplete="off"/>
-          </div>
-        </div>
-
-
-
 
         <div class="form-group row">
 
           <div class="col-sm-6">
-            <label>Correo personal</label>
-            <input type="text" name="nuevoCorreo" class="form-control" formControlName="nuevoCorreo" ngModel autocomplete="off"/>
+            <label>Usuario</label>
+            <input type="text" name="usuario" class="form-control" formControlName="usuario" ngModel autocomplete="off"/>
 
           </div>
-          <div class="col-sm-6">
-            <label>Telefono</label>
-            <input type="text" name="telefono" class="form-control" formControlName="telefono" ngModel autocomplete="off"/>
-
-          </div>
+         
         </div>
 
-        <div class="form-group row" *ngIf="!opccrear">
+        <div class="form-group row"  *ngIf="ocultarCrear">
+            <div class="col-sm-2">
+                <label >Fecha inicio : </label>
+              </div>
+          <div class="col-sm-6">
+            <p-calendar  name="fechaInicio" formControlName="fechaInicio"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
+          </div>
+          
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-2">
+                <label >Fecha fin : </label>
+    
+              </div>
+          <div class="col-sm-6">
+            <p-calendar  name="fechaFin" formControlName="fechaFin"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
+          </div>
+         
+        </div>
+
+        <div class="form-group row" *ngIf="ocultarCrear">
           <div class="col-sm-6">
             <button class="btn btn-primary px-4 float-right" type="submit">Registrar</button>
           </div>
-          <div class="col-sm-6" *ngIf="opccrear">
-            <button class="btn btn-primary px-4 float-right" type="submit">Registrar</button>
+          <div class="col-sm-6" *ngIf="!ocultarCrear">
+            <button class="btn btn-primary px-4 float-right" type="submit">Deshabilitar</button>
           </div>
         </div>
 
