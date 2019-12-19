@@ -7,6 +7,7 @@ import {Establecimiento} from '../../dto/establecimiento';
 import {Representante} from '../../dto/representante';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {es} from '../../config/Propiedades';
+import {Message, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-representantes',
@@ -28,7 +29,7 @@ export class RepresentantesComponent implements OnInit {
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private represerv: RepresentantesService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder, private messageService: MessageService) {
     this.formulario = this.formBuilder.group({
       nombre: []
 
@@ -38,7 +39,10 @@ export class RepresentantesComponent implements OnInit {
 
     });
     if (this.ciudService.ciudadanoActivo === null) {
-      alert('No hay ciudadano activo');
+      // alert('No hay ciudadano activo');
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        detail: 'No hay ciudadano activo. ', closable: true});
+
       this.router.navigate(['/crearciu']);
     } else {
       if (this.ciudService.ciudadanoActivo !== undefined) {
@@ -61,11 +65,19 @@ export class RepresentantesComponent implements OnInit {
         this.lista = this.respuesta.representantes;
 
       } else {
-        alert(this.respuesta.mensaje);
+          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: this.respuesta.mensaje, closable: true});
+
+        // alert(this.respuesta.mensaje);
 
       }
     })
-      .catch(() => {alert('Error tecnico en la consulta del servicio Buscar actividades'); });
+      .catch(() => {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Error tecnico en la consulta del servicio Buscar actividades ', closable: true});
+
+        // alert('Error tecnico en la consulta del servicio Buscar actividades');
+      });
 
   }
 
@@ -96,15 +108,24 @@ export class RepresentantesComponent implements OnInit {
       this.respuesta = value;
       // alert(value);
       if (this.respuesta.codigoError === '0') {
-        alert('BORRO ');
+        // alert('BORRO ');
+        this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
+          detail: 'Borró al representnte. ', closable: true});
+
         this.representante = undefined;
         this.consultar(this.representanteborra.idSujeto);
 
       } else {
-        alert('NO BORRO ');
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'No borró al representante.', closable: true});
+
       }
     })
-      .catch(() => {alert('Error tecnico en borrar representante '); });
+      .catch(() => {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Error tecnico en borrar representante ', closable: true});
+        // alert();
+      });
     this.creardialog = false;
 
   }

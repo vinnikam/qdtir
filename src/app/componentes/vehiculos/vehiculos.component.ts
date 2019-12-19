@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {Irespuesta} from '../../dto/irespuesta';
 import {Representante} from '../../dto/representante';
 import {Vehiculo} from '../../dto/vehiculo';
+import {Message, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-vehiculos',
@@ -15,9 +16,11 @@ export class VehiculosComponent implements OnInit {
   respuesta: Irespuesta;
 
   constructor(private ciudService: CiudadanoService,
-              private router: Router) {
+              private router: Router, private messageService: MessageService) {
     if (this.ciudService.ciudadanoActivo === null) {
-      alert('No hay ciudadano activo')
+      // alert('No hay ciudadano activo')
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        detail: 'No hay ciudadano activo. ', closable: true});
       this.router.navigate(['/crearciu']);
     } else {
       if (this.ciudService.ciudadanoActivo !== undefined) {
@@ -38,11 +41,18 @@ export class VehiculosComponent implements OnInit {
         this.lista = this.respuesta.vehiculos;
 
       } else {
-        alert(this.respuesta.mensaje);
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: this.respuesta.mensaje, closable: true});
+
+        // alert();
 
       }
     })
-      .catch(() => {alert('Error tecnico en la consulta del servicio Buscar actividades'); });
+      .catch(() => {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Error tecnico en servicio Buscar actividades ', closable: true});
+        // alert('Error tecnico en la consulta del servicio Buscar actividades');
+      });
 
   }
 }

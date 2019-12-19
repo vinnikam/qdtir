@@ -35,6 +35,9 @@ import {TableModule} from 'primeng/table';
 import { GestionfuncComponent } from './componentes/gestionfunc/gestionfunc.component';
 import {NavbarserviceService} from './servicios/navbarservice.service';
 import { AutentadminComponent } from './componentes/autentadmin/autentadmin.component';
+import {MessageService} from 'primeng/api';
+import {ToastModule} from 'primeng/toast';
+
 
 
 const appRoutes: Routes = [
@@ -88,9 +91,10 @@ const appRoutes: Routes = [
     DialogModule,
     BrowserAnimationsModule,
     CalendarModule,
-    TableModule
+    TableModule,
+    ToastModule
   ],
-  providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService],
+  providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -6,6 +6,8 @@ import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Irespuesta} from '../../dto/irespuesta';
 import {Contribuyente} from '../../dto/contribuyente';
 import {NavbarComponent} from '../navbar/navbar.component';
+import {FormBuilder} from '@angular/forms';
+import {Message, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-autenticacion',
@@ -17,7 +19,7 @@ export class AutenticacionComponent implements OnInit {
   private respuesta: Irespuesta;
 
   constructor(private _authService: AuthServiceService,
-              private router: Router, private _ciudadservice: CiudadanoService) {
+              private router: Router, private _ciudadservice: CiudadanoService, private messageService: MessageService) {
     this.elCiudadano = new Contribuyente();
     this._authService.salir();
   }
@@ -37,12 +39,18 @@ export class AutenticacionComponent implements OnInit {
         this.router.navigate(['crearbus']);
 
       } else {
-        alert('Verifique sus credenciales. ');
+        //alert('Verifique sus credenciales. ');
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        detail: 'Verifique sus credenciales. ', closable: true});
       }
     // this._authService.ingresarFuncionario();
 
     })
-      .catch(() => {alert('Error tecnico en la consulta de autenticacion del funcionario'); });
+      .catch(() => {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Error tecnico en la consulta de autenticacion del funcionario', closable: true});
+      // alert();
+      });
 
 
   }

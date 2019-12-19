@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Router} from '@angular/router';
+import {FormBuilder} from '@angular/forms';
+import { MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-datos-contacto',
@@ -10,9 +13,11 @@ import {Router} from '@angular/router';
 export class DatosContactoComponent implements OnInit {
 
   constructor(private ciudService: CiudadanoService,
-              private router: Router) {
+              private router: Router, private messageService: MessageService) {
     if (this.ciudService.ciudadanoActivo === null) {
-      alert('No hay ciudadano activo')
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+      detail: 'No hay ciudadano activo. ', closable: true});
+      // alert('No hay ciudadano activo')
       this.router.navigate(['/crearciu']);
     }
 

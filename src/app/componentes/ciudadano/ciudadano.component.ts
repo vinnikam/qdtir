@@ -3,6 +3,8 @@ import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Contribuyente} from '../../dto/contribuyente';
 import {Irespuesta} from '../../dto/irespuesta';
 import {AuthServiceService} from '../../servicios/auth-service.service';
+import {FormBuilder} from '@angular/forms';
+import {Message, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-ciudadano',
@@ -16,7 +18,7 @@ export class CiudadanoComponent implements OnInit {
 
   private respuesta: Irespuesta;
 
-  constructor(private ciudService: CiudadanoService, private autenticservice: AuthServiceService) {
+  constructor(private ciudService: CiudadanoService, private autenticservice: AuthServiceService, private messageService: MessageService) {
     this.elCiudadano = new Contribuyente();
     // alert(' Entro -');
   }
@@ -46,7 +48,12 @@ export class CiudadanoComponent implements OnInit {
         this.ciudService.ciudadanoActivo = null;
       }
     })
-      .catch(() => {alert('Error tecnico en la consulta del servicio Buscar'); });
+      .catch(() => {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        detail: 'Error tecnico en la consulta del servicio Buscar', closable: true});
+
+      // alert('Error tecnico en la consulta del servicio Buscar');
+        });
 
     /*
     const  ciudadano = {

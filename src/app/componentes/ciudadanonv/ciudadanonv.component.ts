@@ -6,6 +6,7 @@ import {Basicovo} from '../../dto/basicovo';
 import {Irespuesta} from '../../dto/irespuesta';
 import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {createElementCssSelector} from '@angular/compiler';
+import {Message, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-ciudadanonv',
@@ -25,7 +26,7 @@ export class CiudadanonvComponent implements OnInit {
   respuesta ?: Irespuesta;
 
 
-  constructor(private router: Router , private formBuilder: FormBuilder, private ciudadServ: CiudadanoService) {
+  constructor(private router: Router , private formBuilder: FormBuilder, private ciudadServ: CiudadanoService, private messageService: MessageService) {
     this.tipoPersonaNat = true;
     this.contribuyente = new Contribuyente();
     this.formulario = this.formBuilder.group({
@@ -78,15 +79,25 @@ export class CiudadanonvComponent implements OnInit {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
         // this.paises = this.respuesta.divpolitica;
-        alert('SE REGISTRO' );
+       //  alert('SE REGISTRO' );
+        this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
+          detail: 'Se registro el controbuyente..', closable: true});
+
 
       } else {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'No se registo el contribuyente.', closable: true});
 
-        alert('NO SE REGISTRO');
+        // alert('NO SE REGISTRO');
 
       }
     })
-      .catch((err) => {alert('Error tecnico en la consulta de paises' + err); });
+      .catch((err) => {
+        this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
+          detail: 'Error tecnico en la consulta de paises.', closable: true});
+
+        // alert('Error tecnico en la consulta de paises' + err);
+      });
 
   }
   cambiotp() {
@@ -119,7 +130,11 @@ export class CiudadanonvComponent implements OnInit {
         // this.ciudService.ciudadanoActivo = null;
       }
     })
-      .catch((err) => {alert('Error tecnico en la consulta de paises' + err); });
+      .catch((err) => {
+        this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
+          detail: 'Error tecnico en la consulta de paises.', closable: true});
+      // alert('Error tecnico en la consulta de paises' + err);
+      });
   }
   cargarDeptos(pais: number) {
     const x: Promise<Irespuesta> = this.ciudadServ.getDeptos(pais);
@@ -130,10 +145,18 @@ export class CiudadanonvComponent implements OnInit {
         this.deptos = this.respuesta.divpolitica;
 
       } else {
-        alert('No cargo deptos. ');
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'No cargo deptos. ', closable: true});
+
+        // alert();
       }
     })
-      .catch(() => {alert('Error tecnico en la consulta de departamentos'); });
+      .catch(() => {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Error tecnico en la consulta de departamentos', closable: true});
+
+        // alert('Error tecnico en la consulta de departamentos');
+      });
 
   }
   cargarMunic(depto: number) {
@@ -145,10 +168,15 @@ export class CiudadanonvComponent implements OnInit {
         this.municp = this.respuesta.divpolitica;
 
       } else {
-        alert('Error en la consulta de municipios ');
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Error en la consulta de municipios. ', closable: true});
+
       }
     })
-      .catch(() => {alert('Error tecnico en la consulta de Municipios '); });
+      .catch(() => {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Error tecnico en borrar Municipios ', closable: true});
+      });
 
 }
 

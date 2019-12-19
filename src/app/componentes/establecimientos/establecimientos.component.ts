@@ -8,6 +8,7 @@ import {Establecimiento} from '../../dto/establecimiento';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {es} from '../../config/Propiedades';
 import {Contribuyente} from '../../dto/contribuyente';
+import {Message, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-establecimientos',
@@ -30,7 +31,7 @@ export class EstablecimientosComponent implements OnInit {
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private estaServ: EstablecimientosService ,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder, private messageService: MessageService) {
       this.formulario = this.formBuilder.group({
         nombre: [],
         fechaApertura: [],
@@ -48,7 +49,10 @@ export class EstablecimientosComponent implements OnInit {
 
       });
       if (this.ciudService.ciudadanoActivo === null) {
-        alert('No hay ciudadano activo');
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'No hay ciudadano activo. ', closable: true});
+
+        // alert('No hay ciudadano activo');
         this.router.navigate(['/crearciu']);
       } else {
         if (this.ciudService.ciudadanoActivo !== undefined) {
@@ -72,11 +76,19 @@ export class EstablecimientosComponent implements OnInit {
       if (this.respuesta.codigoError === '0') {
         this.lista = this.respuesta.establecimientos;
       } else {
-        alert(this.respuesta.mensaje);
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: this.respuesta.mensaje, closable: true});
+
+        // alert();
 
       }
     })
-      .catch(() => {alert('Error tecnico en la consulta del servicio Buscar actividades'); });
+      .catch(() => {
+        // alert('Error tecnico en la consulta del servicio Buscar actividades');
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Error tecnico en la consulta del servicio Buscar', closable: true});
+
+      });
 
   }
   // VISUALIZA EL DIALOG DE CREAR
@@ -96,15 +108,21 @@ export class EstablecimientosComponent implements OnInit {
       this.respuesta = value;
       // alert(value);
       if (this.respuesta.codigoError === '0') {
-         alert('CREO ');
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Creo el establecimiento.', closable: true});
          this.establecimiento = undefined;
          this.consultar(this.establecimiento.idSujeto);
 
       } else {
-        alert('NO CREO ');
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'No creó.!', closable: true});
       }
     })
-      .catch(() => {alert('Error tecnico en guardar establecimiento '); });
+      .catch(() => {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Error tecnico en guardar establecimiento ', closable: true});
+      // alert();
+      });
     this.creardialog = false;
   }
   verborra(elesta: Establecimiento) {
@@ -122,15 +140,24 @@ export class EstablecimientosComponent implements OnInit {
       this.respuesta = value;
       // alert(value);
       if (this.respuesta.codigoError === '0') {
-        alert('BORRO ');
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Borró el establecimiento.', closable: true});
+
+        // alert('BORRO ');
         this.establecimiento = undefined;
         this.consultar(this.establecimientoborra.idSujeto);
 
       } else {
-        alert('NO BORRO ');
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'No borró el  establecimiento.', closable: true});
+         // alert('NO BORRO ');
       }
     })
-      .catch(() => {alert('Error tecnico en borrar establecimiento '); });
+      .catch(() => {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Error tecnico en borrar establecimiento.', closable: true});
+        //alert('Error tecnico en borrar establecimiento ');
+        });
     this.creardialog = false;
 
   }

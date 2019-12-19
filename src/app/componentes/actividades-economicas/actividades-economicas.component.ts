@@ -8,6 +8,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Establecimiento} from '../../dto/establecimiento';
 import {Actividad} from '../../dto/actividad';
 import {es} from '../../config/Propiedades';
+import {Message, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-actividades-economicas',
@@ -30,7 +31,7 @@ export class ActividadesEconomicasComponent implements OnInit {
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private activserv: ActividadesService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder, private messageService: MessageService) {
     this.formulario = this.formBuilder.group({
       nombre: []
 
@@ -40,7 +41,8 @@ export class ActividadesEconomicasComponent implements OnInit {
 
     });
     if (this.ciudService.ciudadanoActivo === null) {
-      alert('No hay ciudadano activo');
+      // alert('No hay ciudadano activo');
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información', detail: 'No hay usuario activo. ', closable: true});
       this.router.navigate(['/crearciu']);
     } else {
       if (this.ciudService.ciudadanoActivo !== undefined) {
@@ -62,16 +64,22 @@ export class ActividadesEconomicasComponent implements OnInit {
         this.lista = this.respuesta.actividades.actContacto;
 
       } else {
-        alert(this.respuesta.mensaje);
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        detail: this.respuesta.mensaje, closable: true});
+        // alert(this.respuesta.mensaje);
 
       }
     })
-      .catch(() => {alert('Error tecnico en la consulta del servicio Buscar actividades'); });
+      .catch(() => {
+        // alert('Error tecnico en la consulta del servicio Buscar actividades');
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        detail: 'Error técnico en la consulta del servicio Buscar actividades. ', closable: true});
+      });
 
   }
   vercrear() {
     this.creardialog = true;
-    alert('click');
+    // alert('click');
   }
 
   guardar() {
@@ -80,7 +88,7 @@ export class ActividadesEconomicasComponent implements OnInit {
   verborra(elesta: Actividad) {
     this.borrardialog = true;
     this.actividadesborra = elesta;
-    alert('?');
+    // alert('?');
   }
   borrar() {
     const jsonString = JSON.stringify(this.formularioborra.value);
@@ -93,15 +101,23 @@ export class ActividadesEconomicasComponent implements OnInit {
       this.respuesta = value;
       // alert(value);
       if (this.respuesta.codigoError === '0') {
-        alert('BORRO ');
+        // alert('BORRO ');
+        this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
+        detail: 'Se borró la información.', closable: true});
         this.actividades = undefined;
         this.consultar(this.actividades.idSujeto);
 
       } else {
-        alert('NO BORRO ');
+        // alert('NO BORRO ');
+          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'No se borró la información.', closable: true});
+
       }
     })
-      .catch(() => {alert('Error tecnico en borrar establecimiento '); });
+      .catch(() => {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        detail: 'Error técnico en el servicio Borrar actividades. ', closable: true});
+      });
     this.creardialog = false;
 
   }
