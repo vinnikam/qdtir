@@ -32,31 +32,6 @@
     </ng-template>
   </p-table>
 
-
-
-  <table class="table table-hover">
-    <thead>
-    <tr>
-      <th scope="col">IDENTIFICACION</th>
-      <th scope="col">NOMBRE DEL REPRESENTANTE</th>
-      <th scope="col">CLASE DE REPRESENTACION</th>
-      <th scope="col">TIPO DE REPRESENTACION</th>
-      <th scope="col">FECHA</th>
-      <th scope="col">ACCION</th>
-    </tr>
-    </thead>
-    <tbody *ngFor="let dato of lista">
-
-    <tr class="table-light">
-      <td >{{dato.documento}}</td>
-      <td>{{dato.nombre}}</td>
-      <td>{{dato.claseRepres}}</td>
-      <td>{{dato.tipoRepres}}</td>
-      <td>{{dato.fechaInicio}}</td>
-      <td></td>
-    </tr>
-    </tbody>
-  </table>
 </div>
 <p-dialog header="CREAR" [modal]="true" [positionTop]="100"  [(visible)]="creardialog" [style]="{width: '500px', height: '200px'}"
           [closable]="true" [baseZIndex]="10000">
@@ -65,35 +40,71 @@
       <form  class="base-container"  (ngSubmit)="this.crearEsta()" [formGroup]="formulario" >
         <div class="form-group row">
           <div class="col-sm-9">
-            <label>Nombre del Establecimiento: </label>
-            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+            <label>Fecha de inicio de representación: </label>
+            <p-calendar  name="fechaApertura" formControlName="fechaInicio"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
           </div>
 
         </div>
         <div class="form-group row">
           <div class="col-sm-9">
-            <label>fecha de apertura: </label>
-            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+
+            <label >Tipo de Identificación : </label>
+
+            <select class="custom-select" class="form-control"  name="tipoDocumento" formControlName="tipoDocumento">
+              <option selected>Seleccione el tipo de Identificación</option>
+              <option value="4">CEDULA</option>
+              <option value="3">NIT</option>
+              <option value="5">PASAPORTE</option>
+              <option value="6">CARNET DIPLOMATICO</option>
+              <option value="9">NIT EXTRANJERO</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <p-messages [(value)]="msgs"></p-messages>
+            <label>Numero Identificación: </label>
+            <input type="text" name="documento" formControlName="documento" class="form-control" ngModel  autocomplete="off"/>
+            <button class="btn  px-4 float-left"  pButton type="button" label="Confirmar" icon="pi pi-check" (click)="confirmar()"></button>
+
           </div>
 
         </div>
         <div class="form-group row">
           <div class="col-sm-9">
-            <label>Dirección: </label>
-            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+
+            <label >Clase de representación : </label>
+
+            <select class="custom-select" class="form-control"  formControlName="claseRepres" name="claseRepres" ngModel (change)="this.cambioClase()">
+
+              <option *ngFor="let dato of claserepresI" [value]="dato.codigo">
+                {{dato.nombre}}
+              </option>
+            </select>
           </div>
 
         </div>
         <div class="form-group row">
           <div class="col-sm-9">
-            <label>Teléfono: </label>
-            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+
+            <label >Tipo de representación : </label>
+
+            <select class="custom-select" class="form-control"  formControlName="tipoRepres" name="tipoRepres" ngModel>
+
+              <option *ngFor="let dato of tiposrepresI" [value]="dato.codigo">
+                {{dato.nombre}}
+              </option>
+            </select>
           </div>
 
         </div>
+
         <div class="form-group row">
           <div class="col-sm-9">
-            <button class="btn  px-4 float-left"  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="guardar()"></button>
+            <button class="btn  px-4 float-left"  pButton type="button" label="Adicionar" [disabled]="btncrear" (click)="guardar()"></button>
           </div>
 
         </div>
@@ -108,12 +119,12 @@
           [closable]="true" [baseZIndex]="10000">
   <div class="container">
     <div >
-      <form  class="base-container"  (ngSubmit)="this.guardar()" [formGroup]="formulario" >
+      <form  class="base-container"  (ngSubmit)="this.guardar()" [formGroup]="formularioborra" >
 
         <div class="form-group row">
           <div class="col-sm-9">
             <label>fecha de Cierra: </label>
-            <p-calendar  name="fechaCierre" formControlName="fechaCierre"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+            <p-calendar  name="fechaCierre" formControlName="fechaCierre"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy" [inline]="true"></p-calendar>
 
           </div>
 

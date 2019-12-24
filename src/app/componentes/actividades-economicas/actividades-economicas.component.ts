@@ -9,6 +9,7 @@ import {Establecimiento} from '../../dto/establecimiento';
 import {Actividad} from '../../dto/actividad';
 import {es} from '../../config/Propiedades';
 import {Message, MessageService} from 'primeng/api';
+import {UtilidadesService} from '../../servicios/utilidades.service';
 
 @Component({
   selector: 'app-actividades-economicas',
@@ -18,6 +19,7 @@ import {Message, MessageService} from 'primeng/api';
 export class ActividadesEconomicasComponent implements OnInit {
 
   lista: Actividad[];
+  listaall: Actividad[];
   respuesta: Irespuesta;
 
   formulario: FormGroup;
@@ -31,13 +33,18 @@ export class ActividadesEconomicasComponent implements OnInit {
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private activserv: ActividadesService,
-              private formBuilder: FormBuilder, private messageService: MessageService) {
+              private formBuilder: FormBuilder, private messageService: MessageService,
+              private util: UtilidadesService) {
     this.formulario = this.formBuilder.group({
-      nombre: []
+      nombre: [],
+      fec_inicio: [],
+      direccion: [],
+      telefono: [],
+      idActividad: []
 
     });
     this.formularioborra = this.formBuilder.group({
-      nombre: []
+      fecCese: []
 
     });
     if (this.ciudService.ciudadanoActivo === null) {
@@ -51,6 +58,7 @@ export class ActividadesEconomicasComponent implements OnInit {
         this.consultar(363348);
       }
     }
+    this.consultarall();
   }
   ngOnInit() {
     this.es = es;
@@ -83,6 +91,38 @@ export class ActividadesEconomicasComponent implements OnInit {
   }
 
   guardar() {
+
+    if (this.ciudService.ciudadanoActivo !== undefined) {
+      const jsonString = JSON.stringify(this.formulario.value);
+      this.actividades = JSON.parse(jsonString) as Actividad;
+      this.actividades.fec_inicio = this.util.cambiafecha(this.actividades.fec_inicio);
+      this.actividades.idSujeto = this.ciudService.ciudadanoActivo.idSujeto;
+
+      const x: Promise<Irespuesta> = this.activserv.crear(this.actividades);
+
+      x.then((value: Irespuesta) => {
+        this.respuesta = value;
+        // alert(value);
+        if (this.respuesta.codigoError === '0') {
+          this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
+            detail: 'Se asignó la nueva actividad.', closable: true});
+          this.actividades = undefined;
+          this.consultar( this.ciudService.ciudadanoActivo.idSujeto);
+
+        } else {
+          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'No pudo asignar la nueva actividad.', closable: true});
+
+        }
+      })
+        .catch(() => {
+          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'Error técnico en el servicio asignar actividad. ', closable: true});
+        });
+    }
+
+    // const x: Promise<Irespuesta> = this.activserv.crear(this.actividades.fec_inicio);
+
     this.creardialog = false;
   }
   verborra(elesta: Actividad) {
@@ -91,35 +131,68 @@ export class ActividadesEconomicasComponent implements OnInit {
     // alert('?');
   }
   borrar() {
-    const jsonString = JSON.stringify(this.formularioborra.value);
-    this.actividades = JSON.parse(jsonString) as Actividad;
-    this.actividadesborra.fecCese = this.actividades.fecCese;
-    // alert(this.establecimiento);
-    const x: Promise<Irespuesta> = this.activserv.borrar(this.actividadesborra);
+    if (this.ciudService.ciudadanoActivo !== undefined) {
+      const jsonString = JSON.stringify(this.formularioborra.value);
+      this.actividades = JSON.parse(jsonString) as Actividad;
 
-    x.then((value: Irespuesta) => {
-      this.respuesta = value;
-      // alert(value);
-      if (this.respuesta.codigoError === '0') {
-        // alert('BORRO ');
-        this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
-        detail: 'Se borró la información.', closable: true});
-        this.actividades = undefined;
-        this.consultar(this.actividades.idSujeto);
 
-      } else {
-        // alert('NO BORRO ');
+      this.actividades.fecCese = this.util.cambiafecha(this.actividades.fecCese);
+
+      this.actividadesborra.idSujeto = this.ciudService.ciudadanoActivo.idSujeto;
+      this.actividadesborra.fecCese = this.actividades.fecCese;
+
+      const x: Promise<Irespuesta> = this.activserv.borrar(this.actividadesborra);
+
+      x.then((value: Irespuesta) => {
+        this.respuesta = value;
+        // alert(value);
+        if (this.respuesta.codigoError === '0') {
+          this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
+            detail: 'Se borró la información.', closable: true});
+          this.actividades = undefined;
+          this.consultar( this.ciudService.ciudadanoActivo.idSujeto);
+
+        } else {
           this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'No se borró la información.', closable: true});
+            detail: 'No se borró la información.', closable: true});
 
-      }
-    })
-      .catch(() => {
+        }
+      }).catch((err) => {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-        detail: 'Error técnico en el servicio Borrar actividades. ', closable: true});
+          detail: 'Error técnico en el servicio Borrar actividades. ' , closable: true});
+        console.log(err);
       });
-    this.creardialog = false;
+    } else {
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        detail: 'No hay usuario activo para borrar. ', closable: true});
+    }
+
+    this.borrardialog = false;
 
   }
+  consultarall() {
+    if (this.listaall === undefined) {
+      const x: Promise<Irespuesta> = this.activserv.consultarall();
+      x.then((value: Irespuesta) => {
+        this.respuesta = value;
+        // alert(value);
+        if (this.respuesta.codigoError === '0') {
 
+          this.listaall = this.respuesta.actividades.actContacto;
+
+        } else {
+
+          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'No cargó actividades.', closable: true});
+
+        }
+      })
+        .catch(() => {
+          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'Error técnico en la consulta de todas las actividades. ', closable: true});
+        });
+    }
+
+
+  }
 }

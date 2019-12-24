@@ -39,7 +39,7 @@ export class AutenticacionComponent implements OnInit {
         this.router.navigate(['crearbus']);
 
       } else {
-        //alert('Verifique sus credenciales. ');
+        // alert('Verifique sus credenciales. ');
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
         detail: 'Verifique sus credenciales. ', closable: true});
       }

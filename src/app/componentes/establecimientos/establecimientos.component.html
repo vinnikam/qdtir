@@ -59,7 +59,7 @@
         <div class="form-group row">
           <div class="col-sm-9">
             <label>Codigo Postal: </label>
-            <input type="text" name="codPostal" formControlName="codPostal" class="form-control" ngModel  [placeholder]="11001" autocomplete="off"/>
+            <input type="text" name="codPostal" formControlName="codPostal" class="form-control" ngModel />
           </div>
 
         </div>
@@ -91,7 +91,7 @@
         <div class="form-group row">
           <div class="col-sm-9">
             <label>Fecha de Cese: </label>
-            <p-calendar  name="fechaCierre" formControlName="fechaCierre"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+            <p-calendar  name="fechaCierre" formControlName="fechaCierre"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy" [inline]="true"></p-calendar>
 
           </div>
 

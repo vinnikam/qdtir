@@ -1,5 +1,5 @@
 export class Representante {
-
+  codigoRepres ?: number;
   idSujeto ?: number;
   tipoDocumento ?: string;
   documento ?: string;
@@ -8,4 +8,5 @@ export class Representante {
   claseRepres ?: string;
   tipoRepres ?: string;
   fechaCierre ?: string;
+  idRepresentacion ?: number;
 }

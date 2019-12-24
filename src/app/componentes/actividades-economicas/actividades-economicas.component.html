@@ -52,45 +52,42 @@
     </tbody>
   </table>-->
 </div>
+
 <p-dialog header="CREAR" [modal]="true" [positionTop]="100"  [(visible)]="creardialog" [style]="{width: '500px', height: '200px'}"
           [closable]="true" [baseZIndex]="10000">
   <div class="container">
     <div >
       <form  class="base-container"  (ngSubmit)="this.guardar()" [formGroup]="formulario" >
+
         <div class="form-group row">
           <div class="col-sm-9">
-            <label>Nombre del Establecimiento: </label>
-            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+            <label>Fecha inicio actividad: </label>
+            <p-calendar  name="fec_inicio" formControlName="fec_inicio"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy" [inline]="true"></p-calendar>
           </div>
 
         </div>
         <div class="form-group row">
           <div class="col-sm-9">
-            <label>fecha de apertura: </label>
-            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
+            <label>Actividad </label>
+            <select class="custom-select" class="form-control"  formControlName="idActividad" name="idActividad" ngModel  >
+
+              <option *ngFor="let dato of listaall" [value]="dato.idActividad">
+                {{dato.codigo}} - {{dato.descripcion}}
+              </option>
+            </select>
           </div>
 
         </div>
-        <div class="form-group row">
-          <div class="col-sm-9">
-            <label>Dirección: </label>
-            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
-          </div>
 
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-9">
-            <label>Teléfono: </label>
-            <input type="text" name="nombre" formControlName="nombre" class="form-control" ngModel  autocomplete="off"/>
-          </div>
 
-        </div>
         <div class="form-group row">
           <div class="col-sm-9">
             <button class="btn  px-4 float-left"  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="guardar()"></button>
           </div>
 
         </div>
+
+
       </form>
 
     </div>
@@ -105,8 +102,8 @@
 
         <div class="form-group row">
           <div class="col-sm-9">
-            <label>fecha de Cierra: </label>
-            <p-calendar  name="fechaCierre" formControlName="fechaCierre"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+            <label>Fecha de Cese: </label>
+            <p-calendar  name="fecCese" formControlName="fecCese"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy" [inline]="true"></p-calendar>
 
           </div>
 

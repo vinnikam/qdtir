@@ -14,6 +14,8 @@ export class RepresentantesService {
   urlBuscar: string = 'ServiciosRITDQ/resources/repres/consulta/';
   urlBorrar: string = 'ServiciosRITDQ/resources/repres/borra/';
   urlCrear: string = 'ServiciosRITDQ/resources/repres/crea/';
+  urlClase: string = 'ServiciosRITDQ/resources/repres/clasesrepre/';
+  urlTipoR: string = 'ServiciosRITDQ/resources/repres/tiposrepre/';
 
 
   constructor(private http: HttpClient) { }
@@ -32,4 +34,14 @@ export class RepresentantesService {
 
     return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlCrear}`, dato).toPromise();
   }
+  consultatiposrepre(codigo: number): Promise<Irespuesta> {
+
+    return  this.http.get<Irespuesta>(`${valores.ip_servidor}${this.urlTipoR}${codigo}`).toPromise();
+  }
+  consultaclaserepre(): Promise<Irespuesta> {
+
+    return  this.http.get<Irespuesta>(`${valores.ip_servidor}${this.urlClase}`).toPromise();
+
+  }
+
 }

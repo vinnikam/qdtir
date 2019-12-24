@@ -30,7 +30,7 @@ export class FuncionarioService {
     }
     return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlcrear}`, datos).toPromise();
   }
-  inactivar(usuario: string, fechainia: string, fechafina: string): Promise<Irespuesta> {
+  inactivar(usuario: string, fechafina: string): Promise<Irespuesta> {
     const datos = {
       pnombre: usuario,
       fechafin: fechafina

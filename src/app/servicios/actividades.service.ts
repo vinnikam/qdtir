@@ -13,6 +13,7 @@ export class ActividadesService {
   urlBuscar: string = 'ServiciosRITDQ/resources/activ/consulta/';
   urlBorrar: string = 'ServiciosRITDQ/resources/activ/borra/';
   urlCrear: string = 'ServiciosRITDQ/resources/activ/crea/';
+  urlbuscarall: string = '/ServiciosRITDQ/resources/activ/consultall';
 
 
   constructor(private http: HttpClient) { }
@@ -25,10 +26,17 @@ export class ActividadesService {
   }
   borrar(dato: Actividad): Promise<Irespuesta> {
 
-    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBuscar}`, dato).toPromise();
+    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBorrar}`, dato).toPromise();
   }
   crear(dato: Actividad): Promise<Irespuesta> {
 
     return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlCrear}`, dato).toPromise();
+  }
+
+  consultarall(): Promise<Irespuesta> {
+    const datos = {
+      idSujeto : undefined
+    }
+    return  this.http.get<Irespuesta>(`${valores.ip_servidor}${this.urlbuscarall}`).toPromise();
   }
 }

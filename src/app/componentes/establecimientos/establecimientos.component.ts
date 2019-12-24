@@ -9,6 +9,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {es} from '../../config/Propiedades';
 import {Contribuyente} from '../../dto/contribuyente';
 import {Message, MessageService} from 'primeng/api';
+import {UtilidadesService} from '../../servicios/utilidades.service';
 
 @Component({
   selector: 'app-establecimientos',
@@ -31,7 +32,8 @@ export class EstablecimientosComponent implements OnInit {
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private estaServ: EstablecimientosService ,
-              private formBuilder: FormBuilder, private messageService: MessageService) {
+              private formBuilder: FormBuilder, private messageService: MessageService,
+              private util: UtilidadesService) {
       this.formulario = this.formBuilder.group({
         nombre: [],
         fechaApertura: [],
@@ -63,6 +65,7 @@ export class EstablecimientosComponent implements OnInit {
     }
       this.creardialog = false;
       this.borrardialog = false;
+
   }
 
   ngOnInit() {
@@ -102,16 +105,17 @@ export class EstablecimientosComponent implements OnInit {
     this.establecimiento = JSON.parse(jsonString) as Establecimiento;
     this.establecimiento.idSujeto = this.ciudService.ciudadanoActivo.idSujeto;
     // alert(this.establecimiento);
+    this.establecimiento.fechaApertura  = this.util.cambiafecha(this.establecimiento.fechaApertura);
     const x: Promise<Irespuesta> = this.estaServ.crear(this.establecimiento);
 
     x.then((value: Irespuesta) => {
       this.respuesta = value;
       // alert(value);
       if (this.respuesta.codigoError === '0') {
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'Creo el establecimiento.', closable: true});
+         this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
+         detail: 'Creo el establecimiento.', closable: true});
          this.establecimiento = undefined;
-         this.consultar(this.establecimiento.idSujeto);
+         this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -132,33 +136,34 @@ export class EstablecimientosComponent implements OnInit {
   borrar() {
     const jsonString = JSON.stringify(this.formularioborra.value);
     this.establecimiento = JSON.parse(jsonString) as Establecimiento;
+    this.establecimiento.fechaCierre = this.util.cambiafecha(this.establecimiento.fechaCierre);
+    this.establecimientoborra.idSujeto =  this.ciudService.ciudadanoActivo.idSujeto;
     this.establecimientoborra.fechaCierre = this.establecimiento.fechaCierre;
     // alert(this.establecimiento);
     const x: Promise<Irespuesta> = this.estaServ.borrar(this.establecimientoborra);
 
     x.then((value: Irespuesta) => {
       this.respuesta = value;
-      // alert(value);
+
       if (this.respuesta.codigoError === '0') {
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
           detail: 'Borró el establecimiento.', closable: true});
 
-        // alert('BORRO ');
         this.establecimiento = undefined;
-        this.consultar(this.establecimientoborra.idSujeto);
+        this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
           detail: 'No borró el  establecimiento.', closable: true});
-         // alert('NO BORRO ');
+
       }
     })
       .catch(() => {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
           detail: 'Error tecnico en borrar establecimiento.', closable: true});
-        //alert('Error tecnico en borrar establecimiento ');
+
         });
-    this.creardialog = false;
+    this.borrardialog = false;
 
   }
 }

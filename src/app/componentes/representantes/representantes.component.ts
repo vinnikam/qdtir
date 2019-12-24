@@ -8,6 +8,9 @@ import {Representante} from '../../dto/representante';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {es} from '../../config/Propiedades';
 import {Message, MessageService} from 'primeng/api';
+import {UtilidadesService} from '../../servicios/utilidades.service';
+import {Contribuyente} from '../../dto/contribuyente';
+import {Basicovo} from '../../dto/basicovo';
 
 @Component({
   selector: 'app-representantes',
@@ -26,12 +29,31 @@ export class RepresentantesComponent implements OnInit {
   representante: Representante;
   representanteborra: Representante;
 
+  idrepresentantecrear: number;
+  btncrear: boolean;
+
+  msgs: Message[] = [];
+
+  claserepresI: Basicovo[];
+  tiposrepresI: Basicovo[];
+
+
+
+
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private represerv: RepresentantesService,
-              private formBuilder: FormBuilder, private messageService: MessageService) {
+              private formBuilder: FormBuilder, private messageService: MessageService,
+              private util: UtilidadesService) {
     this.formulario = this.formBuilder.group({
-      nombre: []
+
+      fechaInicio: [],
+      claseRepres: [],
+      tipoRepres: [],
+      documento: [],
+      tipoDocumento: [],
+      idRepresentacion: []
+
 
     });
     this.formularioborra = this.formBuilder.group({
@@ -52,9 +74,12 @@ export class RepresentantesComponent implements OnInit {
       }
 
     }
+
   }
   ngOnInit() {
     this.es = es;
+    this.cargarclasesrepres();
+
   }
   consultar(idsujeto: number ) {
 
@@ -88,10 +113,40 @@ export class RepresentantesComponent implements OnInit {
 
   }
   guardar() {
+
+    const jsonString = JSON.stringify(this.formulario.value);
+    this.representante = JSON.parse(jsonString) as Representante;
+    this.representante.idSujeto = this.ciudService.ciudadanoActivo.idSujeto;
+    this.representante.idRepresentacion = this.idrepresentantecrear;
+
+    this.representante.fechaInicio  = this.util.cambiafecha(this.representante.fechaInicio);
+    const x: Promise<Irespuesta> = this.represerv.crear(this.representante);
+
+    x.then((value: Irespuesta) => {
+      this.respuesta = value;
+      // alert(value);
+      if (this.respuesta.codigoError === '0') {
+        this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
+          detail: 'Creo el representante.', closable: true});
+        this.representante = undefined;
+        this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
+
+      } else {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'No creó representante.!', closable: true});
+      }
+    })
+      .catch(() => {
+        this.messageService.add({key: 'custom', severity: 'error', summary: 'Información',
+          detail: 'Error tecnico en guardar representante ', closable: true});
+        // alert();
+      });
+
     this.creardialog = false;
   }
   vercrear() {
     this.creardialog = true;
+    this.btncrear = true;
   }
   verborra(elesta: Representante) {
     this.borrardialog = true;
@@ -100,20 +155,22 @@ export class RepresentantesComponent implements OnInit {
   borrar() {
     const jsonString = JSON.stringify(this.formularioborra.value);
     this.representante = JSON.parse(jsonString) as Representante;
+    this.representante.fechaCierre = this.util.cambiafecha(this.representante.fechaCierre);
     this.representanteborra.fechaCierre = this.representante.fechaCierre;
-    // alert(this.establecimiento);
+    this.representanteborra.idSujeto = this.ciudService.ciudadanoActivo.idSujeto;
+
     const x: Promise<Irespuesta> = this.represerv.borrar(this.representanteborra);
 
     x.then((value: Irespuesta) => {
       this.respuesta = value;
-      // alert(value);
+
       if (this.respuesta.codigoError === '0') {
-        // alert('BORRO ');
+
         this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
-          detail: 'Borró al representnte. ', closable: true});
+          detail: 'Borró al representante. ', closable: true});
 
         this.representante = undefined;
-        this.consultar(this.representanteborra.idSujeto);
+        this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -126,7 +183,85 @@ export class RepresentantesComponent implements OnInit {
           detail: 'Error tecnico en borrar representante ', closable: true});
         // alert();
       });
-    this.creardialog = false;
+    this.borrardialog = false;
+
+  }
+  confirmar() {
+    const dato = new Contribuyente();
+    dato.tipoDocumento = this.formulario.value.tipoDocumento;
+    dato.nroIdentificacion = this.formulario.value.documento;
+
+    const x: Promise<Irespuesta> = this.ciudService.buscar(dato);
+
+    x.then((value: Irespuesta) => {
+      this.respuesta = value;
+
+      if (this.respuesta.codigoError === '0') {
+        this.idrepresentantecrear = this.respuesta.contribuyente.idSujeto;
+        this.btncrear = false;
+        this.msgs = [];
+        this.msgs.push({severity: 'info', summary: '', detail: 'El contribuyente se encontro en la BD. '});
+
+      } else {
+        this.msgs = [];
+        this.msgs.push({severity: 'warn', summary: '', detail: 'Contribuyente no existe en la BD.'});
+
+        this.idrepresentantecrear = undefined;
+        this.btncrear = true;
+
+      }
+      })
+      .catch(() => {
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        detail: 'Error tecnico en consultar el contribuyente. ', closable: true});
+      // alert();
+    });
+
+  }
+   cargarclasesrepres() {
+    if (this.claserepresI === undefined) {
+      const x: Promise<Irespuesta> = this.represerv.consultaclaserepre();
+      x.then((value: Irespuesta) => {
+        this.respuesta = value;
+
+        if (this.respuesta.codigoError === '0') {
+          this.claserepresI = this.respuesta.claserepres;
+
+        } else {
+          this.msgs = [];
+          this.msgs.push({severity: 'warn', summary: '', detail: 'No se cargaron las Clases de representación.'});
+
+        }
+      })
+        .catch(() => {
+          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'Error tecnico en consultar las Clases de representación. ', closable: true});
+          // alert();
+        });
+    }
+  }
+  cambioClase() {
+      this.cargartiporepres(this.formulario.value.claseRepres);
+  }
+  cargartiporepres(codigo: number) {
+      const x: Promise<Irespuesta> = this.represerv.consultatiposrepre(codigo);
+      x.then((value: Irespuesta) => {
+        this.respuesta = value;
+
+        if (this.respuesta.codigoError === '0') {
+          this.tiposrepresI = this.respuesta.tiporepres;
+
+        } else {
+          this.msgs = [];
+          this.msgs.push({severity: 'warn', summary: '', detail: 'No se cargaron los tipos de representación.'});
+
+        }
+      })
+        .catch(() => {
+          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'Error tecnico en consultar las Tipos de representación. ', closable: true});
+          // alert();
+        });
 
   }
 }

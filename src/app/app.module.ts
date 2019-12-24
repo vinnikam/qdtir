@@ -36,7 +36,11 @@ import { GestionfuncComponent } from './componentes/gestionfunc/gestionfunc.comp
 import {NavbarserviceService} from './servicios/navbarservice.service';
 import { AutentadminComponent } from './componentes/autentadmin/autentadmin.component';
 import {MessageService} from 'primeng/api';
+import {MessageModule} from 'primeng/message';
+import {MessagesModule} from 'primeng/messages';
 import {ToastModule} from 'primeng/toast';
+
+import {DatePipe} from '@angular/common';
 
 
 
@@ -92,9 +96,11 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     CalendarModule,
     TableModule,
-    ToastModule
+    ToastModule,
+    MessageModule,
+    MessagesModule
   ],
-  providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService, MessageService],
+  providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService, MessageService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -119,16 +119,13 @@ export class CiudadanonvComponent implements OnInit {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
         this.paises = this.respuesta.divpolitica;
-        // alert(this.paises.length);
 
       } else {
         const  bas = new Basicovo();
         bas.codigo = '49';
         bas.nombre = 'COLOMBIA';
         this.paises[0] = bas;
-        // alert(this.respuesta.mensaje);
-        // this.ciudService.ciudadanoActivo = null;
-      }
+       }
     })
       .catch((err) => {
         this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',

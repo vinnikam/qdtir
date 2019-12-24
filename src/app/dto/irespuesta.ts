@@ -25,5 +25,8 @@ export interface Irespuesta {
 
   descuentos1 ?: Descuentovo[];
 
+  claserepres ?: Basicovo[];
+  tiporepres ?: Basicovo[];
+
 
 }

@@ -29,6 +29,8 @@ export class CiudadanoService {
 
   constructor(private http: HttpClient) { }
 
+
+
   buscar(ciudadano: Contribuyente): Promise<Irespuesta> {
     const datos = {
       codTId: ciudadano.tipoDocumento,
