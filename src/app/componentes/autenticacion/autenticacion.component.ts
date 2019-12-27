@@ -18,6 +18,8 @@ export class AutenticacionComponent implements OnInit {
   private elCiudadano: Contribuyente;
   private respuesta: Irespuesta;
 
+  msgs: Message[] = [];
+
   constructor(private _authService: AuthServiceService,
               private router: Router, private _ciudadservice: CiudadanoService, private messageService: MessageService) {
     this.elCiudadano = new Contribuyente();
@@ -27,31 +29,50 @@ export class AutenticacionComponent implements OnInit {
   ngOnInit() {
   }
   ingresarFuncionario() {
+    if (this.valido()){
+      const x: Promise<Irespuesta> = this._authService.loginFuncionario(this.elCiudadano);
+      x.then((value: Irespuesta) => {
+        this.respuesta = value;
+        // alert('Consumio servicio autenticacion');
+        if (this.respuesta.codigoError === '0') {
+          // alert('Usuario Existe. ');
+          this._ciudadservice.rolCiudadano = false ;
+          this._authService.ingresarFuncionario(this.respuesta.token);
+          this.router.navigate(['crearbus']);
 
-    const x: Promise<Irespuesta> = this._authService.loginFuncionario(this.elCiudadano);
-    x.then((value: Irespuesta) => {
-      this.respuesta = value;
-      // alert('Consumio servicio autenticacion');
-      if (this.respuesta.codigoError === '0') {
-        // alert('Usuario Existe. ');
-        this._ciudadservice.rolCiudadano = false ;
-        this._authService.ingresarFuncionario(this.elCiudadano.usuario);
-        this.router.navigate(['crearbus']);
+        } else {
+          // alert('Verifique sus credenciales. ');
+          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'Verifique sus credenciales. ', closable: true});
+        }
+        // this._authService.ingresarFuncionario();
 
-      } else {
-        // alert('Verifique sus credenciales. ');
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-        detail: 'Verifique sus credenciales. ', closable: true});
-      }
-    // this._authService.ingresarFuncionario();
+      })
+        .catch(() => {
+          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'Error técnico en la consulta de autenticación del funcionario', closable: true});
+          // alert();
+        });
 
-    })
-      .catch(() => {
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'Error tecnico en la consulta de autenticacion del funcionario', closable: true});
-      // alert();
-      });
+    }
 
 
+
+  }
+
+  private valido() {
+    if( this.elCiudadano.usuario === undefined ) {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: '', detail: 'El nombre de usuario es requerido. '});
+      return false;
+
+    }
+    if( this.elCiudadano.clave === undefined ) {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: '', detail: 'la clave es requerida. '});
+      return false;
+
+    }
+    return true;
   }
 }

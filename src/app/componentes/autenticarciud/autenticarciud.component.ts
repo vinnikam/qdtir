@@ -32,15 +32,11 @@ export class AutenticarciudComponent implements OnInit {
       this.respuesta = value;
       // alert('Consumio servicio autenticacion');
       if (true) {
-        this._authService.ingresar();
+        this._authService.ingresarCiudadano(this.elCiudadano.tipoDocumento, this.elCiudadano.nroIdentificacion);
        // this.router.navigate(['/crearciu']);
-        const datos = {
-          codTId: this.elCiudadano.tipoDocumento,
-          nroId: this.elCiudadano.nroIdentificacion
-        }
-        this._authService.datos = datos;
-        this._ciudadano.rolCiudadano = true;
-        this._authService.perfilusuario = 1;
+
+
+
         this.router.navigate(['/crearbus']);
 
       } else {

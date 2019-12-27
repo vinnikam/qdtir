@@ -31,22 +31,22 @@ export class CiudadanonvComponent implements OnInit {
     this.contribuyente = new Contribuyente();
     this.formulario = this.formBuilder.group({
       tipoPersona: [1],
-      nroIdentificacion: [],
+      nroIdentificacion: ['', Validators.required],
       tipoDocumento: [],
-      razonsocial: [],
-      primerNombre: [],
+      razonsocial: [ ''],
+      primerNombre: [''],
       segundoNombre: [],
       primerApellido: [],
       segundoApellido: [],
       matriculaMercantil: [],
       estadoRIT: [],
-      direccion: [],
+      direccion: ['', Validators.required],
       codPostal : [0],
       pais: [0],
       departamento: [0],
       municipio: [0],
       telefono: [],
-      nuevoCorreo: [],
+      nuevoCorreo: ['', Validators.required],
       tipoTelefono: [],
       indBuzon: [0],
       notif: [0]
@@ -65,39 +65,48 @@ export class CiudadanonvComponent implements OnInit {
     this.escolombia = true;
   }
   registrar(): void {
-    const jsonString = JSON.stringify(this.formulario.value);
-    // console.log(jsonString);
-    this.contribuyente = JSON.parse(jsonString) as Contribuyente;
-    console.log(this.contribuyente);
+    alert (this.formulario.invalid);
 
-    // alert(elContribuyente.tipoPersona);
-    // alert('ok');
-    console.log(this.contribuyente);
-    const x: Promise<Irespuesta> = this.ciudadServ.crear(this.contribuyente);
-    x.then((value: Irespuesta) => {
-      // alert('Carga paises1');
-      this.respuesta = value;
-      if (this.respuesta.codigoError === '0') {
-        // this.paises = this.respuesta.divpolitica;
-       //  alert('SE REGISTRO' );
-        this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
-          detail: 'Se registro el controbuyente..', closable: true});
+    if (this.formulario.invalid) {
+      return ;
+    } else {
+      const jsonString = JSON.stringify(this.formulario.value);
+      // console.log(jsonString);
+      this.contribuyente = JSON.parse(jsonString) as Contribuyente;
+      console.log(this.contribuyente);
+
+      // alert(elContribuyente.tipoPersona);
+      // alert('ok');
+      console.log(this.contribuyente);
+      const x: Promise<Irespuesta> = this.ciudadServ.crear(this.contribuyente);
+      x.then((value: Irespuesta) => {
+        // alert('Carga paises1');
+        this.respuesta = value;
+        if (this.respuesta.codigoError === '0') {
+          // this.paises = this.respuesta.divpolitica;
+          //  alert('SE REGISTRO' );
+          this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
+            detail: 'Se registro el controbuyente..', closable: true});
 
 
-      } else {
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'No se registo el contribuyente.', closable: true});
+        } else {
+          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'No se registo el contribuyente.', closable: true});
 
-        // alert('NO SE REGISTRO');
+          // alert('NO SE REGISTRO');
 
-      }
-    })
-      .catch((err) => {
-        this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
-          detail: 'Error tecnico en la consulta de paises.', closable: true});
+        }
+      })
+        .catch((err) => {
+          this.messageService.add({key: 'custom', severity: 'error', summary: 'Información',
+            detail: 'Error tecnico en el registro del contribuyente.', closable: true});
 
-        // alert('Error tecnico en la consulta de paises' + err);
-      });
+          // alert('Error tecnico en la consulta de paises' + err);
+        });
+    }
+
+
+
 
   }
   cambiotp() {
@@ -192,4 +201,6 @@ export class CiudadanonvComponent implements OnInit {
   cambioDepto() {
     this.cargarMunic(this.formulario.value.departamento);
   }
+
+  get f() { return this.formulario.controls; }
 }

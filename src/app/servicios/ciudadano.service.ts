@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import {Irespuesta} from '../dto/irespuesta';
 import {Contribuyente} from '../dto/contribuyente';
@@ -8,6 +8,8 @@ import {valores} from '../config/Propiedades';
 import { Observable } from 'rxjs';
 
 import {tap} from 'rxjs/operators';
+import {Contacto} from '../dto/contacto';
+import {Datacontacto} from '../dto/datacontacto';
 
 @Injectable()
 export class CiudadanoService {
@@ -15,15 +17,29 @@ export class CiudadanoService {
   rolCiudadano: boolean;
   autenticado: any;
 
-  // server: string = 'http://10.180.52.86:7101/';
+  // server = 'http://10.180.52.86:7101/';
 
-  urlBuscar: string = 'ServiciosRITDQ/resources/contribuyente';
-  urlPredios: string = 'ServiciosRITDQ/resources/consultas/predios/';
-  urlVehiculos: string = 'ServiciosRITDQ/resources/consultas/vehiculos/';
-  urlPaises: string = 'ServiciosRITDQ/resources/contribuyente/paises/';
-  urlDeptos: string = 'ServiciosRITDQ/resources/contribuyente/deptos/';
-  urlmunic: string = 'ServiciosRITDQ/resources/contribuyente/municip/';
-  urlcrear: string = 'ServiciosRITDQ/resources/contribuyente/crearcontribuyente/';
+  urlBuscar = 'ServiciosRITDQ/resources/contribuyente';
+  urlPredios = 'ServiciosRITDQ/resources/consultas/predios/';
+  urlVehiculos = 'ServiciosRITDQ/resources/consultas/vehiculos/';
+  urlPaises = 'ServiciosRITDQ/resources/contribuyente/paises/';
+  urlDeptos = 'ServiciosRITDQ/resources/contribuyente/deptos/';
+  urlmunic = 'ServiciosRITDQ/resources/contribuyente/municip/';
+  urlcrear = 'ServiciosRITDQ/resources/contribuyente/crearcontribuyente/';
+
+  // ------ URL PARA TIPO CONTACTO
+  url = 'http://10.180.220.35:7777/ServiciosRITDQ/resources/contribuyente';
+  urluso = 'http://10.180.220.35:7777/ServiciosRITDQ/resources/consultas/consultaruso/';
+  urlEditaTelContacto = 'http://10.180.220.35:7777/ServiciosRITDQ/resources/contribuyente/editaTelefonoContac/';
+  urlEditaCorreoContacto = 'http://10.180.220.35:7777/ServiciosRITDQ/resources/contribuyente/editaCorreoContac/';
+  urlEditarDirNoti = 'http://10.180.220.35:7777/ServiciosRITDQ/resources/contribuyente/editaDirecNotDANE/';
+  urlEliminaTelContacto = 'http://10.180.220.35:7777/ServiciosRITDQ/resources/contribuyente/eliminaTelefonoContac';
+  urlEliminarDirNoti = 'http://10.180.220.35:7777/ServiciosRITDQ/resources/contribuyente/eliminaDirecNot/';
+  urlEliminaCorreoContacto = 'http://10.180.220.35:7777/ServiciosRITDQ/resources/contribuyente/eliminaCorreoContac';
+
+  validacionDireccion = false;
+  validacionRegistroDireccion = false;
+  validacionTipoUso = false;
 
 
 
@@ -71,6 +87,16 @@ export class CiudadanoService {
       codigo : dato
     }
     return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlmunic}`, datos).toPromise();
+  }
+  registrarContacto(contacto : Contacto, urlFinal : string): Observable<Irespuesta>{
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post<Irespuesta>(urlFinal, contacto,{headers: headers});
+  }
+
+  eliminarContacto(contacto : Datacontacto, urlFinal : string): Observable<Irespuesta>  {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post<Irespuesta>(urlFinal, contacto, {headers: headers});
+
   }
 
 

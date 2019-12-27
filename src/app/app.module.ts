@@ -41,6 +41,8 @@ import {MessagesModule} from 'primeng/messages';
 import {ToastModule} from 'primeng/toast';
 
 import {DatePipe} from '@angular/common';
+import { EstandarizadorComponent } from './componentes/estandarizador/estandarizador.component';
+
 
 
 
@@ -79,7 +81,8 @@ const appRoutes: Routes = [
     CiudadanonvComponent,
     Descuento1Component,
     GestionfuncComponent,
-    AutentadminComponent
+    AutentadminComponent,
+    EstandarizadorComponent
 
   ],
   imports: [

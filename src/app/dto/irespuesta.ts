@@ -27,6 +27,7 @@ export interface Irespuesta {
 
   claserepres ?: Basicovo[];
   tiporepres ?: Basicovo[];
+  token ?: string;
 
 
 }

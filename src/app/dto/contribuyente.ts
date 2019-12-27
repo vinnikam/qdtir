@@ -1,3 +1,9 @@
+import {DireccionesContacto} from './direcciones-contacto';
+import {DireccionesContactoNotificacion} from './direcciones-contacto-notificacion';
+import {Email} from './email';
+import {Basicovo} from './basicovo';
+import {AplicacionDescuento} from './aplicacion-descuento';
+
 export class Contribuyente {
   idSujeto: number;
   tipoDocumento: string;
@@ -23,5 +29,13 @@ export class Contribuyente {
   canal: string;
   descuento: boolean;
   clave: string;
+
+  dirContacto ?: DireccionesContacto [];
+  dirContactoNot ?: DireccionesContactoNotificacion[];
+  email ?: Email[];
+  telefonos ?: Basicovo[];
+
+  aplicaDescuento?: AplicacionDescuento;
+
 
 }

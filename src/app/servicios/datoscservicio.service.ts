@@ -10,10 +10,18 @@ import {Direccion} from '../dto/direccion';
   providedIn: 'root'
 })
 export class DatoscservicioService {
-  server: string = 'http://10.180.220.35:7777/';
-  urlBuscar: string = 'ServiciosRITDQ/resources/contribuyente';
+  server = 'http://10.180.220.35:7777/';
+  urlBuscar = 'ServiciosRITDQ/resources/contribuyente';
 
-  constructor(private http: HttpClient) { }
+  displayDirNotificacion: boolean;
+  direccion: string;
+
+  constructor(private http: HttpClient) {
+
+    this.displayDirNotificacion = false;
+
+
+  }
 
   consultaTelefonos(idSujeto: number): Promise<Telefono[]> {
     return null;
