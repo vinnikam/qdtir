@@ -15,19 +15,22 @@ export class VehiculosComponent implements OnInit {
   lista: Vehiculo[];
   respuesta: Irespuesta;
 
+  haydatos: boolean;
+
   constructor(private ciudService: CiudadanoService,
               private router: Router, private messageService: MessageService) {
-    if (this.ciudService.ciudadanoActivo === null) {
+    if (this.ciudService.ciudadanoActivo === undefined) {
       // alert('No hay ciudadano activo')
-      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-        detail: 'No hay ciudadano activo. ', closable: true});
+      /*this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        detail: 'No hay ciudadano activo. ', closable: true});*/
+      this.haydatos = false;
       this.router.navigate(['/crearciu']);
     } else {
       if (this.ciudService.ciudadanoActivo !== undefined) {
         this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
-      } else {
+      } /*else {
         this.consultar(4881773);
-      }
+      }*/
     }
   }
   ngOnInit() {
@@ -39,6 +42,7 @@ export class VehiculosComponent implements OnInit {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
         this.lista = this.respuesta.vehiculos;
+        this.haydatos = true;
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',

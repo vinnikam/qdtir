@@ -16,7 +16,7 @@ export class Descuento1Component implements OnInit {
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private messageService: MessageService) {
-    if (this.ciudService.ciudadanoActivo === null) {
+    if (this.ciudService.ciudadanoActivo === undefined) {
       alert('No hay ciudadano activo')
       this.router.navigate(['/crearciu']);
     } else {

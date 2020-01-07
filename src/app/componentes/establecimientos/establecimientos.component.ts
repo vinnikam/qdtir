@@ -28,6 +28,7 @@ export class EstablecimientosComponent implements OnInit {
   es: any;
   establecimiento: Establecimiento;
   establecimientoborra: Establecimiento;
+  haydatos: boolean;
 
 
   constructor(private ciudService: CiudadanoService,
@@ -50,18 +51,19 @@ export class EstablecimientosComponent implements OnInit {
         fechaCierre: []
 
       });
-      if (this.ciudService.ciudadanoActivo === null) {
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'No hay ciudadano activo. ', closable: true});
-
+      if (this.ciudService.ciudadanoActivo === undefined) {
+        /*this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'No hay ciudadano activo. ', closable: true});*/
+        this.haydatos = false;
         // alert('No hay ciudadano activo');
-        this.router.navigate(['/crearciu']);
+        //  this.router.navigate(['/crearciu']);
       } else {
         if (this.ciudService.ciudadanoActivo !== undefined) {
           this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
-        } else {
-          this.consultar(363337);
         }
+        /*else {
+          this.consultar(363337);
+        }*/
     }
       this.creardialog = false;
       this.borrardialog = false;
@@ -78,6 +80,7 @@ export class EstablecimientosComponent implements OnInit {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
         this.lista = this.respuesta.establecimientos;
+        this.haydatos = true;
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
           detail: this.respuesta.mensaje, closable: true});

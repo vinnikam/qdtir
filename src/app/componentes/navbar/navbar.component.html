@@ -1,4 +1,4 @@
-<p-toast [style]="{marginTop: '80px'}"  key="custom" position="top-center"  [showTransitionOptions]="'400ms'" [hideTransitionOptions]="'250ms'"></p-toast>
+<p-toast [style]="{marginTop: '80px'}"  key="custom" position="top-center"  [showTransitionOptions]="'400ms'" ></p-toast>
 {{this._authservice.estaAutenticado()}} perfil {{this._authservice.perfilusuario}}
 <div class="container" *ngIf="!this._authservice.estaAutenticado()">
   <p-menubar [model]="this.itemsingreso" >

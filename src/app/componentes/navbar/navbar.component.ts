@@ -61,6 +61,7 @@ export class NavbarComponent implements OnInit {
         {label: 'Contribuyente', icon: 'pi pi-user-plus',
           items: [
             {label: 'Crear', icon: 'pi pi-user-plus', routerLink: '/crearciu'},
+            {label: 'Datos Pesonales', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
             {label: 'Buscar', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
             {label: 'Datos de Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
             {label: 'Datos 1 %', icon: 'pi pi-dollar', routerLink: '/descuento'}

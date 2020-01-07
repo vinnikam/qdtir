@@ -13,18 +13,21 @@ import {Message, MessageService} from 'primeng/api';
 export class PrediosComponent implements OnInit {
   respuesta: Irespuesta;
   predios: Predio[];
+  haydatos: boolean;
   // 5847944,5847644
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private messageService: MessageService) {
-    if (this.ciudService.ciudadanoActivo === null) {
+    if (this.ciudService.ciudadanoActivo === undefined) {
       // alert('No hay ciudadano activo')
-      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-        detail: 'No hay ciudadano activo. ', closable: true});
-      this.router.navigate(['/crearciu']);
+     /* this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        detail: 'No hay ciudadano activo, proceda a realizar la busqueda y continue. ', closable: true}); */
+      this.haydatos = false;
+      // this.router.navigate(['/crearciu']);
     } else {
       this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
-      this.consultar(5449415);
+
+      // this.consultar(5449415);
     }
   }
   ngOnInit() {
@@ -37,19 +40,19 @@ export class PrediosComponent implements OnInit {
        if (this.respuesta.codigoError === '0') {
 
         this.predios = this.respuesta.predios;
+         this.haydatos = true;
 
       } else {
          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
            detail: this.respuesta.mensaje, closable: true});
+         this.haydatos = false;
 
-         // alert();
-        this.ciudService.ciudadanoActivo = null;
       }
     })
       .catch(() => {
         // alert('Error tecnico en la consulta del servicio Buscar');
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'Error tecnico en la consulta del servicio Buscar', closable: true});
+          detail: 'Error tecnico en la consulta del servicio Buscar predios', closable: true});
 
       });
 

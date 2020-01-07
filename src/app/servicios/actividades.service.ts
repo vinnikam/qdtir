@@ -10,10 +10,10 @@ import {Actividad} from '../dto/actividad';
   providedIn: 'root'
 })
 export class ActividadesService {
-  urlBuscar: string = 'ServiciosRITDQ/resources/activ/consulta/';
-  urlBorrar: string = 'ServiciosRITDQ/resources/activ/borra/';
-  urlCrear: string = 'ServiciosRITDQ/resources/activ/crea/';
-  urlbuscarall: string = '/ServiciosRITDQ/resources/activ/consultall';
+  urlBuscar  = 'ServiciosRITDQ/resources/activ/consulta/';
+  urlBorrar  = 'ServiciosRITDQ/resources/activ/borra/';
+  urlCrear  = 'ServiciosRITDQ/resources/activ/crea/';
+  urlbuscarall  = '/ServiciosRITDQ/resources/activ/consultall';
 
 
   constructor(private http: HttpClient) { }

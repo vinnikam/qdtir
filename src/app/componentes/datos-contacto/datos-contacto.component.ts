@@ -25,7 +25,7 @@ export class DatosContactoComponent implements OnInit {
   /*
   constructor(private ciudService: CiudadanoService,
               private router: Router) {
-    if (this.ciudService.ciudadanoActivo === null) {
+    if (this.ciudService.ciudadanoActivo === undefined) {
       alert('No hay ciudadano activo')
       this.router.navigate(['/crearciu']);
     }
@@ -112,9 +112,34 @@ export class DatosContactoComponent implements OnInit {
 
   idSujeto: number;
   tipCon: number;
+  haydatos = false;
 
 
   constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private router: Router) {
+    this.url = ciudService.url;
+    this.urluso = ciudService.urluso;
+    this.urlEditaTelContacto = ciudService.urlEditaTelContacto;
+    this.urlEditaCorreoContacto = ciudService.urlEditaCorreoContacto;
+    this.urlEditarDirNoti = ciudService.urlEditarDirNoti;
+    this.urlEliminaTelContacto = ciudService.urlEliminaTelContacto;
+    this.urlEliminarDirNoti = ciudService.urlEliminarDirNoti;
+    this.urlEliminaCorreoContacto = ciudService.urlEliminaCorreoContacto;
+
+    if (false) { // this.ciudService.ciudadanoActivo === undefined) {
+      // alert('No hay ciudadano activo');
+      // this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información', detail: 'No hay usuario activo. ', closable: true});
+      this.haydatos = false;
+      // this.router.navigate(['/crearciu']);
+    } else {
+      this.tipoDocumento = '4' ; // ,ciudService.ciudadanoActivo.tipoDocumento;
+      this.numeroDocumento = '79768891' ; // ciudService.ciudadanoActivo.nroIdentificacion;
+
+      this.consultarDatos(this.tipoDocumento, this.numeroDocumento);
+      /*else {
+        this.consultar(363348);
+      }*/
+    }
+
     this.listdptos = departamentos;
     this.dptoDireccion = departamentos[4];
     this.listmunicipios = municipios;
@@ -128,25 +153,9 @@ export class DatosContactoComponent implements OnInit {
     this.contacto = new Contacto();
     this.datacontacto = new Datacontacto();
 
-
-    this.url = ciudService.url;
-    this.urluso = ciudService.urluso;
-    this.urlEditaTelContacto = ciudService.urlEditaTelContacto;
-    this.urlEditaCorreoContacto = ciudService.urlEditaCorreoContacto;
-    this.urlEditarDirNoti = ciudService.urlEditarDirNoti;
-    this.urlEliminaTelContacto = ciudService.urlEliminaTelContacto;
-    this.urlEliminarDirNoti = ciudService.urlEliminarDirNoti;
-    this.urlEliminaCorreoContacto = ciudService.urlEliminaCorreoContacto;
-
-    this.tipoDocumento = '4' ; // ,ciudService.ciudadanoActivo.tipoDocumento;
-    this.numeroDocumento = '79768891' ; // ciudService.ciudadanoActivo.nroIdentificacion;
-
-    this.consultarDatos(this.tipoDocumento, this.numeroDocumento);
-
-
     this.consultarTipoUso();
 
-    this.idSujeto = ciudService.ciudadanoActivo.idSujeto;
+    // this.idSujeto = ciudService.ciudadanoActivo.idSujeto;
     this.codPostalDireccion = '11001';
   }
 
@@ -163,16 +172,18 @@ export class DatosContactoComponent implements OnInit {
   consultarDatos(tipoDocumento: string, numeroDocumento: string): void {
 
     if (tipoDocumento != null && numeroDocumento != null) {
-      this.consultarContribuyente(tipoDocumento, numeroDocumento).then((value: Irespuesta) => {this.respuesta  = value;
-      this.aDirCon = this.respuesta.contribuyente.dirContacto ;
-      this.aDirNot = this.respuesta.contribuyente.dirContactoNot ;
-      this.aDirMai = this.respuesta.contribuyente.email ;
-      this.aDirTel = this.respuesta.contribuyente.telefonos ;
-      this.aUnoPor = this.respuesta.contribuyente.aplicaDescuento ;
-      this.direccion = this.respuesta.contribuyente.dirContactoNot[0].direccion;
-      console.log('los telefonos--->', JSON.stringify(this.aDirTel));
+        this.consultarContribuyente(tipoDocumento, numeroDocumento).then((value: Irespuesta) => {
+        this.respuesta  = value;
+        this.aDirCon = this.respuesta.contribuyente.dirContacto ;
+        this.aDirNot = this.respuesta.contribuyente.dirContactoNot ;
+        this.aDirMai = this.respuesta.contribuyente.email ;
+        this.aDirTel = this.respuesta.contribuyente.telefonos ;
+        this.aUnoPor = this.respuesta.contribuyente.aplicaDescuento ;
+        this.direccion = this.respuesta.contribuyente.dirContactoNot[0].direccion;
+        console.log('los telefonos--->', JSON.stringify(this.aDirTel));
     })
     .catch((err: HttpErrorResponse) => {
+      console.log(err);
       if (err.status !== 200) {
       }
     });
@@ -186,7 +197,8 @@ export class DatosContactoComponent implements OnInit {
 
   consultarTipoUso(): void {
     this.consultarTipo()
-      .then((value: TipoUso) => { this.respuestauso  = value;
+      .then((value: TipoUso) => {
+        this.respuestauso  = value;
 
         this.listaTU = this.respuestauso.uso;
 
@@ -227,6 +239,7 @@ export class DatosContactoComponent implements OnInit {
   }
 
   nuevaDirNotificacion() {
+    alert('XX la muda');
     this.displayDirNotificacion = true;
 
     this.ciudService.validacionDireccion = false;
@@ -331,8 +344,8 @@ export class DatosContactoComponent implements OnInit {
   }
 
 
-  consultarTipo(): Promise<TipoUso>{
-    console.log('el servicio configurado...'+this.urluso);
+  consultarTipo(): Promise<TipoUso> {
+    console.log('el servicio configurado...' + this.urluso);
     return this.http.get<TipoUso>(this.urluso).toPromise();
 
   }

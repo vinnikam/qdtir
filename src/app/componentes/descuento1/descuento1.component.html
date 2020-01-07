@@ -1,6 +1,8 @@
 <!--div *ngIf="!ciudService.ciudadanoActivo && !ciudService.rolCiudadano"-->
 <div class="container ">
   <h2 class="base-header-vehi">MARCACIONES DEL 1% POR AÑO</h2>
+  <p class="norecord" *ngIf="!haydatos">NO HAY CIUDADANO SELECCIONADO. DIRIJASE A LA OPCION DE BUSCAR PARA ACTUALIZAR LA INFORMACION.</p>
+
   <p-table [value]="lista" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
     <ng-template pTemplate="header">
       <tr>

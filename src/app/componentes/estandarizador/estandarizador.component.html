@@ -5,7 +5,7 @@
 <p-dialog header="ASISTENTE PARA INGRESAR DIRECCIÓN VALIDA" [(visible)]="displayDirNotificacion" [modal]="true" [responsive]="true" [style]="{width: '950px'}" [minY]="20"
           [maximizable]="false" [baseZIndex]="10000" positionTop="20px" [closable]="false">
 -->
-//estandarizador//
+
 
 
 <div class="panel-body" *ngIf="capturaDireccion">
@@ -213,16 +213,11 @@
 
 </div>
 
-//estandarizador//
-
-
-
-
 <div class="col-lg-12 tooltip-info">
 
 
   <div class="form-group input-group tooltip-info">
-    <label class="required_css">Direcci&oacute;n Valida</label>
+    <label class="required_css">Direcci&oacute;n Estandarizada: </label>
     <input type="text" class="form-control" [(ngModel)]="direccion" name="direccion" readonly="readonly" ng-required="true"/>
     <span class="input-group-btn modalFixBtn_css" data-toggle="tooltip" data-placement="top" title="Asistente para Direcciones">
                   <button type="button" class="btn btn-default dropdown-toggle" (click)="capturar()"  *ngIf="!capturaDireccion"

@@ -162,6 +162,14 @@ body {
   text-align: center;
   text-transform: uppercase;
   color: #fff;
-} 
+}
+.norecord {
+  background: orangered;
+  padding: 20px;
+  font-weight: normal;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+}
 
 

@@ -37,6 +37,8 @@ export class RepresentantesComponent implements OnInit {
   claserepresI: Basicovo[];
   tiposrepresI: Basicovo[];
 
+  haydatos: boolean;
+
 
 
 
@@ -60,18 +62,19 @@ export class RepresentantesComponent implements OnInit {
       fechaCierre: []
 
     });
-    if (this.ciudService.ciudadanoActivo === null) {
+    if (this.ciudService.ciudadanoActivo === undefined) {
       // alert('No hay ciudadano activo');
-      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-        detail: 'No hay ciudadano activo. ', closable: true});
+      /*this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        detail: 'No hay ciudadano activo. ', closable: true});*/
+      this.haydatos = false;
 
-      this.router.navigate(['/crearciu']);
+      // this.router.navigate(['/crearciu']);
     } else {
       if (this.ciudService.ciudadanoActivo !== undefined) {
         this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
-      } else {
+      } /*else {
         this.consultar(484438);
-      }
+      }*/
 
     }
 
@@ -88,6 +91,7 @@ export class RepresentantesComponent implements OnInit {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
         this.lista = this.respuesta.representantes;
+        this.haydatos = true;
 
       } else {
           this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -99,7 +103,7 @@ export class RepresentantesComponent implements OnInit {
     })
       .catch(() => {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'Error tecnico en la consulta del servicio Buscar actividades ', closable: true});
+          detail: 'Error técnico en la consulta del servicio Buscar representantes ', closable: true});
 
         // alert('Error tecnico en la consulta del servicio Buscar actividades');
       });

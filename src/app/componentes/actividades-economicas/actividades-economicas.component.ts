@@ -30,6 +30,7 @@ export class ActividadesEconomicasComponent implements OnInit {
   creardialog: boolean;
   borrardialog: boolean;
   es: any;
+  haydatos: boolean;
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private activserv: ActividadesService,
@@ -47,16 +48,18 @@ export class ActividadesEconomicasComponent implements OnInit {
       fecCese: []
 
     });
-    if (this.ciudService.ciudadanoActivo === null) {
+    if (this.ciudService.ciudadanoActivo === undefined) {
       // alert('No hay ciudadano activo');
-      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información', detail: 'No hay usuario activo. ', closable: true});
-      this.router.navigate(['/crearciu']);
+      // this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información', detail: 'No hay usuario activo. ', closable: true});
+      this.haydatos = false;
+      // this.router.navigate(['/crearciu']);
     } else {
       if (this.ciudService.ciudadanoActivo !== undefined) {
         this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
-      } else {
-        this.consultar(363348);
       }
+      /*else {
+        this.consultar(363348);
+      }*/
     }
     this.consultarall();
   }
@@ -70,6 +73,7 @@ export class ActividadesEconomicasComponent implements OnInit {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
         this.lista = this.respuesta.actividades.actContacto;
+        this.haydatos = true;
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
