@@ -2,26 +2,68 @@
 <div class="container ">
   <h2 class="base-header-vehi">MARCACIONES DEL 1% POR AÑO</h2>
   <p class="norecord" *ngIf="!haydatos">NO HAY CIUDADANO SELECCIONADO. DIRIJASE A LA OPCION DE BUSCAR PARA ACTUALIZAR LA INFORMACION.</p>
+  <p-panel header="VALOR DE LAS NOTIFICACIONES ACTUALES">
+
+    <div class="form-group row">
+      <div class="col-sm-4">
+        <p-checkbox binary="true" name="idbuzon" value="{{idbuzon}}" label="Autorizo el uso del buzón electrónico para recibir notificaciones"
+                    [(ngModel)]="idbuzon" inputId="idbuzon"></p-checkbox>
+
+
+      </div>
+      <div class="col-sm-4">
+        <p-checkbox binary="true" name="idnotif" value="{{idnotif}}" label="Autorizo uso de la anterior información para fines institucionales"
+                    [(ngModel)]="idnotif" inputId="idnotif"></p-checkbox>
+
+
+      </div>
+      <div class="col-sm-4">
+        <button class="btn "  pButton type="button" label="Actualizar" icon="pi pi-check" (click)="verdialog()"></button>
+
+
+      </div>
+
+    </div>
+  </p-panel>
+
 
   <p-table [value]="lista" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
     <ng-template pTemplate="header">
       <tr>
-        <th scope="col" width="15%">CHIP</th>
-        <th scope="col" width="40%">DIRECCION</th>
-        <th scope="col" width="15%">MATRICULA</th>
-        <th scope="col" width="30%">USO</th>
+        <th scope="col" >NOTIFICACION AL BUZON</th>
+        <th scope="col" >NOTIFICACION AL CORREO</th>
+        <th scope="col" >FECHA DEL CAMBIO</th>
 
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-dato>
       <tr >
-        <td>{{dato.chip}}</td>
-        <td>{{dato.direccionPredio}}</td>
-        <td>{{dato.matriculaInmobiliaria}}</td>
-        <td>{{dato.usoDelSuelo.nombre}}</td>
+        <td *ngIf="dato.buzon === 1">ACTIVO</td>
+        <td *ngIf="dato.buzon !== 1">INACTIVO</td>
+        <td *ngIf="dato.notificaciones === 1">ACTIVO</td>
+        <td *ngIf="dato.notificaciones !== 1">INACTIVO</td>
+        <td>{{dato.fecha}}</td>
       </tr>
     </ng-template>
   </p-table>
 
 </div>
+<p-dialog header="BORRAR" [modal]="true" [positionTop]="100"  [(visible)]="confirmarcambio" [style]="{width: '500px', height: '200px'}"
+          [closable]="true" [baseZIndex]="10000">
+  <div class="container">
+    <div class="form-group row">
+      <div class="col-sm-12">
+        Confirma la actualizacion de notificaciones ?
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-6">
+        <button class="btn btn-success"  pButton type="button" label="Si" icon="pi pi-check" (click)="actualizar(1)"></button>
+      </div>
+      <div class="col-sm-6">
+        <button class="btn btn-danger"  pButton type="button" label="No" icon="pi pi-check" (click)="actualizar(0)"></button>
+    </div>
+    </div>
+  </div>
+</p-dialog>
 <!--/div-->

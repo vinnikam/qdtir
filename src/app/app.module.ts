@@ -24,6 +24,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CiudadanonvComponent } from './componentes/ciudadanonv/ciudadanonv.component';
 import { Descuento1Component } from './componentes/descuento1/descuento1.component';
 import {TabMenuModule} from 'primeng/tabmenu';
+import {DropdownModule} from 'primeng/dropdown';
+import {CheckboxModule} from 'primeng/checkbox';
 
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {MenubarModule} from 'primeng/menubar';
@@ -39,6 +41,8 @@ import {MessageService} from 'primeng/api';
 import {MessageModule} from 'primeng/message';
 import {MessagesModule} from 'primeng/messages';
 import {ToastModule} from 'primeng/toast';
+import {PanelModule} from 'primeng/panel';
+
 
 import {DatePipe} from '@angular/common';
 import { EstandarizadorComponent } from './componentes/estandarizador/estandarizador.component';
@@ -101,7 +105,10 @@ const appRoutes: Routes = [
     TableModule,
     ToastModule,
     MessageModule,
-    MessagesModule
+    MessagesModule,
+    DropdownModule,
+    CheckboxModule,
+    PanelModule
   ],
   providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService, MessageService, DatePipe],
   bootstrap: [AppComponent]

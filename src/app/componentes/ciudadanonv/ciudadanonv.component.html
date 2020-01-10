@@ -86,14 +86,15 @@
 
           <div class="col-sm-6">
             <label>Código Postal</label>
-            <input type="text" name="codPostal" class="form-control" formControlName="codPostal" ngModel autocomplete="off"/>
+            <input type="number" name="codPostal" class="form-control" formControlName="codPostal" ngModel autocomplete="off"/>
           </div>
         </div>
         <div class="form-group row">
           <div class="col-sm-6">
             <label>Pais</label>
-            <select class="custom-select" class="form-control"  formControlName="pais" name="pais" ngModel (change)="this.cambioPais()">
 
+            <select class="custom-select" class="form-control"  formControlName="pais" name="pais" ngModel (change)="this.cambioPais()">
+              <option value="" selected disabled>Seleccione país</option>
               <option *ngFor="let pais of paises" [value]="pais.codigo">
                 {{pais.nombre}}
               </option>
@@ -103,6 +104,7 @@
           <div class="col-sm-6" *ngIf="escolombia">
             <label>Departamento</label>
             <select class="custom-select" class="form-control"  formControlName="departamento" name="departamento" ngModel (change)="this.cambioDepto()" >
+              <option value="" selected disabled>Seleccione departamento</option>
 
               <option *ngFor="let depto of deptos" [value]="depto.codigo">
                 {{depto.nombre}}
@@ -113,7 +115,9 @@
         <div class="form-group row">
           <div class="col-sm-6" *ngIf="escolombia">
             <label>Municipio</label>
-            <select class="custom-select" class="form-control"  formControlName="municipio" name="municipio" ngModel>
+            <select class="custom-select" class="form-control"  formControlName="municipio" name="municipio" ngModel >
+              <option value="" selected disabled>Seleccione municipio</option>
+
               <option *ngFor="let munic of municp" [value]="munic.codigo">
                 {{munic.nombre}}
               </option>
@@ -121,7 +125,7 @@
           </div>
           <div class="col-sm-6" *ngIf="!escolombia ">
             <label>Municipio</label>
-            <input type="text" name="municipio" [value]="" class="form-control" formControlName="municipio" autocomplete="off"/>
+            <input type="text" name="municipio" class="form-control" formControlName="municipio" ngModel autocomplete="off"/>
           </div>
           <div class="col-sm-6">
 
@@ -136,7 +140,7 @@
           </div>
           <div class="col-sm-6">
             <label>Telefono</label>
-            <input type="text" name="telefono" class="form-control" formControlName="telefono" ngModel autocomplete="off"/>
+            <input type="number" name="telefono" class="form-control" formControlName="telefono" ngModel autocomplete="off"/>
 
           </div>
         </div>

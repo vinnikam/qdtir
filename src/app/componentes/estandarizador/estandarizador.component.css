@@ -241,6 +241,11 @@ th{
     overflow:hidden;
     height:90px;
   }
+  .form-group_color{
+    overflow:hidden;
+    height:90px;
+    background-color: #8b9e96;
+  }
   .logo_css{
     width:220px;
     height:68px;

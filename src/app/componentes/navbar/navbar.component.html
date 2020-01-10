@@ -1,6 +1,6 @@
 <p-toast [style]="{marginTop: '80px'}"  key="custom" position="top-center"  [showTransitionOptions]="'400ms'" ></p-toast>
-{{this._authservice.estaAutenticado()}} perfil {{this._authservice.perfilusuario}}
-<div class="container" *ngIf="!this._authservice.estaAutenticado()">
+{{estaAutenticado}} perfil {{perfilusuario}}
+<div class="container" *ngIf="!estaAutenticado">
   <p-menubar [model]="this.itemsingreso" >
     <ng-template pTemplate="item" let-item let-i="index">
       <div style="position: relative; text-align: left; min-width: 10em">
@@ -14,7 +14,7 @@
   </p-menubar>
 
 </div>
-<div class="container" *ngIf="this._authservice.estaAutenticado() && this._authservice.perfilusuario === 1">
+<div class="container" *ngIf="estaAutenticado && perfilusuario === 1">
   <p-menubar [model]="this.itemsciud" >
     <ng-template pTemplate="item" let-item let-i="index">
       <div style="position: relative; text-align: left; min-width: 10em">
@@ -28,7 +28,7 @@
   </p-menubar>
 
 </div>
-<div class="container" *ngIf="this._authservice.estaAutenticado() && this._authservice.perfilusuario === 2">
+<div class="container" *ngIf="estaAutenticado && perfilusuario === 2">
 
   <p-menubar [model]="this.itemsfunc" >
     <ng-template pTemplate="item" let-item let-i="index">
@@ -44,7 +44,7 @@
 
 </div>
 
-<div class="container" *ngIf="this._authservice.estaAutenticado() && this._authservice.perfilusuario === 3">
+<div class="container" *ngIf="estaAutenticado && perfilusuario === 3">
   <p-menubar [model]="this.itemsadm" >
     <ng-template pTemplate="item" let-item let-i="index">
       <div style="position: relative; text-align: left; min-width: 10em">

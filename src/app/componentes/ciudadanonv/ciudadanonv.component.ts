@@ -7,6 +7,7 @@ import {Irespuesta} from '../../dto/irespuesta';
 import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {createElementCssSelector} from '@angular/compiler';
 import {Message, MessageService} from 'primeng/api';
+import {ValidadorService} from '../../servicios/validador.service';
 
 @Component({
   selector: 'app-ciudadanonv',
@@ -26,11 +27,12 @@ export class CiudadanonvComponent implements OnInit {
   respuesta ?: Irespuesta;
 
 
-  constructor(private router: Router , private formBuilder: FormBuilder, private ciudadServ: CiudadanoService, private messageService: MessageService) {
+  constructor(private router: Router , private formBuilder: FormBuilder, private ciudadServ: CiudadanoService,
+              private messageService: MessageService, private validador: ValidadorService) {
     this.tipoPersonaNat = true;
     this.contribuyente = new Contribuyente();
     this.formulario = this.formBuilder.group({
-      tipoPersona: [1],
+      tipoPersona: [2],
       nroIdentificacion: ['', Validators.required],
       tipoDocumento: [],
       razonsocial: [ ''],
@@ -44,7 +46,7 @@ export class CiudadanonvComponent implements OnInit {
       codPostal : [0],
       pais: [0],
       departamento: [0],
-      municipio: [0],
+      municipio: [],
       telefono: [],
       nuevoCorreo: ['', Validators.required],
       tipoTelefono: [],
@@ -65,19 +67,20 @@ export class CiudadanonvComponent implements OnInit {
     this.escolombia = true;
   }
   registrar(): void {
-    alert (this.formulario.invalid);
+    // alert (this.formulario.invalid);
+    const valido = this.validar();
 
-    if (this.formulario.invalid) {
+    if (!valido) {
       return ;
     } else {
       const jsonString = JSON.stringify(this.formulario.value);
       // console.log(jsonString);
       this.contribuyente = JSON.parse(jsonString) as Contribuyente;
-      console.log(this.contribuyente);
+      // console.log(this.contribuyente);
 
       // alert(elContribuyente.tipoPersona);
       // alert('ok');
-      console.log(this.contribuyente);
+      // console.log(this.contribuyente);
       const x: Promise<Irespuesta> = this.ciudadServ.crear(this.contribuyente);
       x.then((value: Irespuesta) => {
         // alert('Carga paises1');
@@ -86,12 +89,13 @@ export class CiudadanonvComponent implements OnInit {
           // this.paises = this.respuesta.divpolitica;
           //  alert('SE REGISTRO' );
           this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
-            detail: 'Se registro el controbuyente..', closable: true});
+            detail: 'Se registro el contribuyente..', closable: true});
+          this.formulario.reset();
 
 
         } else {
           this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-            detail: 'No se registo el contribuyente.', closable: true});
+            detail: 'No se registro el contribuyente.'+this.respuesta.mensaje, closable: true});
 
           // alert('NO SE REGISTRO');
 
@@ -99,7 +103,7 @@ export class CiudadanonvComponent implements OnInit {
       })
         .catch((err) => {
           this.messageService.add({key: 'custom', severity: 'error', summary: 'Información',
-            detail: 'Error tecnico en el registro del contribuyente.', closable: true});
+            detail: 'Error técnico en el registro del contribuyente.', closable: true});
 
           // alert('Error tecnico en la consulta de paises' + err);
         });
@@ -107,6 +111,100 @@ export class CiudadanonvComponent implements OnInit {
 
 
 
+
+  }
+  validar(): boolean {
+    console.log(this.formulario.value);
+    if (this.formulario.value.tipoDocumento === null) {
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+        detail: 'El Tipo de  documento es Requerido.', closable: true});
+      return false;
+    }
+    if (this.formulario.value.nroIdentificacion === '') {
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+        detail: 'El Número de documento es Requerido.', closable: true});
+      return false;
+    }
+    if (this.formulario.value.nroIdentificacion === '') {
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+        detail: 'El Número de documento es Requerido.', closable: true});
+      return false;
+    }
+    if (this.formulario.value.tipoPersona === 2) {
+      // PERSONA NATURAL
+      if (this.formulario.value.primerNombre === '') {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+          detail: 'El primer nombre es Requerido.', closable: true});
+        return false;
+      }
+      if (this.formulario.value.primerApellido === '') {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+          detail: 'El segundo nombre es Requerido.', closable: true});
+        return false;
+      }
+
+    } else {
+      if (this.formulario.value.razonsocial === '') {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+          detail: 'La razón social es requerida.', closable: true});
+        return false;
+      }
+
+    }
+    if (this.formulario.value.direccion === '') {
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+        detail: 'La direccioón es requerida.', closable: true});
+      return false;
+    }
+    if (this.formulario.value.codPostal === '') {
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+        detail: 'El código postal es requerido.', closable: true});
+      return false;
+    }
+    if (!ValidadorService.validaLongitud('' + this.formulario.value.codPostal, 6)) {
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+        detail: 'El código postal debe ser de 5 digitos mínimo.', closable: true});
+      return false;
+    }
+    if (this.formulario.value.pais === '') {
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+        detail: 'El país es requerido.', closable: true});
+      return false;
+    }
+    const cpais = parseInt(this.formulario.value.pais, 0);
+    if (cpais === 49) {
+      if (this.formulario.value.departamento === '') {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+          detail: 'El departamento es requerido.', closable: true});
+        return false;
+      }
+    }
+    if (this.formulario.value.municipio === '') {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+          detail: 'El municipio es requerido.', closable: true});
+        return false;
+      }
+    if (this.formulario.value.nuevoCorreo === '') {
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+        detail: 'El correo es requerido.', closable: true});
+      return false;
+    }
+    if (!this.validador.validarEmail(this.formulario.value.nuevoCorreo)) {
+      console.log(this.validador.validarEmail(this.formulario.value.nuevoCorreo));
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+        detail: 'El formato del correo esta incorrecto, intente de nuevo.', closable: true});
+      return false;
+    }
+    if (this.formulario.value.telefono === '') {
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
+        detail: 'El teléfono es requerido.', closable: true});
+      return false;
+    }
+    if (this.formulario.invalid) {
+      return false;
+    } else {
+      return true;
+    }
 
   }
   cambiotp() {

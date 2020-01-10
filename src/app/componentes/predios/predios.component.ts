@@ -13,12 +13,12 @@ import {Message, MessageService} from 'primeng/api';
 export class PrediosComponent implements OnInit {
   respuesta: Irespuesta;
   predios: Predio[];
-  haydatos: boolean;
+  haydatos = true;
   // 5847944,5847644
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private messageService: MessageService) {
-    if (this.ciudService.ciudadanoActivo === undefined) {
+    if (this.ciudService.ciudadanoActivo === null) {
       // alert('No hay ciudadano activo')
      /* this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
         detail: 'No hay ciudadano activo, proceda a realizar la busqueda y continue. ', closable: true}); */
@@ -26,6 +26,7 @@ export class PrediosComponent implements OnInit {
       // this.router.navigate(['/crearciu']);
     } else {
       this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
+      this.haydatos = true;
 
       // this.consultar(5449415);
     }
@@ -40,12 +41,11 @@ export class PrediosComponent implements OnInit {
        if (this.respuesta.codigoError === '0') {
 
         this.predios = this.respuesta.predios;
-         this.haydatos = true;
 
       } else {
-         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+         this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
            detail: this.respuesta.mensaje, closable: true});
-         this.haydatos = false;
+
 
       }
     })

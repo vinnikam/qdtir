@@ -15,7 +15,8 @@ import {Message, MessageService} from 'primeng/api';
   styleUrls: ['./autenticacion.component.css']
 })
 export class AutenticacionComponent implements OnInit {
-  private elCiudadano: Contribuyente;
+
+  elCiudadano: Contribuyente;
   private respuesta: Irespuesta;
 
   msgs: Message[] = [];

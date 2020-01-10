@@ -15,16 +15,21 @@ export class CiudadanoComponent implements OnInit {
   tipoiden: string;
   identificacion: string;
   elCiudadano: Contribuyente;
+  esjuridico = false;
+  ciudadanoeActivo: Contribuyente;
+  rolCiudadano = false;
 
   private respuesta: Irespuesta;
 
   constructor(private ciudService: CiudadanoService, private autenticservice: AuthServiceService, private messageService: MessageService) {
+    this.ciudadanoeActivo = this.ciudService.ciudadanoActivo;
     this.elCiudadano = new Contribuyente();
+    this.esjuridico = false;
     // alert(' Entro -');
   }
 
   ngOnInit() {
-    if (this.autenticservice.datos !== undefined){
+    if (this.autenticservice.datos !== undefined) {
       this.elCiudadano.nroIdentificacion = this.autenticservice.datos.nroId;
       this.elCiudadano.tipoDocumento = this.autenticservice.datos.codTId;
       this.buscar();
@@ -35,22 +40,33 @@ export class CiudadanoComponent implements OnInit {
 
     const x: Promise<Irespuesta> = this.ciudService.buscar(this.elCiudadano);
     x.then((value: Irespuesta) => {
-       this.respuesta = value;
-      // alert('Consumio servicio autenticacion');
-       // alert(value);
-      if (this.respuesta.codigoError === '0') {
-        // alert('Usuario Existe. ');
-        // carga el contribuyente
-        this.ciudService.ciudadanoActivo = this.respuesta.contribuyente;
-        this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
-          detail: 'Se encontró contribuyente. Puede consultar la información en cada una de las pestañas. ', closable: true});
+    this.respuesta = value;
+    // alert('Consumio servicio autenticacion');
+    // alert(value);
+    if (this.respuesta.codigoError === '0') {
+      // alert('Usuario Existe. ');
+      // carga el contribuyente
+      this.ciudService.ciudadanoActivo = this.respuesta.contribuyente;
+      this.ciudadanoeActivo = this.respuesta.contribuyente;
+      this.rolCiudadano = this.ciudService.rolCiudadano;
 
+      // console.log(this.ciudService.ciudadanoActivo);
+      // console.log(this.ciudService.ciudadanoActivo.naturaleza.codigo);
+      // this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
+      //  detail: 'Se encontró contribuyente. Puede consultar la información en cada una de las pestañas. ', closable: true});
+      if (this.ciudService.ciudadanoActivo.naturaleza.codigo === '2') {
+        this.esjuridico = true;
       } else {
-        // alert(this.respuesta.mensaje);
-        this.ciudService.ciudadanoActivo = null;
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'No se encontró contribuyente con los parametros ingresados, intente de nuevo. ', closable: true});
+        this.esjuridico = false;
       }
+    } else {
+      // alert(this.respuesta.mensaje);
+      this.ciudService.ciudadanoActivo = null;
+      this.ciudadanoeActivo = null;
+      this.rolCiudadano = false;
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+      detail: 'No se encontró contribuyente con los parametros ingresados, intente de nuevo. ', closable: true});
+    }
     })
       .catch(() => {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',

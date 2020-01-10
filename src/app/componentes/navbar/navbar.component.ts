@@ -17,6 +17,8 @@ export class NavbarComponent implements OnInit {
 
   itemsciud: MenuItem[];
   itemsfunc: MenuItem[];
+  estaAutenticado = false;
+  perfilusuario = 0;
 
 
   item: MenuItem;
@@ -29,6 +31,8 @@ export class NavbarComponent implements OnInit {
       {label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'},
       {label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/autenticarCiud'}
     ];
+    this.estaAutenticado = this._authservice.estaAutenticado();
+    this.perfilusuario = this._authservice.perfilusuario;
 
   }
 
@@ -37,7 +41,9 @@ export class NavbarComponent implements OnInit {
     // alert(this.ciudservic.rolCiudadano);
     // this.items = this.navbarservice.getItems();
     // alert('recarga');
-     this.itemsingreso = [
+    this.estaAutenticado = this._authservice.estaAutenticado();
+    this.perfilusuario = this._authservice.perfilusuario;
+    this.itemsingreso = [
       {label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'},
       {label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/autenticarCiud'}];
 
@@ -62,7 +68,6 @@ export class NavbarComponent implements OnInit {
           items: [
             {label: 'Crear', icon: 'pi pi-user-plus', routerLink: '/crearciu'},
             {label: 'Datos Pesonales', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
-            {label: 'Buscar', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
             {label: 'Datos de Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
             {label: 'Datos 1 %', icon: 'pi pi-dollar', routerLink: '/descuento'}
           ]

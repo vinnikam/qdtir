@@ -29,6 +29,9 @@ export class Contribuyente {
   canal: string;
   descuento: boolean;
   clave: string;
+  naturaleza: Basicovo;
+  fecharegimenBogota: string;
+  regimenTrib: string;
 
   dirContacto ?: DireccionesContacto [];
   dirContactoNot ?: DireccionesContactoNotificacion[];

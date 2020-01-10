@@ -30,7 +30,7 @@ export class ActividadesEconomicasComponent implements OnInit {
   creardialog: boolean;
   borrardialog: boolean;
   es: any;
-  haydatos: boolean;
+  haydatos = true;
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private activserv: ActividadesService,
@@ -48,15 +48,14 @@ export class ActividadesEconomicasComponent implements OnInit {
       fecCese: []
 
     });
-    if (this.ciudService.ciudadanoActivo === undefined) {
+    if (this.ciudService.ciudadanoActivo === null) {
       // alert('No hay ciudadano activo');
       // this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información', detail: 'No hay usuario activo. ', closable: true});
       this.haydatos = false;
       // this.router.navigate(['/crearciu']);
     } else {
-      if (this.ciudService.ciudadanoActivo !== undefined) {
-        this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
-      }
+      this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
+      this.haydatos = true;
       /*else {
         this.consultar(363348);
       }*/
@@ -73,12 +72,12 @@ export class ActividadesEconomicasComponent implements OnInit {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
         this.lista = this.respuesta.actividades.actContacto;
-        this.haydatos = true;
 
       } else {
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
         detail: this.respuesta.mensaje, closable: true});
         // alert(this.respuesta.mensaje);
+
 
       }
     })
@@ -86,6 +85,7 @@ export class ActividadesEconomicasComponent implements OnInit {
         // alert('Error tecnico en la consulta del servicio Buscar actividades');
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
         detail: 'Error técnico en la consulta del servicio Buscar actividades. ', closable: true});
+
       });
 
   }

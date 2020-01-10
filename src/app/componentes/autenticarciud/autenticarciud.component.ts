@@ -13,7 +13,7 @@ import {Message, MessageService} from 'primeng/api';
   styleUrls: ['./autenticarciud.component.css']
 })
 export class AutenticarciudComponent implements OnInit {
-  private elCiudadano: Contribuyente;
+  elCiudadano: Contribuyente;
   private respuesta: Irespuesta;
 
   constructor(private _authService: AuthServiceService,
@@ -22,7 +22,6 @@ export class AutenticarciudComponent implements OnInit {
     this._authService.salir();
     console.log('Inicio autenticar ciudadano');
   }
-
 
   ngOnInit() {
   }

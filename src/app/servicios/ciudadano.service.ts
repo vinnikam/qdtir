@@ -26,6 +26,9 @@ export class CiudadanoService {
   urlDeptos = 'ServiciosRITDQ/resources/contribuyente/deptos/';
   urlmunic = 'ServiciosRITDQ/resources/contribuyente/municip/';
   urlcrear = 'ServiciosRITDQ/resources/contribuyente/crearcontribuyente/';
+  urldescuento1 = 'ServiciosRITDQ/resources/consultas/descuento1';
+  urlactuadescuento1 = 'ServiciosRITDQ/resources/contribuyente/registraAplicaDesc';
+
 
   // ------ URL PARA TIPO CONTACTO
   url = 'http://10.180.220.35:7777/ServiciosRITDQ/resources/contribuyente';
@@ -37,13 +40,16 @@ export class CiudadanoService {
   urlEliminarDirNoti = 'http://10.180.220.35:7777/ServiciosRITDQ/resources/contribuyente/eliminaDirecNot/';
   urlEliminaCorreoContacto = 'http://10.180.220.35:7777/ServiciosRITDQ/resources/contribuyente/eliminaCorreoContac';
 
+
   validacionDireccion = false;
   validacionRegistroDireccion = false;
   validacionTipoUso = false;
 
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.ciudadanoActivo = null;
+  }
 
 
 
@@ -60,10 +66,27 @@ export class CiudadanoService {
     }
     return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlcrear}`, ciudadano).toPromise();
   }
+  consultaDescuento1(_idsujeto: number): Promise<Irespuesta> {
+    const datos = {
+      idSujeto : _idsujeto
+    }
+    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urldescuento1}`, datos).toPromise();
+  }
+
+  actualizanotificaciones(buzon: number, notif: number, idsujeto: number) {
+    const datos = {
+      buzonActivo : buzon,
+      notifElecActivo : notif,
+      idSujeto : idsujeto
+    }
+    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlactuadescuento1}`, datos).toPromise();
+
+  }
   consultaPredios(_idsujeto: number): Promise<Irespuesta> {
 
     return  this.http.get<Irespuesta>(`${valores.ip_servidor}${this.urlPredios}${_idsujeto}`).toPromise();
   }
+
   consultaVehiculos(_idsujeto: number): Promise<Irespuesta> {
     const datos = {
       idSujeto : _idsujeto
@@ -98,6 +121,9 @@ export class CiudadanoService {
     return this.http.post<Irespuesta>(urlFinal, contacto, {headers: headers});
 
   }
+
+
+
 
 
 
