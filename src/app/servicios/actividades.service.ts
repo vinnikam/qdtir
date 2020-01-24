@@ -21,7 +21,7 @@ export class ActividadesService {
   consultar(idsujeto: number): Promise<Irespuesta> {
     const datos = {
       idSujeto : idsujeto
-    }
+    };
     return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBuscar}`, datos).toPromise();
   }
   borrar(dato: Actividad): Promise<Irespuesta> {
@@ -36,7 +36,7 @@ export class ActividadesService {
   consultarall(): Promise<Irespuesta> {
     const datos = {
       idSujeto : undefined
-    }
+    };
     return  this.http.get<Irespuesta>(`${valores.ip_servidor}${this.urlbuscarall}`).toPromise();
   }
 }

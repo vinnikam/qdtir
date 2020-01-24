@@ -26,6 +26,8 @@ import { Descuento1Component } from './componentes/descuento1/descuento1.compone
 import {TabMenuModule} from 'primeng/tabmenu';
 import {DropdownModule} from 'primeng/dropdown';
 import {CheckboxModule} from 'primeng/checkbox';
+import {RadioButtonModule} from 'primeng/radiobutton';
+
 
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {MenubarModule} from 'primeng/menubar';
@@ -42,10 +44,12 @@ import {MessageModule} from 'primeng/message';
 import {MessagesModule} from 'primeng/messages';
 import {ToastModule} from 'primeng/toast';
 import {PanelModule} from 'primeng/panel';
+import {TabViewModule} from 'primeng/tabview';
 
 
 import {DatePipe} from '@angular/common';
 import { EstandarizadorComponent } from './componentes/estandarizador/estandarizador.component';
+import { DireNhistComponent } from './componentes/dire-nhist/dire-nhist.component';
 
 
 
@@ -64,7 +68,8 @@ const appRoutes: Routes = [
   {path: 'vehiculos', component: VehiculosComponent, canActivate: [Seguridad]},
   {path: 'predios', component: PrediosComponent, canActivate: [Seguridad]},
   {path: 'gestionfuncionario', component: GestionfuncComponent, canActivate: [Seguridad]},
-  {path: 'descuento', component: Descuento1Component, canActivate: [Seguridad]}
+  {path: 'descuento', component: Descuento1Component, canActivate: [Seguridad]},
+  {path: 'historicodir', component: DireNhistComponent, canActivate: [Seguridad]}
 ]
 
 @NgModule({
@@ -86,7 +91,8 @@ const appRoutes: Routes = [
     Descuento1Component,
     GestionfuncComponent,
     AutentadminComponent,
-    EstandarizadorComponent
+    EstandarizadorComponent,
+    DireNhistComponent
 
   ],
   imports: [
@@ -108,7 +114,9 @@ const appRoutes: Routes = [
     MessagesModule,
     DropdownModule,
     CheckboxModule,
-    PanelModule
+    PanelModule,
+    TabViewModule,
+    RadioButtonModule
   ],
   providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService, MessageService, DatePipe],
   bootstrap: [AppComponent]

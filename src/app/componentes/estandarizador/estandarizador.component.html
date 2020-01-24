@@ -1,218 +1,158 @@
 
-
-<!--
-
-<p-dialog header="ASISTENTE PARA INGRESAR DIRECCIÓN VALIDA" [(visible)]="displayDirNotificacion" [modal]="true" [responsive]="true" [style]="{width: '950px'}" [minY]="20"
-          [maximizable]="false" [baseZIndex]="10000" positionTop="20px" [closable]="false">
--->
-
-
+<p-toast position="top-left"></p-toast>
 
 <div class="panel-body" *ngIf="capturaDireccion">
   <button type="button" class="close" ng-click="cerrarCaptura()">&times;</button>
-  <p>
-    Diligencie los campos requeridos con la dirección actual.
-    <code>Deje en blanco los campos que no requiera </code>
-    y verifique en el recuadro superior su dirección completa.
-  </p>
 
-  <div id="deptomun" >
-    <div class="clearfix invisible-md-12"></div>
+  <p-panel header="Departamento y Municipio">
 
-    <div class="row show-grid ">
+    <p>
+      Diligencie los campos requeridos con la dirección actual.
+      <code>Deje en blanco los campos que no requiera </code>
+      y verifique en el recuadro superior su dirección completa.
+    </p>
 
-      <div class="col-md-6">
-        <span class="innerTitleBold_css">Departamento: </span>
+    <div id="deptomun" >
+      <div class="clearfix invisible-md-12"></div>
 
-        <select class="custom-select" class="form-control"  formControlName="departamento" name="departamento" ngModel (change)="this.cambioDepto()" >
+      <div class="row show-grid ">
 
-          <option *ngFor="let depto of deptos" [value]="depto.codigo">
-            {{depto.nombre}}
-          </option>
-        </select>
+        <div class="col-md-6">
+          <span class="innerTitleBold_css">Departamento: </span>
+          <p-dropdown [options]="listdptos" [(ngModel)]="departamento" optionLabel="nombre" (onChange)="cambioDepto()"></p-dropdown>
+
+
+
+
+        </div>
+        <div class="col-md-6">
+          <span class="innerTitleBold_css">Municipio: </span>
+          <p-dropdown [options]="listmunicipios" [(ngModel)]="mpioDireccion" optionLabel="nombre"></p-dropdown>
+
+        </div>
 
       </div>
-      <div class="col-md-6">
-        <span class="innerTitleBold_css">Municipio: </span>
-        <select class="form-control"  [(ngModel)]="mpioDireccion"  required="true" [ngModelOptions]="{standalone: true}" [name]="mpioDireccion" [id]="mpioDireccion" >
-          <option *ngFor="let mpio of listmunicipios" [value]="mpio.cod">
-            {{mpio.nom}}
-          </option>
-        </select>
-      </div>
-
     </div>
-  </div>
 
+    <br/>
 
+    <div >
+      <div class="clearfix invisible-md-12"></div>
 
-  <div *ngIf="validacionTipoUso">
+      <div class="row show-grid ">
 
-    <div class="col-lg-6">
-      <div class="form-group input-group">
-        <label class="required_css">C&oacute;digo Postal</label>
+        <div class="col-md-6" *ngIf="validacionTipoUso">
+          <span class="innerTitleBold_css">C&oacute;digo Postal: </span>
+          <input type="text" pInputText [(ngModel)]="codPostalDireccion" title="Codigo Postal"/>
 
-        <input type="text" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="codPostal" ng-value="codPostal" [id]="codPostal" [name]="codPostal" ng-required="true"/>
-
-        <span class="input-group-btn modalFixBtn_css tooltip-info">
+          <span class="input-group-btn modalFixBtn_css tooltip-info">
               <button class="btn btn-default" type="button" data-toggle="tooltip" data-placement="top"
                       title="Ayuda c&oacute;digo postal nacional">
                 <i class="fa fa-globe"></i>
               </button>
               </span>
 
-      </div>
-    </div>
 
-    <div class="col-lg-6">
-      <div class="form-group">
-        <label class="required_css">Tipo de uso</label>
+        </div>
+        <div class="col-md-6">
+          <span class="innerTitleBold_css">Tipo de uso: </span>
+          <p-dropdown [options]="listaTU" [(ngModel)]="dirTipoUso" optionLabel="nombre"></p-dropdown>
 
-
-        <select class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="dirTipoUso" [name]="dirTipoUso" [id]="dirTipoUso">
-          <option *ngFor="let ban of listaTU" [value]="ban.codigo">
-            {{ban.nombre}}
-          </option>
-        </select>
-
+        </div>
 
       </div>
     </div>
 
-
-
-  </div>
+  </p-panel>
 
   <br/>
 
 
-  <div id="ubicacion" style="padding-left:30px">
-    <span class="innerTitleBold_css">Ubicación: </span>
-    <label><input type="radio" (change)="RadioChange()" [ngModelOptions]="{standalone: true}" [(ngModel)]="ubicacionDireccion" [name]="ubicacionDireccion" [id]="ubicacionDireccion" value="0" checked/> Urbano </label>
-    <label><input type="radio" (change)="RadioChange()" [ngModelOptions]="{standalone: true}" [(ngModel)]="ubicacionDireccion" [name]="ubicacionDireccion" [id]="ubicacionDireccion" value="1" /> Rural </label>
-  </div>
-
-
 
   <div class="row">
-    <div aling ="center" class="col-md-12 tooltip-info">
+    <div aling ="center" class="col-md-12">
 
-      <select class="form-control-principal" (focus)="vPri=true" (blur)="vPri=false" (change)="cambioDir()" [ngModelOptions]="{standalone: true}" [(ngModel)]="viaPrimaria" [name]="viaPrimaria" [id]="viaPrimaria">
-        <option *ngFor="let viap of listviaprimaria" [value]="viap.cod">
-          {{viap.desc}}
-        </option>
-      </select>
+      <p-panel header="Actualizar Dirección">
 
+        <div aling ="center" class="col-md-12">
+          <p-dropdown [options]="listviaprimaria" [(ngModel)]="viaPrimaria" (onChange)="cambioDir()" placeholder="Seleccione" optionLabel="nombre" ></p-dropdown>
 
 
-      <input id="nroViaPpal" type="number" min="0" data-toggle="tooltip" data-placement="top" title="Número v&iacute;a principal" size="3" ng-required="true"
-             ng-model="nroViaPpal" (change)="cambioDir()" class="form-control-tercero" ng-class="{true:'border',false:''}[nroVP]" ng-focus="nroVP=true" ng-blur="nroVP=false"
-             [(ngModel)]="nroViaPpal" [name]="nroViaPpal" [id]="nroViaPpal" [ngModelOptions]="{standalone: true}"/>
+          <input type="text" pInputText [(ngModel)]="nroViaPpal" (input)="cambioDir()" title="Número v&iacute;a principal" size="3" />
 
 
-
-      <select class="form-control-secundario" (focus)="vPri=true" (blur)="vPri=false" (change)="cambioDir()" [ngModelOptions]="{standalone: true}" [(ngModel)]="letraViaPpal" [name]="letraViaPpal" [id]="letraViaPpal">
-        <option *ngFor="let letra of letras" [value]="letra.cod">
-          {{letra.desc}}
-        </option>
-      </select>
+          <p-dropdown [options]="letras" [(ngModel)]="letraViaPpal" optionLabel="nombre" placeholder="Seleccione" (onChange)="cambioDir()"></p-dropdown>
 
 
+          <p-dropdown [options]="bis" [(ngModel)]="bis1" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
 
 
-      <select class="form-control-secundario" (focus)="vPri=true" (blur)="vPri=false" (change)="cambioDir()" [ngModelOptions]="{standalone: true}" [(ngModel)]="bis1" [name]="bis1" [id]="bis1">
-        <option *ngFor="let b of bis" [value]="b.cod">
-          {{b.desc}}
-        </option>
-      </select>
+          <p-dropdown [options]="letras" [(ngModel)]="letraBis" optionLabel="nombre" (onChange)="cambioDir()"  placeholder="Seleccione"></p-dropdown>
 
 
+          <p-dropdown [options]="cuadrante" [(ngModel)]="cuadrante1" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
 
-      <select class="form-control-secundario" (focus)="vPri=true" (blur)="vPri=false" (change)="cambioDir()" [ngModelOptions]="{standalone: true}" [(ngModel)]="letraBis" [name]="letraBis" [id]="letraBis">
-        <option *ngFor="let letra of letras" [value]="letra.cod">
-          {{letra.desc}}
-        </option>
-      </select>
+        </div>
+
+        <i>#</i>
+
+        <div aling ="center" class="col-md-12">
 
 
-      <select class="form-control-cuarto" (focus)="vPri=true" (blur)="vPri=false" (change)="cambioDir()" [ngModelOptions]="{standalone: true}" [(ngModel)]="cuadrante1" [name]="cuadrante1" [id]="cuadrante1">
-        <option *ngFor="let cuad of cuadrante" [value]="cuad.cod">
-          {{cuad.desc}}
-        </option>
-      </select>
+          <input type="text" pInputText [(ngModel)]="nroViaGen"  (input)="cambioDir()" title="Número v&iacute;a general" size="3" />
+
+          <p-dropdown [options]="letras" [(ngModel)]="letraViaGen" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
+
+
+          <input type="number" pInputText [(ngModel)]="nroPlaca" (input)="cambioDir()" title="N&uacute;mero de placa" />
 
 
 
-      <i>#</i>
-      <input type="number" min="0" data-toggle="tooltip" data-placement="top" title="Número v&iacute;a general" size="3" [ngModelOptions]="{standalone: true}"
-             [(ngModel)]="nroViaGen" [name]="nroViaGen" [id]="nroViaGen" (change)="cambioDir()" class="form-control-tercero" ng-class="{true:'border',false:''}[nroVG]" ng-focus="nroVG=true" ng-blur="nroVG=false"/>
+          <p-dropdown [options]="cuadrante" [(ngModel)]="cuadranteVG" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
 
+        </div>
 
-      <select class="form-control-secundario" (focus)="vPri=true" (blur)="vPri=false" (change)="cambioDir()" [ngModelOptions]="{standalone: true}" [(ngModel)]="letraViaGen" [name]="letraViaGen" [id]="letraViaGen">
-        <option *ngFor="let letra of letras" [value]="letra.cod">
-          {{letra.desc}}
-        </option>
-      </select>
-
-
-
-
-
-      <input type="number" min="0" data-toggle="tooltip" data-placement="top" title="N&uacute;mero de placa" ng-model="nroPlaca"
-             ng-class="{true:'border',false:''}[nPlaca]" ng-focus="nPlaca=true" ng-blur="nPlaca=false"
-             [(ngModel)]="nroPlaca" [name]="nroPlaca" [id]="nroPlaca" [ngModelOptions]="{standalone: true}"
-             size="3" (change)="cambioDir()" class="form-control-tercero"/>
-
-
-
-
-
-      <select class="form-control-cuarto" (focus)="vPri=true" (blur)="vPri=false" (change)="cambioDir()" [ngModelOptions]="{standalone: true}" [(ngModel)]="cuadranteVG" [name]="cuadranteVG" [id]="cuadranteVG">
-        <option *ngFor="let cuad of cuadrante" [value]="cuad.cod">
-          {{cuad.desc}}
-        </option>
-      </select>
-
-
+      </p-panel>
 
     </div>
   </div>
-  <p>
-    <br/>
 
-    <small>Seleccione los datos requeridos en la lista desplegable inferior. Digite en el recuadro el detalle y pulse el
-      botón &quot;Agregar Complemento&quot;. Repita este proceso hasta completar su dirección y verifíquela
-      en el recuadro.</small>
-  </p>
-  <div class="row ">
-    <div class="col-md-4">
+  <br/>
 
-      <select class="form-control" (focus)="vPri=true" (blur)="vPri=false"  placeholder="Complemento" [ngModelOptions]="{standalone: true}" [(ngModel)]="complemento1" [name]="complemento1" [id]="complemento1">
-        <option value="">Seleccione el Complemento 1</option>
-        <option *ngFor="let comp of complemento" [value]="comp.cod">
-          {{comp.desc}}
-        </option>
-      </select>
+  <p-panel header="Adicionar Complemento a la dirección">
+
+    <p>
+      <br/>
 
 
 
+
+      <small>Seleccione los datos requeridos en la lista desplegable inferior. Digite en el recuadro el detalle y pulse el
+        botón &quot;Agregar Complemento&quot;. Repita este proceso hasta completar su dirección y verifíquela
+        en el recuadro.</small>
+    </p>
+    <div class="row ">
+      <div class="col-md-4">
+        <p-dropdown [options]="complemento" [(ngModel)]="complemento1" optionLabel="nombre" (change)="cambioDir()" placeholder="Seleccione el Complemento 1" ></p-dropdown>
+      </div>
+      <div class="col-md-3">
+        <input type="text" pInputText [(ngModel)]="complemento2" (input)="cambioDir()" title="N&uacute;mero de placa" placeholder="Complemento 2"/>
+
+      </div>
+      <div class="col-md-3">
+        <button class="btn"  pButton type="button" label=" Agregar Complemento" (click)="complementar()"></button>
+      </div>
     </div>
-    <div class="col-md-3">
-      <input type="text" placeholder="Complemento 2" class="form-control" [(ngModel)]="complemento2" [name]="complemento2" [id]="complemento2" maxlength="15" name="complemento2" [ngModelOptions]="{standalone: true}"/>
-    </div>
-    <div class="col-md-3">
-      <button type="button" class="btn btn-default" (click)="complementar()">
-        <i class="fa fa-gears"></i>
-        Agregar Complemento
-      </button>
-    </div>
-  </div>
 
 
-
+  </p-panel>
 
 </div>
 
+
+
+<br/>
+<br/>
 <div class="col-lg-12 tooltip-info">
 
 
@@ -220,24 +160,12 @@
     <label class="required_css">Direcci&oacute;n Estandarizada: </label>
     <input type="text" class="form-control" [(ngModel)]="direccion" name="direccion" readonly="readonly" ng-required="true"/>
     <span class="input-group-btn modalFixBtn_css" data-toggle="tooltip" data-placement="top" title="Asistente para Direcciones">
-                  <button type="button" class="btn btn-default dropdown-toggle" (click)="capturar()"  *ngIf="!capturaDireccion"
-                          data-target="#addressAssistant">
-                    <i class="fa fa-map-marker"> Asistente direcciones</i>
-                  </button>
-
-
-                  <button type="button" class="btn btn-default dropdown-toggle" (click)="borrar()" *ngIf="capturaDireccion"
-                          data-target="#addressAssistant">
-                    <i>Borrar</i>
-                  </button>
+      <button class="btn"  pButton type="button" label=" Asistente direcciones" (click)="capturar()" *ngIf="!capturaDireccion"></button>
+      <button class="btn"  pButton type="button" label="Borrar" (click)="borrar()" *ngIf="capturaDireccion"></button>
 
 
             </span>
-    <div class="help-block with-errors" ng-show="myForm.direccion.$dirty && myForm.direccion.$error.required">
-      <ul class="list-unstyled">
-        <li class="requiredAlert_css">Campo Obligatorio</li>
-      </ul>
-    </div>
+
   </div>
 </div>
 

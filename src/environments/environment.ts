@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  ipserver: 'http://10.180.220.35:7777/'
 };
 
 /*

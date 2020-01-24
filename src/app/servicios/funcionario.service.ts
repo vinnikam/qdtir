@@ -8,9 +8,9 @@ import {Irespuesta} from '../dto/irespuesta';
   providedIn: 'root'
 })
 export class FuncionarioService {
-  urlconsulta: string = 'ServiciosRITDQ/resources/consultas/consultafuncio/';
-  urlcrear: string = 'ServiciosRITDQ/resources/consultas/crearfuncio/';
-  urlinactivar: string = 'ServiciosRITDQ/resources/consultas/inactfuncio/';
+  urlconsulta = 'ServiciosRITDQ/resources/consultas/consultafuncio/';
+  urlcrear = 'ServiciosRITDQ/resources/consultas/crearfuncio/';
+  urlinactivar = 'ServiciosRITDQ/resources/consultas/inactfuncio/';
 
 
   constructor(private http: HttpClient) { }
@@ -19,7 +19,7 @@ export class FuncionarioService {
     const datos = {
       pnombre: usuario
 
-    }
+    };
     return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlconsulta}`, datos).toPromise();
   }
   crear(usuario: string, fechainia: string, fechafina: string ): Promise<Irespuesta> {
@@ -27,14 +27,14 @@ export class FuncionarioService {
       pnombre: usuario,
       fechaini: fechainia,
       fechafin: fechafina
-    }
+    };
     return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlcrear}`, datos).toPromise();
   }
   inactivar(usuario: string, fechafina: string): Promise<Irespuesta> {
     const datos = {
       pnombre: usuario,
       fechafin: fechafina
-    }
+    };
     return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlinactivar}`, datos).toPromise();
   }
 }

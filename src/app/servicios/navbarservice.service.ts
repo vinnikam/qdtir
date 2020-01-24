@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {MenuItem} from 'primeng';
+import { MenuItem } from 'primeng/api';
 import {AuthServiceService} from './auth-service.service';
 
 @Injectable({
@@ -25,7 +25,7 @@ export class NavbarserviceService {
       } else if (this.autservice.perfilusuario === 3) {
 
       }
-      alert('autenticado');
+      // alert('autenticado');
 
 
     } else {
@@ -49,7 +49,7 @@ export class NavbarserviceService {
     } else {
       this.items = [];
       this.items.pop();
-      console.log(this.items);
+      // console.log(this.items);
     }
   }
 }

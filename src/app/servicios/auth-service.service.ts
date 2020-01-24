@@ -3,24 +3,24 @@ import {CiudadanoService} from './ciudadano.service';
 
 import {Irespuesta} from '../dto/irespuesta';
 import {Contribuyente} from '../dto/contribuyente';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient} from '@angular/common/http';
 import {valores} from '../config/Propiedades';
 
 @Injectable()
 export class AuthServiceService {
   authToken: any;
 
-  server: string = 'http://127.0.0.1:7101/';
-  urlLoginCiudadano: string = 'http://10.180.4.88/SDHLogin/SDHREST/login';
-  urlLoginFuncionario: string = 'ServiciosRITDQ/resources/consultas/autenticar';
-  urlcreartk: string = 'ServiciosRITDQ/resources/consultas/creatk';
-  urlvalidatk: string = 'ServiciosRITDQ/resources/consultas/validatk';
+  // server: string = ip_servidor;'http://127.0.0.1:7101/';
+  urlLoginCiudadano = 'http://10.180.4.88/SDHLogin/SDHREST/login';
+  urlLoginFuncionario = 'ServiciosRITDQ/resources/consultas/autenticar';
+  urlcreartk = 'ServiciosRITDQ/resources/consultas/creatk';
+  urlvalidatk = 'ServiciosRITDQ/resources/consultas/validatk';
 
 
   private doc: string;
   datos: any;
   token: any;
-  perfilusuario: number;//1 - ciudadano - 2 funcionario - 3 - admin
+  perfilusuario =  0; // 1 - ciudadano - 2 funcionario - 3 - admin
 
 
   private respuesta: Irespuesta;
@@ -31,13 +31,14 @@ export class AuthServiceService {
   salir() {
 
     localStorage.clear();
+    this.perfilusuario = 0;
 
   }
 
   /**
-   * valida el ciudadano y crea el token
-   * @param par
-   * @param par2
+   * Informacion para ingresar ciudadano
+   * @param par string valor de parametro 1
+   * @param par2 string valor de parametro
    */
   ingresarCiudadano(par: string, par2: string) {
     this.token = this.crearTk(par, par2);
@@ -46,7 +47,7 @@ export class AuthServiceService {
     const datos = {
       codTId: par,
       nroId: par2
-    }
+    };
     this.datos = datos;
     this.ciudService.rolCiudadano = true;
     this.perfilusuario = 1;
@@ -92,15 +93,15 @@ export class AuthServiceService {
       tipoDocumento: this.tipoIdentificacion(ciudadano.tipoDocumento),
       numeroDocumento: ciudadano.nroIdentificacion,
       password: ciudadano.clave
-    }
+    };
     return this.http.post<Irespuesta>(`${this.urlLoginCiudadano}`, datosC).toPromise();
   }
   loginFuncionario(ciudadano: Contribuyente): Promise<Irespuesta> {
     const datosF = {
       usuarioauten: ciudadano.usuario,
       canal: ciudadano.clave
-    }
-    return this.http.post<Irespuesta>(`${this.server}${this.urlLoginFuncionario}`, datosF).toPromise();
+    };
+    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlLoginFuncionario}`, datosF).toPromise();
   }
 
   autentAdmin(usuario: string, clave: string): boolean {
@@ -119,7 +120,7 @@ export class AuthServiceService {
     localStorage.setItem('id_token', 'haytoken');
     this.perfilusuario = 3;
   }
-  tipoIdentificacion(tipo : string) {
+  tipoIdentificacion(tipo: string) {
 
     if ('4' === tipo) {
         this.doc = 'CC';
@@ -141,7 +142,7 @@ export class AuthServiceService {
 
       usuarioauten: usuario,
       snombre: clave
-    }
+    };
     return this.http.post<Irespuesta>(`${this.urlcreartk}`, datosC).toPromise();
 
   }
@@ -149,7 +150,7 @@ export class AuthServiceService {
     const datosC = {
 
       token: tk
-    }
+    };
     return this.http.post<Irespuesta>(`${this.urlvalidatk}`, datosC).toPromise();
 
   }

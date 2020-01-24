@@ -9,13 +9,13 @@ import {Representante} from '../dto/representante';
   providedIn: 'root'
 })
 export class RepresentantesService {
-  server: string = 'http://127.0.0.1:7101/';
+  // server: string = ip_servidor'http://127.0.0.1:7101/';
 
-  urlBuscar: string = 'ServiciosRITDQ/resources/repres/consulta/';
-  urlBorrar: string = 'ServiciosRITDQ/resources/repres/borra/';
-  urlCrear: string = 'ServiciosRITDQ/resources/repres/crea/';
-  urlClase: string = 'ServiciosRITDQ/resources/repres/clasesrepre/';
-  urlTipoR: string = 'ServiciosRITDQ/resources/repres/tiposrepre/';
+  urlBuscar = 'ServiciosRITDQ/resources/repres/consulta/';
+  urlBorrar = 'ServiciosRITDQ/resources/repres/borra/';
+  urlCrear = 'ServiciosRITDQ/resources/repres/crea/';
+  urlClase = 'ServiciosRITDQ/resources/repres/clasesrepre/';
+  urlTipoR = 'ServiciosRITDQ/resources/repres/tiposrepre/';
 
 
   constructor(private http: HttpClient) { }
@@ -23,7 +23,7 @@ export class RepresentantesService {
   consultar(idsujeto: number): Promise<Irespuesta> {
     const datos = {
       idSujeto : idsujeto
-    }
+    };
     return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBuscar}`, datos).toPromise();
   }
   borrar(dato: Representante): Promise<Irespuesta> {

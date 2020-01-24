@@ -82,6 +82,14 @@ th{
 .link_css{
 
 }
+
+
+.marcoDireccion{
+  font-size: 6px;
+  background-color:#6A8CAA;
+
+}
+
 .small_css{
   font-size: 10px;
   height: 20px;
@@ -241,11 +249,6 @@ th{
     overflow:hidden;
     height:90px;
   }
-  .form-group_color{
-    overflow:hidden;
-    height:90px;
-    background-color: #8b9e96;
-  }
   .logo_css{
     width:220px;
     height:68px;
@@ -370,16 +373,16 @@ th{
   height: 325px;
 }
 
-  @media (min-width: 992px) {
-    .modal-lg2 {
-      width: 1200px;
-    }
-
-    .ul-spac {
-      list-style-type: circle;
-      padding-bottom: 15px;
-    }
+@media (min-width: 992px) {
+  .modal-lg2 {
+    width: 1200px;
   }
+
+  .ul-spac {
+    list-style-type: circle;
+    padding-bottom: 15px;
+  }
+}
 #------- MESAGGES
 
 .info_css .modal-dialog{

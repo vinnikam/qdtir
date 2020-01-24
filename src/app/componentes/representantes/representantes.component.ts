@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Router} from '@angular/router';
 import {RepresentantesService} from '../../servicios/representantes.service';
@@ -11,13 +11,14 @@ import {Message, MessageService} from 'primeng/api';
 import {UtilidadesService} from '../../servicios/utilidades.service';
 import {Contribuyente} from '../../dto/contribuyente';
 import {Basicovo} from '../../dto/basicovo';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-representantes',
   templateUrl: './representantes.component.html',
   styleUrls: ['./representantes.component.css']
 })
-export class RepresentantesComponent implements OnInit {
+export class RepresentantesComponent implements OnInit, OnDestroy {
   lista: Representante[];
   respuesta: Irespuesta;
 
@@ -38,6 +39,10 @@ export class RepresentantesComponent implements OnInit {
   tiposrepresI: Basicovo[];
 
   haydatos = true;
+
+  constribySubscription: Subscription;
+  ciudadanoeActivo: Contribuyente;
+
 
 
 
@@ -62,26 +67,29 @@ export class RepresentantesComponent implements OnInit {
       fechaCierre: []
 
     });
-    if (this.ciudService.ciudadanoActivo === null) {
-      // alert('No hay ciudadano activo');
-      /*this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-        detail: 'No hay ciudadano activo. ', closable: true});*/
-      this.haydatos = false;
-
-      // this.router.navigate(['/crearciu']);
-    } else {
-        this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
-      this.haydatos = true;
-       /*else {
-        this.consultar(484438);
-      }*/
-
-    }
 
   }
   ngOnInit() {
     this.es = es;
-    this.cargarclasesrepres();
+    this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
+      this.ciudadanoeActivo = data;
+      if (this.ciudService.ciudadanoActivo === null || this.ciudService.ciudadanoActivo === undefined) {
+        this.haydatos = false;
+
+      } else {
+        if (this.ciudService.idSujetoRepre !== this.ciudadanoeActivo.idSujeto) {
+          this.consultar(this.ciudadanoeActivo.idSujeto);
+          this.haydatos = true;
+          this.ciudService.idSujetoRepre = this.ciudadanoeActivo.idSujeto;
+        } else {
+          if (this.ciudService.listaRepre !== null || this.ciudService.listaRepre !== undefined) {
+            this.lista = this.ciudService.listaRepre;
+          }
+        }
+      }
+      this.cargarclasesrepres();
+    });
+
 
   }
   consultar(idsujeto: number ) {
@@ -91,11 +99,11 @@ export class RepresentantesComponent implements OnInit {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
         this.lista = this.respuesta.representantes;
+        this.ciudService.listaRepre = this.lista;
       } else {
           this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
           detail: this.respuesta.mensaje, closable: true});
-
-        // alert(this.respuesta.mensaje);
+          this.ciudService.listaRepre = null;
 
       }
     })
@@ -118,7 +126,7 @@ export class RepresentantesComponent implements OnInit {
 
     const jsonString = JSON.stringify(this.formulario.value);
     this.representante = JSON.parse(jsonString) as Representante;
-    this.representante.idSujeto = this.ciudService.ciudadanoActivo.idSujeto;
+    this.representante.idSujeto = this.ciudadanoeActivo.idSujeto;
     this.representante.idRepresentacion = this.idrepresentantecrear;
 
     this.representante.fechaInicio  = this.util.cambiafecha(this.representante.fechaInicio);
@@ -131,7 +139,7 @@ export class RepresentantesComponent implements OnInit {
         this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
           detail: 'Creo el representante.', closable: true});
         this.representante = undefined;
-        this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
+        this.consultar(this.ciudadanoeActivo.idSujeto);
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -159,7 +167,7 @@ export class RepresentantesComponent implements OnInit {
     this.representante = JSON.parse(jsonString) as Representante;
     this.representante.fechaCierre = this.util.cambiafecha(this.representante.fechaCierre);
     this.representanteborra.fechaCierre = this.representante.fechaCierre;
-    this.representanteborra.idSujeto = this.ciudService.ciudadanoActivo.idSujeto;
+    this.representanteborra.idSujeto = this.ciudadanoeActivo.idSujeto;
 
     const x: Promise<Irespuesta> = this.represerv.borrar(this.representanteborra);
 
@@ -172,7 +180,7 @@ export class RepresentantesComponent implements OnInit {
           detail: 'Borró al representante. ', closable: true});
 
         this.representante = undefined;
-        this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
+        this.consultar(this.ciudadanoeActivo.idSujeto);
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -266,4 +274,8 @@ export class RepresentantesComponent implements OnInit {
         });
 
   }
+  ngOnDestroy(): void {
+    this.constribySubscription.unsubscribe();
+  }
+
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Router} from '@angular/router';
 import {Irespuesta} from '../../dto/irespuesta';
@@ -10,13 +10,14 @@ import {es} from '../../config/Propiedades';
 import {Contribuyente} from '../../dto/contribuyente';
 import {Message, MessageService} from 'primeng/api';
 import {UtilidadesService} from '../../servicios/utilidades.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-establecimientos',
   templateUrl: './establecimientos.component.html',
   styleUrls: ['./establecimientos.component.css']
 })
-export class EstablecimientosComponent implements OnInit {
+export class EstablecimientosComponent implements OnInit, OnDestroy {
 
   lista: Establecimiento[];
   respuesta: Irespuesta;
@@ -29,6 +30,10 @@ export class EstablecimientosComponent implements OnInit {
   establecimiento: Establecimiento;
   establecimientoborra: Establecimiento;
   haydatos = true;
+
+  constribySubscription: Subscription;
+  ciudadanoeActivo: Contribuyente;
+
 
 
   constructor(private ciudService: CiudadanoService,
@@ -51,21 +56,7 @@ export class EstablecimientosComponent implements OnInit {
         fechaCierre: []
 
       });
-      if (this.ciudService.ciudadanoActivo === null) {
-        /*this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'No hay ciudadano activo. ', closable: true});*/
-        this.haydatos = false;
-        // alert('No hay ciudadano activo');
-        //  this.router.navigate(['/crearciu']);
-      } else {
 
-          this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
-          this.haydatos = true;
-
-        /*else {
-          this.consultar(363337);
-        }*/
-    }
       this.creardialog = false;
       this.borrardialog = false;
 
@@ -73,6 +64,22 @@ export class EstablecimientosComponent implements OnInit {
 
   ngOnInit() {
     this.es = es;
+    this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
+      this.ciudadanoeActivo = data;
+      if (this.ciudService.ciudadanoActivo === null || this.ciudService.ciudadanoActivo === undefined ) {
+        this.haydatos = false;
+      } else {
+        this.haydatos = true;
+        if (this.ciudService.idSujetoEstab !== this.ciudadanoeActivo.idSujeto) {
+          this.consultar(this.ciudadanoeActivo.idSujeto);
+          this.ciudService.idSujetoEstab = this.ciudadanoeActivo.idSujeto;
+        } else {
+          if (this.ciudService.listaEsta !== null || this.ciudService.listaEsta !== undefined) {
+            this.lista = this.ciudService.listaEsta;
+          }
+        }
+      }
+    });
   }
   consultar(idsujeto: number ) {
 
@@ -81,10 +88,12 @@ export class EstablecimientosComponent implements OnInit {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
         this.lista = this.respuesta.establecimientos;
+        this.ciudService.listaEsta = this.lista;
 
       } else {
         this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
           detail: this.respuesta.mensaje, closable: true});
+        this.ciudService.listaEsta = undefined;
 
         // alert();
 
@@ -107,7 +116,7 @@ export class EstablecimientosComponent implements OnInit {
 
     const jsonString = JSON.stringify(this.formulario.value);
     this.establecimiento = JSON.parse(jsonString) as Establecimiento;
-    this.establecimiento.idSujeto = this.ciudService.ciudadanoActivo.idSujeto;
+    this.establecimiento.idSujeto = this.ciudadanoeActivo.idSujeto;
     // alert(this.establecimiento);
     this.establecimiento.fechaApertura  = this.util.cambiafecha(this.establecimiento.fechaApertura);
     const x: Promise<Irespuesta> = this.estaServ.crear(this.establecimiento);
@@ -119,7 +128,7 @@ export class EstablecimientosComponent implements OnInit {
          this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
          detail: 'Creo el establecimiento.', closable: true});
          this.establecimiento = undefined;
-         this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
+         this.consultar(this.ciudadanoeActivo.idSujeto);
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -141,7 +150,7 @@ export class EstablecimientosComponent implements OnInit {
     const jsonString = JSON.stringify(this.formularioborra.value);
     this.establecimiento = JSON.parse(jsonString) as Establecimiento;
     this.establecimiento.fechaCierre = this.util.cambiafecha(this.establecimiento.fechaCierre);
-    this.establecimientoborra.idSujeto =  this.ciudService.ciudadanoActivo.idSujeto;
+    this.establecimientoborra.idSujeto =  this.ciudadanoeActivo.idSujeto;
     this.establecimientoborra.fechaCierre = this.establecimiento.fechaCierre;
     // alert(this.establecimiento);
     const x: Promise<Irespuesta> = this.estaServ.borrar(this.establecimientoborra);
@@ -154,7 +163,7 @@ export class EstablecimientosComponent implements OnInit {
           detail: 'Borró el establecimiento.', closable: true});
 
         this.establecimiento = undefined;
-        this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
+        this.consultar(this.ciudadanoeActivo.idSujeto);
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -170,4 +179,8 @@ export class EstablecimientosComponent implements OnInit {
     this.borrardialog = false;
 
   }
+  ngOnDestroy(): void {
+    this.constribySubscription.unsubscribe();
+  }
+
 }

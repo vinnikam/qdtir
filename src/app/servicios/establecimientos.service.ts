@@ -9,9 +9,9 @@ import {Establecimiento} from '../dto/establecimiento';
 })
 export class EstablecimientosService {
 
-  urlBuscar: string = 'ServiciosRITDQ/resources/estab/consulta/';
-  urlBorrar: string = 'ServiciosRITDQ/resources/estab/borra/';
-  urlCrear: string = 'ServiciosRITDQ/resources/estab/crea/';
+  urlBuscar = 'ServiciosRITDQ/resources/estab/consulta/';
+  urlBorrar = 'ServiciosRITDQ/resources/estab/borra/';
+  urlCrear  = 'ServiciosRITDQ/resources/estab/crea/';
 
 
   constructor(private http: HttpClient) { }
@@ -19,7 +19,7 @@ export class EstablecimientosService {
   consultar(idsujeto: number): Promise<Irespuesta> {
     const datos = {
       idSujeto : idsujeto
-    }
+    };
     return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBuscar}`, datos).toPromise();
   }
   borrar(dato: Establecimiento): Promise<Irespuesta> {

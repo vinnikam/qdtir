@@ -8,6 +8,8 @@ import {Contribuyente} from '../../dto/contribuyente';
 import {NavbarComponent} from '../navbar/navbar.component';
 import {FormBuilder} from '@angular/forms';
 import {Message, MessageService} from 'primeng/api';
+import {environment} from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-autenticacion',
@@ -28,9 +30,11 @@ export class AutenticacionComponent implements OnInit {
   }
 
   ngOnInit() {
+    // console.log('- - - - -' + environment.production);
+    // console.log('- - - - -' + environment.ipserver);
   }
   ingresarFuncionario() {
-    if (this.valido()){
+    if (this.valido()) {
       const x: Promise<Irespuesta> = this._authService.loginFuncionario(this.elCiudadano);
       x.then((value: Irespuesta) => {
         this.respuesta = value;

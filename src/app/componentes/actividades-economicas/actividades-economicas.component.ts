@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Router} from '@angular/router';
 import {ActividadesService} from '../../servicios/actividades.service';
@@ -10,13 +10,15 @@ import {Actividad} from '../../dto/actividad';
 import {es} from '../../config/Propiedades';
 import {Message, MessageService} from 'primeng/api';
 import {UtilidadesService} from '../../servicios/utilidades.service';
+import {Contribuyente} from '../../dto/contribuyente';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-actividades-economicas',
   templateUrl: './actividades-economicas.component.html',
   styleUrls: ['./actividades-economicas.component.css']
 })
-export class ActividadesEconomicasComponent implements OnInit {
+export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
 
   lista: Actividad[];
   listaall: Actividad[];
@@ -31,6 +33,9 @@ export class ActividadesEconomicasComponent implements OnInit {
   borrardialog: boolean;
   es: any;
   haydatos = true;
+
+  constribySubscription: Subscription;
+  ciudadanoeActivo: Contribuyente;
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private activserv: ActividadesService,
@@ -48,22 +53,28 @@ export class ActividadesEconomicasComponent implements OnInit {
       fecCese: []
 
     });
-    if (this.ciudService.ciudadanoActivo === null) {
-      // alert('No hay ciudadano activo');
-      // this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información', detail: 'No hay usuario activo. ', closable: true});
-      this.haydatos = false;
-      // this.router.navigate(['/crearciu']);
-    } else {
-      this.consultar(this.ciudService.ciudadanoActivo.idSujeto);
-      this.haydatos = true;
-      /*else {
-        this.consultar(363348);
-      }*/
-    }
-    this.consultarall();
+
   }
   ngOnInit() {
     this.es = es;
+    this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
+      this.ciudadanoeActivo = data;
+    });
+    if (this.ciudadanoeActivo === null || this.ciudadanoeActivo === undefined) {
+      this.haydatos = false;
+      // this.router.navigate(['/crearciu']);
+    } else {
+      this.haydatos = true;
+      if (this.ciudService.idSujetoActiv !== this.ciudadanoeActivo.idSujeto) {
+        this.consultar(this.ciudadanoeActivo.idSujeto);
+        this.ciudService.idSujetoActiv = this.ciudadanoeActivo.idSujeto;
+      } else {
+        if (this.ciudService.listaActiv !== null || this.ciudService.listaActiv !== undefined) {
+          this.lista = this.ciudService.listaActiv;
+        }
+      }
+    }
+
   }
   consultar(idsujeto: number) {
 
@@ -72,11 +83,12 @@ export class ActividadesEconomicasComponent implements OnInit {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
         this.lista = this.respuesta.actividades.actContacto;
+        this.ciudService.listaActiv = this.lista;
 
       } else {
         this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
         detail: this.respuesta.mensaje, closable: true});
-        // alert(this.respuesta.mensaje);
+        this.ciudService.listaActiv = null;
 
 
       }
@@ -90,7 +102,9 @@ export class ActividadesEconomicasComponent implements OnInit {
 
   }
   vercrear() {
-    this.creardialog = true;
+    this.consultarall();
+
+
     // alert('click');
   }
 
@@ -100,7 +114,7 @@ export class ActividadesEconomicasComponent implements OnInit {
       const jsonString = JSON.stringify(this.formulario.value);
       this.actividades = JSON.parse(jsonString) as Actividad;
       this.actividades.fec_inicio = this.util.cambiafecha(this.actividades.fec_inicio);
-      this.actividades.idSujeto = this.ciudService.ciudadanoActivo.idSujeto;
+      this.actividades.idSujeto = this.ciudadanoeActivo.idSujeto;
 
       const x: Promise<Irespuesta> = this.activserv.crear(this.actividades);
 
@@ -111,7 +125,7 @@ export class ActividadesEconomicasComponent implements OnInit {
           this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
             detail: 'Se asignó la nueva actividad.', closable: true});
           this.actividades = undefined;
-          this.consultar( this.ciudService.ciudadanoActivo.idSujeto);
+          this.consultar( this.ciudadanoeActivo.idSujeto);
 
         } else {
           this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -142,7 +156,7 @@ export class ActividadesEconomicasComponent implements OnInit {
 
       this.actividades.fecCese = this.util.cambiafecha(this.actividades.fecCese);
 
-      this.actividadesborra.idSujeto = this.ciudService.ciudadanoActivo.idSujeto;
+      this.actividadesborra.idSujeto = this.ciudadanoeActivo.idSujeto;
       this.actividadesborra.fecCese = this.actividades.fecCese;
 
       const x: Promise<Irespuesta> = this.activserv.borrar(this.actividadesborra);
@@ -154,7 +168,7 @@ export class ActividadesEconomicasComponent implements OnInit {
           this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
             detail: 'Se borró la información.', closable: true});
           this.actividades = undefined;
-          this.consultar( this.ciudService.ciudadanoActivo.idSujeto);
+          this.consultar( this.ciudadanoeActivo.idSujeto);
 
         } else {
           this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -183,11 +197,12 @@ export class ActividadesEconomicasComponent implements OnInit {
         if (this.respuesta.codigoError === '0') {
 
           this.listaall = this.respuesta.actividades.actContacto;
+          this.creardialog = true;
 
         } else {
 
           this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-            detail: 'No cargó actividades.', closable: true});
+            detail: 'No cargó lista de actividades.', closable: true});
 
         }
       })
@@ -198,5 +213,8 @@ export class ActividadesEconomicasComponent implements OnInit {
     }
 
 
+  }
+  ngOnDestroy(): void {
+    this.constribySubscription.unsubscribe();
   }
 }

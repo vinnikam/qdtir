@@ -282,41 +282,46 @@ export const  municipios =[[{cod: '91263', nom: 'EL ENCANTO'},{cod: '91405', nom
   ]
 ];
 
-export const  tipoViaPrimaria = [{cod: 'AC', desc: 'Avenida calle'}, {cod :  'AK', desc: 'Avenida carrera'}, {cod :  'CL', desc: 'Calle'},
-  {cod :  'KR', desc: 'Carrera'}, {cod :  'DG', desc: 'Diagonal'}, {cod :  'TV', desc: 'Transversal'}];
+export const  tipoViaPrimaria = [{codigo: 'AC', nombre: 'Avenida calle'}, {codigo :  'AK', nombre: 'Avenida carrera'},
+  {codigo :  'CL', nombre: 'Calle'},
+  {codigo :  'KR', nombre: 'Carrera'}, {codigo :  'DG', nombre: 'Diagonal'}, {codigo :  'TV', nombre: 'Transversal'}];
 
-export const  letras = [{cod: 'A', desc: 'A'}, {cod: 'B', desc: 'B'}, {cod: 'C', desc: 'C'}, {cod: 'D', desc: 'D'}, {cod: 'E', desc: 'E'}, {cod: 'F', desc: 'F'},
-  {cod: 'G', desc: 'G'}, {cod: 'H', desc: 'H'}, {cod: 'I', desc: 'I'}, {cod: 'J', desc: 'J'}, {cod: 'K', desc: 'K'}, {cod: 'L', desc: 'L'},
-  {cod: 'M', desc: 'M'}, {cod: 'N', desc: 'N'}, {cod: 'O', desc: 'O'}, {cod: 'P', desc: 'P'}, {cod: 'Q', desc: 'Q'}, {cod: 'R', desc: 'R'},
-  {cod: 'S', desc: 'S'}, {cod: 'T', desc: 'T'}, {cod: 'U', desc: 'U'}, {cod: 'V', desc: 'V'}, {cod: 'W', desc: 'W'}, {cod: 'X', desc: 'X'},
-  {cod: 'Y', desc: 'Y'}, {cod: 'Z', desc: 'Z'}];
+export const  letras = [{codigo: 'A', nombre: 'A'}, {codigo: 'B', nombre: 'B'}, {codigo: 'C', nombre: 'C'}, {codigo: 'D', nombre: 'D'},
+  {codigo: 'E', nombre: 'E'}, {codigo: 'F', nombre: 'F'},
+  {codigo: 'G', nombre: 'G'}, {codigo: 'H', nombre: 'H'}, {codigo: 'I', nombre: 'I'}, {codigo: 'J', nombre: 'J'},
+  {codigo: 'K', nombre: 'K'}, {codigo: 'L', nombre: 'L'},
+  {codigo: 'M', nombre: 'M'}, {codigo: 'N', nombre: 'N'}, {codigo: 'O', nombre: 'O'}, {codigo: 'P', nombre: 'P'},
+  {codigo: 'Q', nombre: 'Q'}, {codigo: 'R', nombre: 'R'},
+  {codigo: 'S', nombre: 'S'}, {codigo: 'T', nombre: 'T'}, {codigo: 'U', nombre: 'U'}, {codigo: 'V', nombre: 'V'},
+  {codigo: 'W', nombre: 'W'}, {codigo: 'X', nombre: 'X'},
+  {codigo: 'Y', nombre: 'Y'}, {codigo: 'Z', nombre: 'Z'}];
 
-export const  bis = [{cod: 'BIS', desc: 'BIS'}];
+export const  bis = [{codigo: 'BIS', nombre: 'BIS'}];
 
-export const  cuadrante = [{cod: 'SUR', desc: 'SUR'}, {cod: 'ESTE', desc: 'ESTE'}];
+export const  cuadrante = [{codigo: 'SUR', nombre: 'SUR'}, {codigo: 'ESTE', nombre: 'ESTE'}];
 
-export const  complemento = [{cod: 'AP', desc: 'APARTAMENTO'},
-  {cod: 'AG', desc: 'AGRUPACIÓN'},
-  {cod: 'BL', desc: 'BLOQUE'},
-  {cod: 'BG', desc: 'BODEGA'},
-  {cod: 'CN', desc: 'CAMINO'},
-  {cod: 'CT ', desc: 'CARRETERA'},
-  {cod: 'CEL', desc: 'CELULA'},
-  {cod: 'CA', desc: 'CASA'},
-  {cod: 'CONJ', desc: 'CONJUNTO'},
-  {cod: 'CS ', desc: 'CONSULTORIO'},
-  {cod: 'ED ', desc: 'EDIFICIO'},
-  {cod: 'EN', desc: 'ENTRADA'},
-  {cod: 'ESQ', desc: 'ESQUINA'}, {cod: 'ET', desc: 'ETAPA'},
-  {cod: 'IN', desc: 'INTERIOR'},
-  {cod: 'KM', desc: 'KILOMETRO'}, {cod: 'LC', desc: 'LOCAL'},
-  {cod: 'MZ', desc: 'MANZANA'},
-  {cod: 'MN', desc: 'MEZANINE'}, {cod: 'MD', desc: 'MODULA'}, {cod: 'OF', desc: 'OFICINA'}, {cod: 'PS', desc: 'PASEO'},
-  {cod: 'PA', desc: 'PARCELA'}, {cod: 'PH', desc: 'PENTHOUSE'}, {cod: 'PI', desc: 'PISO'}, {cod: 'PN', desc: 'PUENTE'},
-  {cod: 'PD', desc: 'PREDIO'},
-  {cod: 'SC', desc: 'SALON COMUNAL'}, {cod: 'SR', desc: 'SECTOR'}, {cod: 'SL', desc: 'SOLAR'},
-  {cod: 'SM', desc: 'SUPER MANZANA'}, {cod: 'TO', desc: 'TORRE'}, {cod: 'UN', desc: 'UNIDAD'}, {cod: 'UR', desc: 'UNIDAD RESIDENCIAL'},
-  {cod: 'URB', desc: 'URBANIZACIÓN'}, {cod: 'VDA', desc: 'VEREDA'}, {cod: 'VIA', desc: 'VIA'}, {cod: 'ZN', desc: 'ZONA'}];
+export const  complemento = [{codigo: 'AP', nombre: 'APARTAMENTO'},
+  {codigo: 'AG', nombre: 'AGRUPACIÓN'},
+  {codigo: 'BL', nombre: 'BLOQUE'},
+  {codigo: 'BG', nombre: 'BODEGA'},
+  {codigo: 'CN', nombre: 'CAMINO'},
+  {codigo: 'CT ', nombre: 'CARRETERA'},
+  {codigo: 'CEL', nombre: 'CELULA'},
+  {codigo: 'CA', nombre: 'CASA'},
+  {codigo: 'CONJ', nombre: 'CONJUNTO'},
+  {codigo: 'CS ', nombre: 'CONSULTORIO'},
+  {codigo: 'ED ', nombre: 'EDIFICIO'},
+  {codigo: 'EN', nombre: 'ENTRADA'},
+  {codigo: 'ESQ', nombre: 'ESQUINA'}, {codigo: 'ET', nombre: 'ETAPA'},
+  {codigo: 'IN', nombre: 'INTERIOR'},
+  {codigo: 'KM', nombre: 'KILOMETRO'}, {codigo: 'LC', nombre: 'LOCAL'},
+  {codigo: 'MZ', nombre: 'MANZANA'},
+  {codigo: 'MN', nombre: 'MEZANINE'}, {codigo: 'MD', nombre: 'MODULA'}, {codigo: 'OF', nombre: 'OFICINA'}, {codigo: 'PS', nombre: 'PASEO'},
+  {codigo: 'PA', nombre: 'PARCELA'}, {codigo: 'PH', nombre: 'PENTHOUSE'}, {codigo: 'PI', nombre: 'PISO'}, {codigo: 'PN', nombre: 'PUENTE'},
+  {codigo: 'PD', nombre: 'PREDIO'},
+  {codigo: 'SC', nombre: 'SALON COMUNAL'}, {codigo: 'SR', nombre: 'SECTOR'}, {codigo: 'SL', nombre: 'SOLAR'},
+  {codigo: 'SM', nombre: 'SUPER MANZANA'}, {codigo: 'TO', nombre: 'TORRE'}, {codigo: 'UN', nombre: 'UNIDAD'}, {codigo: 'UR', nombre: 'UNIDAD RESIDENCIAL'},
+  {codigo: 'URB', nombre: 'URBANIZACIÓN'}, {codigo: 'VDA', nombre: 'VEREDA'}, {codigo: 'VIA', nombre: 'VIA'}, {codigo: 'ZN', nombre: 'ZONA'}];
 
 /*
 function consultarMpio(codMpio) {

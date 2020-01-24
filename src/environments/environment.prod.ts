@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  ipserver: 'http://oficinavirtual.shd.gov.co/'
 };

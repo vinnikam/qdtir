@@ -1,0 +1,32 @@
+<!--div *ngIf="ciudService.ciudadanoActivo" -->
+<app-navbar></app-navbar>
+<div class="container ">
+  <h2 class="base-header-vehi">HISTORICO DE CAMBIOS DE DIRCCION</h2>
+  <p class="norecord" *ngIf="!haydatos">NO HAY CIUDADANO SELECCIONADO. DIRIJASE A LA OPCION DE BUSCAR PARA ACTUALIZAR LA INFORMACION.</p>
+
+  <p-table [value]="lista" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" width="10%">ESTADO</th>
+        <th scope="col" width="30%">DIRECCION</th>
+        <th scope="col" width="20%">PAIS</th>
+        <th scope="col" width="10%">DEPTO</th>
+        <th scope="col" width="20%">MUNICIPIO</th>
+        <th scope="col" width="10%">FECHA</th>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-dato>
+      <tr >
+        <td>{{dato.estado}}</td>
+        <td >{{dato.direccion}}</td>
+        <td >{{dato.pais}}</td>
+        <td >{{dato.depto}}</td>
+        <td >{{dato.municipio}}</td>
+        <td >{{dato.fechaActS}}</td>
+
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<!--/div-->

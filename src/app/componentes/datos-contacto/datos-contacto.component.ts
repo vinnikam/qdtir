@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Router} from '@angular/router';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
@@ -8,19 +8,24 @@ import {bis, complemento, cuadrante, departamentos, letras, municipios, tipoViaP
 import {Basicovo} from '../../dto/basicovo';
 import {Contacto} from '../../dto/contacto';
 
-
+import {TabMenuModule} from 'primeng/tabmenu';
+import {MenuItem} from 'primeng/api';
 import {catchError} from 'rxjs/operators';
-import {of} from 'rxjs';
+import {of, Subscription} from 'rxjs';
 import {ModalService} from '../../servicios/modal.service';
 import {Datacontacto} from '../../dto/datacontacto';
 import {TipoUso} from '../../dto/tipo-uso';
+import {Message, MessageService} from 'primeng/api';
+import {Contribuyente} from '../../dto/contribuyente';
+import {UtilidadesService} from '../../servicios/utilidades.service';
+
 
 @Component({
   selector: 'app-datos-contacto',
   templateUrl: './datos-contacto.component.html',
   styleUrls: ['./datos-contacto.component.css']
 })
-export class DatosContactoComponent implements OnInit {
+export class DatosContactoComponent implements OnInit, OnDestroy {
 
   /*
   constructor(private ciudService: CiudadanoService,
@@ -89,6 +94,9 @@ export class DatosContactoComponent implements OnInit {
   tipoDocumento: string;
   numeroDocumento: string;
 
+  items: MenuItem[];
+  activeItem: MenuItem;
+
 
   respuesta: Irespuesta;
   respuestauso: TipoUso;
@@ -108,14 +116,21 @@ export class DatosContactoComponent implements OnInit {
   listamailTipoUso: Basicovo [];
   listadirTipoUso: Basicovo[];
 
-
+  contactoSubscription: Subscription;
+  contactoAddSubscription: Subscription;
 
   idSujeto: number;
   tipCon: number;
   haydatos = false;
 
+  constribySubscription: Subscription;
+  ciudadanoeActivo: Contribuyente;
 
-  constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private router: Router) {
+
+
+  constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private router: Router,
+              private messageService: MessageService, private utilidades: UtilidadesService) {
+
     this.url = ciudService.url;
     this.urluso = ciudService.urluso;
     this.urlEditaTelContacto = ciudService.urlEditaTelContacto;
@@ -125,25 +140,11 @@ export class DatosContactoComponent implements OnInit {
     this.urlEliminarDirNoti = ciudService.urlEliminarDirNoti;
     this.urlEliminaCorreoContacto = ciudService.urlEliminaCorreoContacto;
 
-    if (false) { // this.ciudService.ciudadanoActivo === undefined) {
-      // alert('No hay ciudadano activo');
-      // this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información', detail: 'No hay usuario activo. ', closable: true});
-      this.haydatos = false;
-      // this.router.navigate(['/crearciu']);
-    } else {
-      this.tipoDocumento = '4' ; // ,ciudService.ciudadanoActivo.tipoDocumento;
-      this.numeroDocumento = '79768891' ; // ciudService.ciudadanoActivo.nroIdentificacion;
 
-      this.consultarDatos(this.tipoDocumento, this.numeroDocumento);
-      /*else {
-        this.consultar(363348);
-      }*/
-    }
+    this.ciudService.displayDirNotificacion.next(false);
+    this.ciudService.displayAddContacto.next(false);
 
-    this.listdptos = departamentos;
-    this.dptoDireccion = departamentos[4];
-    this.listmunicipios = municipios;
-    this.mpioDireccion = municipios[4][0];
+
     this.listviaprimaria = tipoViaPrimaria;
     this.letras = letras;
     this.bis = bis;
@@ -155,11 +156,41 @@ export class DatosContactoComponent implements OnInit {
 
     this.consultarTipoUso();
 
-    // this.idSujeto = ciudService.ciudadanoActivo.idSujeto;
     this.codPostalDireccion = '11001';
   }
 
   ngOnInit() {
+    this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
+      this.ciudadanoeActivo = data;
+      if (this.ciudadanoeActivo === null || this.ciudadanoeActivo === undefined) {
+        this.haydatos = false;
+        // this.router.navigate(['/crearciu']);
+      } else {
+        this.haydatos = true;
+        this.idSujeto = this.ciudadanoeActivo.idSujeto;
+        if (this.ciudService.idSujetoActiv !== this.ciudadanoeActivo.idSujeto) {
+          this.tipoDocumento = this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento);
+          this.numeroDocumento = this.ciudadanoeActivo.nroIdentificacion;
+          this.consultarDatos(this.tipoDocumento, this.numeroDocumento);
+        }
+      }
+    });
+    this.contactoSubscription = this.ciudService.displayDirNotificacion.subscribe((data: true) => {
+      this.displayDirNotificacion = data;
+    });
+
+
+
+    this.contactoAddSubscription = this.ciudService.displayAddContacto.subscribe((data: true) => {
+      this.displayAddContacto = data;
+    });
+
+    this.items = [
+      {label: 'Mis Direcciones', icon: 'fa fa-fw fa-bar-chart', id: '1' },
+      {label: 'Mis Correos', icon: 'fa fa-fw fa-calendar', id: '2' },
+      {label: 'Mis Telefonos', icon: 'fa fa-fw fa-twitter', id: '3' }
+    ];
+    this.activeItem = this.items[0];
 
   }
 
@@ -172,7 +203,7 @@ export class DatosContactoComponent implements OnInit {
   consultarDatos(tipoDocumento: string, numeroDocumento: string): void {
 
     if (tipoDocumento != null && numeroDocumento != null) {
-        this.consultarContribuyente(tipoDocumento, numeroDocumento).then((value: Irespuesta) => {
+      this.consultarContribuyente(tipoDocumento, numeroDocumento).then((value: Irespuesta) => {
         this.respuesta  = value;
         this.aDirCon = this.respuesta.contribuyente.dirContacto ;
         this.aDirNot = this.respuesta.contribuyente.dirContactoNot ;
@@ -181,12 +212,12 @@ export class DatosContactoComponent implements OnInit {
         this.aUnoPor = this.respuesta.contribuyente.aplicaDescuento ;
         this.direccion = this.respuesta.contribuyente.dirContactoNot[0].direccion;
         console.log('los telefonos--->', JSON.stringify(this.aDirTel));
-    })
-    .catch((err: HttpErrorResponse) => {
-      console.log(err);
-      if (err.status !== 200) {
-      }
-    });
+      })
+        .catch((err: HttpErrorResponse) => {
+          console.log(err);
+          if (err.status !== 200) {
+          }
+        });
 
 
     }
@@ -208,12 +239,6 @@ export class DatosContactoComponent implements OnInit {
         this.listadirTipoUso  = this.listaTU;
 
 
-        console.log('telTipoUso --->', JSON.stringify( this.telTipoUso));
-        console.log('mailTipoUso --->', JSON.stringify( this.telTipoUso));
-        console.log('dirTipoUso --->', JSON.stringify( this.telTipoUso));
-
-
-        console.log('--->', JSON.stringify(this.respuesta));
       })
       .catch((err: HttpErrorResponse) => {
         if (err.status !== 200) {
@@ -232,16 +257,15 @@ export class DatosContactoComponent implements OnInit {
 
   consultarContribuyente(tipo: string, numero: string): Promise<Irespuesta>{
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    let params = {'codTId': tipo, 'nroId': numero};
-    console.log('el servicio configurado...' + this.url);
+    let params = {codTId: tipo, nroId: numero};
+
     return this.http.post<Irespuesta>(this.url, params,{ headers: headers}).toPromise();
 
   }
 
   nuevaDirNotificacion() {
-    alert('XX la muda');
-    this.displayDirNotificacion = true;
 
+    this.ciudService.displayDirNotificacion.next(true);
     this.ciudService.validacionDireccion = false;
     this.ciudService.validacionRegistroDireccion = false;
     this.ciudService.validacionTipoUso = false;
@@ -251,7 +275,7 @@ export class DatosContactoComponent implements OnInit {
 
   capturar(): void {
     this.displayDirNotificacion2 = true;
-    this.displayDirNotificacion = false;
+    this.ciudService.displayDirNotificacion.next(false);
   }
 
 
@@ -302,35 +326,40 @@ export class DatosContactoComponent implements OnInit {
   }
 
 
-  cerrarCaptura(): void{
-
-    this.displayDirNotificacion2 = false;
-    this.displayDirNotificacion = true;
-
-  }
-
   cancel(): void{
-    this.displayDirNotificacion = false;
-    this.consultarContribuyente('4','79768891');
+    this.ciudService.displayDirNotificacion.next(false);
+    this.consultarContribuyente('4', this.ciudadanoeActivo.nroIdentificacion);
   }
 
 
-  cancel2(): void{
-    this.displayDirNotificacion2 = false;
-    this.displayDirNotificacion = true;
-  }
 
 
-  cambioDpto = function() {
-    /*
-       var i = parseInt(this.dptoDireccion.indice, 10);
-       this.listmunicipios = municipios[i];
-      */
-  }
 
   ok(): void {
-    this.editarDirNotificacion();
-    this.consultarContribuyente(this.tipoDocumento,this.numeroDocumento);
+
+    const x: Promise<Irespuesta> = this.editarDirNotificacion();
+    x.then((value: Irespuesta) => {
+      this.respuesta = value;
+      if (this.respuesta.codigoError === '0') {
+
+        this.ciudService.displayDirNotificacion.next(false);
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: this.respuesta.mensaje, closable: true});
+
+
+      } else {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: this.respuesta.mensaje, closable: true});
+
+      }
+    })
+      .catch(() => {
+        // alert('Error tecnico en la consulta del servicio Buscar actividades');
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Error tecnico en la consulta del servicio Buscar', closable: true});
+
+      });
+    this.consultarContribuyente(this.tipoDocumento, this.numeroDocumento);
   }
 
 
@@ -401,6 +430,9 @@ export class DatosContactoComponent implements OnInit {
       catchError(() => of([]))
     ).subscribe((cont: Irespuesta) => {
       this.consultarDatos(this.tipoDocumento, this.numeroDocumento);  });
+
+    this.displayAddContacto = false;
+
   }
 
 
@@ -439,10 +471,6 @@ export class DatosContactoComponent implements OnInit {
       default:
         console.log('Tipo de contacto no definido');
     }
-
-
-
-
     this.ciudService.eliminarContacto(this.datacontacto, this.urlEliminar).pipe(
       catchError(() => of([]))
     ).subscribe((cont: Irespuesta) => {
@@ -450,7 +478,10 @@ export class DatosContactoComponent implements OnInit {
 
   }
 
-
+  ngOnDestroy(): void {
+    this.contactoSubscription.unsubscribe();
+    this.constribySubscription.unsubscribe();
+  }
 
 
 }

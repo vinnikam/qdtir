@@ -1,3 +1,4 @@
+<app-navbar></app-navbar>
 <div class="container ">
   <h2 class="base-header-estab">DATOS DE CONTACTO</h2>
   <p class="norecord" *ngIf="!haydatos">NO HAY CIUDADANO SELECCIONADO. DIRIJASE A LA OPCION DE BUSCAR PARA ACTUALIZAR LA INFORMACION.</p>
@@ -44,125 +45,128 @@
 
 
   <button class="btn"  pButton type="button" label="Agregar Tipo de Contacto" icon="pi pi-check" (click)="addContacto()"></button>
-  <p-table [value]="aDirCon" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
-    <ng-template pTemplate="header">
-      <tr>
-        <th scope="col" width="15%">FECHA ACTUALIZACION</th>
-        <th scope="col" width="15%">TIPO DE CONTACTO</th>
-        <th scope="col" width="30%">DIRECCION</th>
-        <th scope="col" width="10%">MUNICIPIO</th>
-        <th scope="col" width="10%">DEPTO</th>
-        <th scope="col" width="10%">PAIS</th>
-        <th scope="col" width="10%">ACCION</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-dato>
-      <tr >
-        <td>{{dato.fechaModificacion}}</td>
-        <td>{{dato.tipo.nombre}}-{{dato.uso.nombre}}</td>
-        <td>{{dato.direccion}}</td>
-        <td>{{dato.municipio.nombre}}</td>
-        <td>{{dato.departamento.nombre}}</td>
-        <td>{{dato.pais.nombre}}</td>
-        <td class="center cleanBgBtn_css">
-          <button class="btn btn-default" type="button" title="Click para eliminar este registro"
-                  data-toggle="modal" (click)="eliminaContacto(dato)">
-            <i class="glyphicon glyphicon-trash"></i>
-          </button>
-          <button class="btn"  pButton type="button" label="Eliminar" (click)="eliminaContacto(dato)"></button>
-        </td>
-      </tr>
-    </ng-template>
 
-  </p-table>
+  <br/>
+  <p-tabView>
+    <p-tabPanel header="Mis Direcciones">
+      <p-table [value]="aDirCon" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" width="15%">FECHA ACTUALIZACION</th>
+            <th scope="col" width="15%">TIPO DE CONTACTO</th>
+            <th scope="col" width="30%">DIRECCION</th>
+            <th scope="col" width="10%">MUNICIPIO</th>
+            <th scope="col" width="10%">DEPTO</th>
+            <th scope="col" width="10%">PAIS</th>
+            <th scope="col" width="10%">ACCION</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dato>
+          <tr >
+            <td>{{dato.fechaModificacion}}</td>
+            <td>{{dato.tipo.nombre}}-{{dato.uso.nombre}}</td>
+            <td>{{dato.direccion}}</td>
+            <td>{{dato.municipio.nombre}}</td>
+            <td>{{dato.departamento.nombre}}</td>
+            <td>{{dato.pais.nombre}}</td>
+            <td class="center cleanBgBtn_css">
+              <button class="btn btn-default" type="button" title="Click para eliminar este registro"
+                      data-toggle="modal" (click)="eliminaContacto(dato)">
+                <i class="glyphicon glyphicon-trash"></i>
+              </button>
+              <button class="btn"  pButton type="button" label="Eliminar" (click)="eliminaContacto(dato)"></button>
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+
+
+    </p-tabPanel>
+    <p-tabPanel header="Mis Correos">
+      <p-table [value]="aDirMai" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" width="15%">FECHA ACTUALIZACION</th>
+            <th scope="col" width="15%">TIPO DE CONTACTO</th>
+            <th scope="col" width="30%">CORREO ELECTRONICO</th>
+            <th scope="col" width="10%">ACCION</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-x>
+          <tr >
+            <td>{{x.fechaModificacion}}</td>
+            <td>{{x.tipoT.nombre}}-{{x.uso.nombre}}</td>
+            <td>{{x.direccion}}</td>
+
+            <td class="center cleanBgBtn_css">
+              <button class="btn btn-default" type="button" title="Click para eliminar este registro"
+                      data-toggle="modal" (click)="eliminaContacto(x)">
+                <i class="glyphicon glyphicon-trash"></i>
+              </button>
+              <button class="btn"  pButton type="button" label="Eliminar" (click)="eliminaContacto(x)"></button>
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+
+    </p-tabPanel>
+    <p-tabPanel header="Mis Telefonos">
+      <p-table [value]="aDirTel" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" width="15%">FECHA ACTUALIZACION</th>
+            <th scope="col" width="15%">TIPO DE CONTACTO</th>
+            <th scope="col" width="30%">DIRECCION</th>
+            <th scope="col" width="10%">MUNICIPIO</th>
+            <th scope="col" width="10%">DEPTO</th>
+            <th scope="col" width="10%">PAIS</th>
+            <th scope="col" width="10%">ACCION</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-datosTel>
+          <tr >
+            <td>{{datosTel.fechaModificacion}}</td>
+            <td>{{datosTel.tipoT.nombre}}-{{datosTel.uso.nombre}}</td>
+            <td>{{datosTel.numero}}</td>
+            <td>{{datosTel.ciudad.nombre}}</td>
+            <td>{{datosTel.depto.nombre}}</td>
+            <td>{{datosTel.pais.nombre}}</td>
+            <td class="center cleanBgBtn_css">
+              <button class="btn btn-default" type="button" title="Click para eliminar este registro"
+                      data-toggle="modal" (click)="eliminaContacto(datosTel)">
+                <i class="glyphicon glyphicon-trash"></i>
+              </button>
+              <button class="btn"  pButton type="button" label="Eliminar" (click)="eliminaContacto(datosTel)"></button>
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+
+    </p-tabPanel>
+  </p-tabView>
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
-<div class="container ">
 
-<div class="modal-body">
-  <style>
-    .border {
-      border-color: skyblue !important;
-      border-left: 5px solid red !important;
-    }
-  </style>
-  <div class="row">
-    <!-- *************************  SECCIÓN PANEL PRINCIPAL INI I    *************************** -->
-    <div class="col-lg-9">
-      <div class="panel panel-default">
-        <div class="panel-heading tooltip-info">
-          <i class="glyphicon glyphicon-user"></i>
-          Informaci&oacute;n para que me contacten
-        </div>
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="panel panel-default">
-
-
-                <!-- /.panel-heading -->
-
-                <!--  SECCION PARA EL 1% -->
-                <!--<div class="panel-heading">
-                    Direcci&oacute;n de notificaci&oacute;n
-                    <div class="pull-right">
-                       <div class="btn-group" data-toggle="tooltip" data-placement="top" title="Actualizar dirección de Notificación">
-                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" ng-click="nuevaDirNotificacion()" >
-                                <i class="fa fa-map-marker"></i>
-                                <strong> Actualizar </strong>
-                            </button>
-                        </div>
-                    </div>
-                </div>-->
-
-                <div class="panel-body">
-                  <table width="100%" class="table table-striped table-bordered table-hover table-condensed table-responsive" id="dataTables-example">
-                    <tbody>
-                    <tr class="odd gradeX" align="center">
-                      <td>
-                        <span>Autorizo uso de la anterior información para fines institucionales</span>
-                      </td>
-                      <td width="10%">
-                        <select style="font-size:70%;" class="form-control" ng-model="aUnoPor.notifElecActivo" ng-options="ti.cod as ti.desc for ti in selSiNo"></select>
-                      </td>
-                      <td>
-                        <span>Autorizo el uso del buzón electrónico para recibir notificaciones</span>
-                        <br>
-                        <a href="" ng-click="reglamentoUsoBuzon()">
-                          <i class="fa fa-file-text"></i>&nbsp; &nbsp; Ver reglamento uso buz&oacute;n
-                        </a>
-                      </td>
-                      <td width="10%">
-                        <select style="font-size:70%;" class="form-control" ng-model="aUnoPor.buzonActivo" ng-options="ti.cod as ti.desc for ti in selSiNo"></select>
-                      </td>
-                      <td>
-                        <div class="btn-group" data-toggle="tooltip" data-placement="top" title="Confirmar datos">
-                          <button type="button" class="btn btn-info" ng-click="confirmarDatos()" >
-                            <i class="fa fa-map-marker"></i>
-                            <strong> Confirmar datos </strong>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <!-- -->
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-</div>
 <!-- /////////////////////////////  SECCIÓN PANEL PRINCIPAL FIN    ////////////////////////////// -->
 <!-- *************************   SECCIÓN PANEL DE NOTIFICACIONES INI    *************************** -->
 
 
 <div *ngIf="displayDirNotificacion">
-  <p-dialog header="ASISTENTE PARA INGRESAR DIRECCIÓN ESTANDARIZADA" [(visible)]="displayDirNotificacion" [modal]="true" [responsive]="true" [style]="{width: '950px'}" [minY]="70"
+  <p-dialog header="ASISTENTE PARA INGRESAR DIRECCIÓN ESTANDARIZADA" [(visible)]="displayDirNotificacion" [modal]="true" [responsive]="true" [style]="{width: '1050px'}" [minY]="70"
             [maximizable]="false" [baseZIndex]="10000" [closable]="true" positionTop="100">
     <app-estandarizador></app-estandarizador>
 
@@ -171,7 +175,7 @@
 
 
 
-<p-dialog header="Agregar nuevo contacto" [(visible)]="displayAddContacto" [modal]="true" [responsive]="true" [style]="{width: '950px'}" [minY]="70"
+<p-dialog header="Agregar nuevo contacto" [(visible)]="displayAddContacto" [modal]="true" [responsive]="true" [style]="{width: '1050px'}" [minY]="70"
           [maximizable]="false" [baseZIndex]="10000" [closable]="true" positionTop="100">
 
 
@@ -185,20 +189,13 @@
           <div class="col-lg-12">
             <label>Seleccione el tipo de contacto: </label>
 
-            <label class="radio-inline margin15_css">
-              <input type="radio" name="tipoContacto"  [(ngModel)]="tipoContacto" value="3"/>
-              Correo electrónico
-            </label>
+            <br>
+            <p-radioButton name="tipoContacto" value="3" label="Correo electrónico" [(ngModel)]="tipoContacto"></p-radioButton>
+            <br>
+            <p-radioButton name="tipoContacto" value="2" label="Dirección" [(ngModel)]="tipoContacto"></p-radioButton>
+            <br>
+            <p-radioButton name="tipoContacto" value="1" label="Teléfono" [(ngModel)]="tipoContacto"></p-radioButton>
 
-            <label class="radio-inline">
-              <input type="radio" name="tipoContacto" [(ngModel)]="tipoContacto" value="2"/>
-              Dirección
-            </label>
-
-            <label class="radio-inline">
-              <input type="radio" name="tipoContacto" [(ngModel)]="tipoContacto" value="1"/>
-              Teléfono.
-            </label>
 
             <hr>
           </div>
@@ -207,33 +204,40 @@
           <!-- EMAIL -->
 
           <div class="col-lg-12" *ngIf="tipoContacto == '3'">
-            <label class="required_css">Correo electrónico</label>
-
 
 
             <form name="myForm" novalidate="novalidate">
-              <input type="text" [name]="email" class="form-control" ng-maxlength="200" [ngModelOptions]="{standalone: true}" [(ngModel)]="email" [id]="email"/>
-              <div class="help-block with-errors">
-                <ul class="list-unstyled">
-                  <li>Debe digitar el correo electrónico</li>
-                </ul>
+
+              <div class="row show-grid ">
+
+                <div class="col-md-6">
+
+                  <label class="required_css">Correo electrónico</label>
+
+
+
+
+                  <input type="text" [name]="email" class="form-control" ng-maxlength="200" [ngModelOptions]="{standalone: true}" [(ngModel)]="email" [id]="email"/>
+
+
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                  <label class="required_css">Tipo de uso</label>
+
+
+                  <select class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="mailTipoUso" [name]="mailTipoUso" [id]="mailTipoUso">
+                    <option *ngFor="let ban of listaTU" [value]="ban.codigo">
+                      {{ban.nombre}}
+                    </option>
+                  </select>
+
+                </div>
+
               </div>
-              <div class="help-block with-errors" >
-                <ul class="list-unstyled">
-                  <li>Email no v&aacute;lido</li>
-                </ul>
-              </div>
-
-              <label class="required_css">Tipo de uso</label>
-
-
-              <select class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="mailTipoUso" [name]="mailTipoUso" [id]="mailTipoUso">
-                <option *ngFor="let ban of listaTU" [value]="ban.codigo">
-                  {{ban.nombre}}
-                </option>
-              </select>
-
-
               <hr>
 
               <div class="buttons_css">
@@ -259,61 +263,42 @@
           <div class="col-lg-12" *ngIf="tipoContacto == '1'">               <!-- TELEFONO -->
             <div class="row">
               <form role="form" name="myFormT" novalidate="novalidate">
-                <div class="form-group">
-                  <label class="required_css">Tel&eacute;fono</label>
-                  <table class="phoneInput_css">
-                    <tr>
-                      <td>
-                        <input class="form-control" [name]="telefono"  [id]="telefono" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="telefono" minlength="7"   required="true" [maxlength]="14" />
-                      </td>
-                      <td>
-                        <label>Ext:</label>
-                      </td>
-                      <td>
-                        <input class="form-control" type="text" [name]="ext"  [id]="ext" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="ext" [ngModelOptions]="{standalone: true}"/>
-                      </td>
-                    </tr>
-                  </table>
-                  <div class="help-block with-errors" >
-                    <ul class="list-unstyled">
-                      <li>Debe ser m&iacute;nimo de 7 d&iacute;gitos</li>
-                    </ul>
-                  </div>
-                  <div class="help-block with-errors">
-                    <ul class="list-unstyled">
-                      <li>Debe ser m&aacute;ximo de 14 d&iacute;gitos</li>
-                    </ul>
-                  </div>
-                  <div class="help-block with-errors">
-                    <ul class="list-unstyled">
-                      <li>Campo Obligatorio</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="required_css">Tipo de uso</label>
+
+                <div class="col-lg-12">
+                  <div class="row show-grid ">
+                    <div class="col-lg-3">
+                      <span class="innerTitleBold_css">Tel&eacute;fono: </span>
+                      <input class="form-control" [name]="telefono"  [id]="telefono" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="telefono" minlength="7"   required="true" [maxlength]="14" />
+                    </div>
+
+                    <div class="col-lg-3">
+                      <span class="innerTitleBold_css">Ext: </span>
+                      <input class="form-control" type="text" [name]="ext"  [id]="ext" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="ext" [ngModelOptions]="{standalone: true}"/>
+                    </div>
+
+                    <div class="col-lg-3">
+                      <span class="innerTitleBold_css">Tipo de uso: </span>
+
+                      <select class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="telTipoUso" [name]="telTipoUso" [id]="telTipoUso">
+                        <option *ngFor="let ban of listaTU" [value]="ban.codigo">
+                          {{ban.nombre}}
+                        </option>
+                      </select>
+                    </div>
 
 
-                    <select class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="telTipoUso" [name]="telTipoUso" [id]="telTipoUso">
-                      <option *ngFor="let ban of listaTU" [value]="ban.codigo">
-                        {{ban.nombre}}
-                      </option>
-                    </select>
+                    <div class="col-lg-3">
+                      <span class="innerTitleBold_css">Tipo: </span>
+                      <select class="form-control" id="seleccion" ng-init="tipo='FIJO'" [(ngModel)]="tipo" [ngModelOptions]="{standalone: true}" [(ngModel)]="tipo" [name]="tipo" [id]="tipo">
+                        <option value="FIJO">Fijo</option>
+                        <option value="CELULAR">Celular</option>
+                        <option value="AVANTEL">Avantel</option>
+                      </select>
+                    </div>
 
                   </div>
                 </div>
-                <div class="col-lg-4">
-                  <div class="form-group">
-                    <label class="required_css">Tipo</label>
 
-                    <select class="form-control" id="seleccion" ng-init="tipo='FIJO'" [(ngModel)]="tipo" [ngModelOptions]="{standalone: true}" [(ngModel)]="tipo" [name]="tipo" [id]="tipo">
-                      <option value="FIJO">Fijo</option>
-                      <option value="CELULAR">Celular</option>
-                      <option value="AVANTEL">Avantel</option>
-                    </select>
-                  </div>
-                </div>
               </form>
             </div>
 

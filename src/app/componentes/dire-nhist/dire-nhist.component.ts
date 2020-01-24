@@ -1,42 +1,41 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {CiudadanoService} from '../../servicios/ciudadano.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import {Irespuesta} from '../../dto/irespuesta';
-import {Representante} from '../../dto/representante';
-import {Vehiculo} from '../../dto/vehiculo';
-import {Message, MessageService} from 'primeng/api';
 import {Subscription} from 'rxjs';
 import {Contribuyente} from '../../dto/contribuyente';
+import {CiudadanoService} from '../../servicios/ciudadano.service';
+import {Router} from '@angular/router';
+import {MessageService} from 'primeng/api';
+import {DireccionesHistSujeto} from '../../dto/direcciones-hist-sujeto';
 
 @Component({
-  selector: 'app-vehiculos',
-  templateUrl: './vehiculos.component.html',
-  styleUrls: ['./vehiculos.component.css']
+  selector: 'app-dire-nhist',
+  templateUrl: './dire-nhist.component.html',
+  styleUrls: ['./dire-nhist.component.css']
 })
-export class VehiculosComponent implements OnInit, OnDestroy {
-  lista: Vehiculo[];
+export class DireNhistComponent implements OnInit {
+
+  lista: DireccionesHistSujeto[];
   respuesta: Irespuesta;
 
   haydatos = true;
   constribySubscription: Subscription;
   ciudadanoeActivo: Contribuyente;
 
-
   constructor(private ciudService: CiudadanoService,
-              private router: Router, private messageService: MessageService) {
-  }
-  ngOnInit(): void {
+              private router: Router, private messageService: MessageService) { }
+
+  ngOnInit() {
     this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
       this.ciudadanoeActivo = data;
 
       if (this.ciudadanoeActivo !== null) {
         this.haydatos = true;
-        if (this.ciudService.idSujetoVehiculos !== this.ciudadanoeActivo.idSujeto) {
+        if (this.ciudService.idSujetoHistDir !== this.ciudadanoeActivo.idSujeto) {
           this.consultar(this.ciudadanoeActivo.idSujeto);
-          this.ciudService.idSujetoVehiculos = this.ciudadanoeActivo.idSujeto;
+          this.ciudService.idSujetoHistDir = this.ciudadanoeActivo.idSujeto;
         } else {
-          if (this.ciudService.listaVehi !== null || this.ciudService.listaVehi !== undefined) {
-            this.lista = this.ciudService.listaVehi;
+          if (this.ciudService.listaDirHNot !== null || this.ciudService.listaDirHNot !== undefined) {
+            this.lista = this.ciudService.listaDirHNot;
           }
         }
 
@@ -50,12 +49,12 @@ export class VehiculosComponent implements OnInit, OnDestroy {
   }
   consultar(idsujeto: number ): void {
 
-    const x: Promise<Irespuesta> = this.ciudService.consultaVehiculos(idsujeto);
+    const x: Promise<Irespuesta> = this.ciudService.consultaHistoDireccNot(idsujeto);
     x.then((value: Irespuesta) => {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
-        this.lista = this.respuesta.vehiculos;
-        this.ciudService.listaVehi = this.lista;
+        this.lista = this.respuesta.direccionesHistoN;
+        this.ciudService.listaDirHNot = this.lista;
 
       } else {
         this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
@@ -66,7 +65,7 @@ export class VehiculosComponent implements OnInit, OnDestroy {
     })
       .catch(() => {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'Error tecnico en servicio Buscar actividades ', closable: true});
+          detail: 'Error tecnico en servicio Buscar Historico de Direcciones ', closable: true});
       });
 
   }

@@ -1,34 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Contribuyente} from '../../dto/contribuyente';
 import {Irespuesta} from '../../dto/irespuesta';
 import {AuthServiceService} from '../../servicios/auth-service.service';
 import {FormBuilder} from '@angular/forms';
 import {Message, MessageService} from 'primeng/api';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-ciudadano',
   templateUrl: './ciudadano.component.html',
   styleUrls: ['./ciudadano.component.css']
 })
-export class CiudadanoComponent implements OnInit {
+export class CiudadanoComponent implements OnInit, OnDestroy {
   tipoiden: string;
   identificacion: string;
   elCiudadano: Contribuyente;
   esjuridico = false;
-  ciudadanoeActivo: Contribuyente;
+
+
   rolCiudadano = false;
+
+  constribySubscription: Subscription;
+  ciudadanoeActivo: Contribuyente;
 
   private respuesta: Irespuesta;
 
   constructor(private ciudService: CiudadanoService, private autenticservice: AuthServiceService, private messageService: MessageService) {
-    this.ciudadanoeActivo = this.ciudService.ciudadanoActivo;
     this.elCiudadano = new Contribuyente();
     this.esjuridico = false;
-    // alert(' Entro -');
   }
 
   ngOnInit() {
+    this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente ) => {
+      this.ciudadanoeActivo = data;
+
+    });
     if (this.autenticservice.datos !== undefined) {
       this.elCiudadano.nroIdentificacion = this.autenticservice.datos.nroId;
       this.elCiudadano.tipoDocumento = this.autenticservice.datos.codTId;
@@ -44,29 +51,31 @@ export class CiudadanoComponent implements OnInit {
     // alert('Consumio servicio autenticacion');
     // alert(value);
     if (this.respuesta.codigoError === '0') {
-      // alert('Usuario Existe. ');
-      // carga el contribuyente
-      this.ciudService.ciudadanoActivo = this.respuesta.contribuyente;
+      // ASIGNA EL VALOR AL BEHAIVOR
+      this.ciudService.ciudadanoActivo.next(this.respuesta.contribuyente);
+
+      // this.ciudService.ciudadanoActivo = this.respuesta.contribuyente;
       this.ciudadanoeActivo = this.respuesta.contribuyente;
       this.rolCiudadano = this.ciudService.rolCiudadano;
 
-      // console.log(this.ciudService.ciudadanoActivo);
-      // console.log(this.ciudService.ciudadanoActivo.naturaleza.codigo);
       // this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
       //  detail: 'Se encontró contribuyente. Puede consultar la información en cada una de las pestañas. ', closable: true});
-      if (this.ciudService.ciudadanoActivo.naturaleza.codigo === '2') {
+      if (this.ciudadanoeActivo.naturaleza.codigo === '2') {
         this.esjuridico = true;
       } else {
         this.esjuridico = false;
       }
     } else {
       // alert(this.respuesta.mensaje);
-      this.ciudService.ciudadanoActivo = null;
+      // this.ciudService.ciudadanoActivo = null;
+
+      this.ciudService.ciudadanoActivo.next(null);
       this.ciudadanoeActivo = null;
       this.rolCiudadano = false;
       this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
       detail: 'No se encontró contribuyente con los parametros ingresados, intente de nuevo. ', closable: true});
     }
+    this.ciudService.idSujetoVehiculos = 0;
     })
       .catch(() => {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -88,7 +97,20 @@ export class CiudadanoComponent implements OnInit {
     }*/
 
   }
-  nuevaBusqueda() {
-    this.ciudService.ciudadanoActivo = null;
+  nuevaBusqueda(): void {
+    this.ciudService.ciudadanoActivo.next(null);
+    this.ciudService.idSujetoVehiculos = 0;
+    this.ciudService.idSujetoPredios = 0;
+    this.ciudService.idSujetoActiv = 0;
+    this.ciudService.idSujetoRepre = 0;
+    this.ciudService.idSujetoEstab = 0;
+    this.ciudService.idSujeto1Des = 0;
+
   }
+
+  ngOnDestroy(): void {
+    this.constribySubscription.unsubscribe();
+  }
+
+
 }

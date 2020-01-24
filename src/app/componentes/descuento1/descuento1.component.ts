@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Router} from '@angular/router';
 import {Establecimiento} from '../../dto/establecimiento';
@@ -6,13 +6,15 @@ import {FormBuilder} from '@angular/forms';
 import {Message, MessageService} from 'primeng/api';
 import {Irespuesta} from '../../dto/irespuesta';
 import {Descuentovo} from '../../dto/descuentovo';
+import {Subscription} from 'rxjs';
+import {Contribuyente} from '../../dto/contribuyente';
 
 @Component({
   selector: 'app-descuento1',
   templateUrl: './descuento1.component.html',
   styleUrls: ['./descuento1.component.css']
 })
-export class Descuento1Component implements OnInit {
+export class Descuento1Component implements OnInit, OnDestroy {
 
   lista: Descuentovo[];
   respuesta: Irespuesta;
@@ -21,38 +23,53 @@ export class Descuento1Component implements OnInit {
   idnotif =  false;
   confirmarcambio = false;
 
+  constribySubscription: Subscription;
+  ciudadanoeActivo: Contribuyente;
+
+
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private messageService: MessageService) {
 
-    if (this.ciudService.ciudadanoActivo === null) {
-      this.messageService.add({key: 'warn', severity: 'warn', summary: 'Información',
-        detail: 'Actualmente no hay un contribuyente activo, realice una búsqueda.', closable: true});
-      this.haydatos = false;
-      this.router.navigate(['/crearciu']);
-    } else {
-      this.consultaDatos();
-      this.haydatos = true;
-
-
-
-    }
 
   }
 
   ngOnInit() {
+    this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
+      this.ciudadanoeActivo = data;
+      if (this.ciudService.ciudadanoActivo === null || this.ciudadanoeActivo === undefined) {
+        this.messageService.add({key: 'warn', severity: 'warn', summary: 'Información',
+          detail: 'Actualmente no hay un contribuyente activo, realice una búsqueda.', closable: true});
+        this.haydatos = false;
+        // this.router.navigate(['/crearciu']);
+      } else {
+        this.haydatos = true;
+        if (this.ciudService.idSujeto1Des !== this.ciudadanoeActivo.idSujeto) {
+          this.consultaDatos();
+          this.ciudService.idSujeto1Des = this.ciudadanoeActivo.idSujeto;
+        } else {
+          if (this.ciudService.listaDesc !== null || this.ciudService.listaDesc !== undefined) {
+            this.lista = this.ciudService.listaDesc;
+          }
+        }
+      }
+    });
+
+
   }
   consultaDatos() {
-    const x: Promise<Irespuesta> = this.ciudService.consultaDescuento1(this.ciudService.ciudadanoActivo.idSujeto);
+    const x: Promise<Irespuesta> = this.ciudService.consultaDescuento1(this.ciudadanoeActivo.idSujeto);
     x.then((value: Irespuesta) => {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
         this.lista = this.respuesta.descuentos1;
+        this.ciudService.listaDesc = this.lista;
         this.cargardatos();
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
           detail: this.respuesta.mensaje, closable: true});
+        this.ciudService.listaDesc = null;
 
         // alert();
 
@@ -77,7 +94,7 @@ export class Descuento1Component implements OnInit {
       if (this.idnotif) {
         ntf = 1;
       }
-      const x: Promise<Irespuesta> = this.ciudService.actualizanotificaciones(bz, ntf, this.ciudService.ciudadanoActivo.idSujeto);
+      const x: Promise<Irespuesta> = this.ciudService.actualizanotificaciones(bz, ntf, this.ciudadanoeActivo.idSujeto);
       x.then((value: Irespuesta) => {
         this.respuesta = value;
         // alert('Consumio servicio autenticacion');
@@ -104,7 +121,7 @@ export class Descuento1Component implements OnInit {
   }
   cargardatos() {
 
-    if (this.lista !== undefined && this.lista.length > 0 ){
+    if (this.lista !== undefined && this.lista.length > 0 ) {
       if (this.lista[0].buzon === 1) {
         this.idbuzon = true;
       }
@@ -114,6 +131,9 @@ export class Descuento1Component implements OnInit {
     }
 
 
+  }
+  ngOnDestroy(): void {
+    this.constribySubscription.unsubscribe();
   }
 
 }

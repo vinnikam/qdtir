@@ -6,6 +6,7 @@ import {Actividadecon} from './actividadecon';
 import {Vehiculo} from './vehiculo';
 import { Predio } from './predio';
 import {Descuentovo} from './descuentovo';
+import {DireccionesHistSujeto} from './direcciones-hist-sujeto';
 
 export interface Irespuesta {
   valor ?: string;
@@ -15,6 +16,7 @@ export interface Irespuesta {
   divpolitica ?: Basicovo[];
   representantes ?: Representante[];
   establecimientos ?: Establecimiento[];
+  direccionesHistoN ?: DireccionesHistSujeto[];
 
   actividades ?: Actividadecon;
 

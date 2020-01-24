@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthServiceService} from '../../servicios/auth-service.service';
 import {Router} from '@angular/router';
-import {MenuItem} from 'primeng';
+
 import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {NavbarserviceService} from '../../servicios/navbarservice.service';
+import {MenuItem} from 'primeng/api';
+import {Subscription} from 'rxjs';
+import {Contribuyente} from '../../dto/contribuyente';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   itemsadm: MenuItem[];
   itemsingreso: MenuItem[];
@@ -23,26 +26,33 @@ export class NavbarComponent implements OnInit {
 
   item: MenuItem;
 
+  constribySubscription: Subscription;
 
-  constructor(private _authservice: AuthServiceService,
-              private router: Router, private ciudservic: CiudadanoService) {
+
+  constructor(private authService: AuthServiceService,
+              private router: Router,
+              private ciudService: CiudadanoService) {
 
     this.itemsingreso = [
       {label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'},
       {label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/autenticarCiud'}
     ];
-    this.estaAutenticado = this._authservice.estaAutenticado();
-    this.perfilusuario = this._authservice.perfilusuario;
+    this.estaAutenticado = this.authService.estaAutenticado();
+
+    this.perfilusuario = this.authService.perfilusuario;
 
   }
 
   ngOnInit() {
+    this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
+
+    });
     // this.items = this.navbarservice.getItems();
     // alert(this.ciudservic.rolCiudadano);
     // this.items = this.navbarservice.getItems();
     // alert('recarga');
-    this.estaAutenticado = this._authservice.estaAutenticado();
-    this.perfilusuario = this._authservice.perfilusuario;
+    this.estaAutenticado = this.authService.estaAutenticado();
+    this.perfilusuario = this.authService.perfilusuario;
     this.itemsingreso = [
       {label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'},
       {label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/autenticarCiud'}];
@@ -52,7 +62,8 @@ export class NavbarComponent implements OnInit {
           items: [
             {label: 'Datos personales', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
             {label: 'Datos de Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
-            {label: 'Datos 1 %', icon: 'pi pi-dollar', routerLink: '/descuento'}
+            {label: 'Datos 1 %', icon: 'pi pi-dollar', routerLink: '/descuento'},
+            {label: 'Direcciones Notificacion', icon: 'pi pi-dollar', routerLink: '/historicodir'}
           ]
         },
         {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
@@ -67,9 +78,16 @@ export class NavbarComponent implements OnInit {
         {label: 'Contribuyente', icon: 'pi pi-user-plus',
           items: [
             {label: 'Crear', icon: 'pi pi-user-plus', routerLink: '/crearciu'},
-            {label: 'Datos Pesonales', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
-            {label: 'Datos de Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
-            {label: 'Datos 1 %', icon: 'pi pi-dollar', routerLink: '/descuento'}
+            {label: 'Buscar', icon: 'pi pi-search-plus', command:  (event: Event) => {this.buscarciud(); }},
+            {label: 'Información', icon: 'pi pi-search-plus',
+              items: [
+                {label: 'Personales', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
+                {label: 'De Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
+                {label: 'De notificación', icon: 'pi pi-dollar', routerLink: '/descuento'},
+                {label: 'Historico Direción Ppal.', icon: 'pi pi-dollar', routerLink: '/historicodir'}
+
+              ]
+            }
           ]
         },
         {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
@@ -99,9 +117,13 @@ export class NavbarComponent implements OnInit {
     this.itemsciud = this.itemsciud.filter((item, i) => i !== index);
     event.preventDefault();
   }
+  buscarciud(): void {
+    this.ciudService.ciudadanoActivo.next(null);
+    this.router.navigate(['/crearbus']);
 
+  }
   salir() {
-    this._authservice.salir();
+    this.authService.salir();
     // alert ('salir');
     // this._flashMessagesService.show('Salio de la aplicacion', { cssClass: 'alert-success', timeout: 2000 });
 
@@ -109,11 +131,14 @@ export class NavbarComponent implements OnInit {
 
   }
   salirAdmin() {
-    this._authservice.salir();
+    this.authService.salir();
     // alert ('salir');
     // this._flashMessagesService.show('Salio de la aplicacion', { cssClass: 'alert-success', timeout: 2000 });
 
     this.router.navigate(['/autenticaadmin']);
 
+  }
+  ngOnDestroy(): void {
+    this.constribySubscription.unsubscribe();
   }
 }
