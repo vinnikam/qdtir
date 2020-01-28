@@ -7,6 +7,7 @@ import {Vehiculo} from './vehiculo';
 import { Predio } from './predio';
 import {Descuentovo} from './descuentovo';
 import {DireccionesHistSujeto} from './direcciones-hist-sujeto';
+import {Funcionario} from './funcionario';
 
 export interface Irespuesta {
   valor ?: string;
@@ -30,6 +31,8 @@ export interface Irespuesta {
   claserepres ?: Basicovo[];
   tiporepres ?: Basicovo[];
   token ?: string;
+
+  funcionarios ?: Funcionario[];
 
 
 }

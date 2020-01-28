@@ -8,6 +8,7 @@ import {Irespuesta} from '../../dto/irespuesta';
 import {Basicovo} from '../../dto/basicovo';
 import {FuncionarioService} from '../../servicios/funcionario.service';
 import {UtilidadesService} from '../../servicios/utilidades.service';
+import {Funcionario} from '../../dto/funcionario';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class GestionfuncComponent implements OnInit {
   formulario: FormGroup;
   es: any;
   respuesta ?: Irespuesta;
+
+  lista: Funcionario[];
 
 
 
@@ -44,6 +47,7 @@ export class GestionfuncComponent implements OnInit {
   ngOnInit() {
     this.es = es;
     this.ocultarCrear = true;
+    this.consultaAll();
 
   }
 
@@ -73,6 +77,7 @@ export class GestionfuncComponent implements OnInit {
       if (this.respuesta.codigoError === '0') {
         this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
           detail: 'Se inactivo el funcionario ' + this.formulario.value.usuario, closable: true});
+        this.consultaAll();
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
           detail: 'Inconveniente al inactivar el funcionario ' + this.formulario.value.usuario, closable: true});
@@ -96,6 +101,7 @@ export class GestionfuncComponent implements OnInit {
       if (this.respuesta.codigoError === '0') {
         this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
           detail: 'Se registro el funcionario ' + this.formulario.value.usuario, closable: true});
+        this.consultaAll();
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
           detail: 'Inconveniente al registrar el funcionario ' + this.formulario.value.usuario, closable: true});
@@ -108,6 +114,22 @@ export class GestionfuncComponent implements OnInit {
       });
 
 
+  }
+
+  consultaAll(): void {
+    const x: Promise<Irespuesta> = this.funcinarServ.consultarAll();
+
+    x.then((value: Irespuesta) => {
+
+      this.respuesta = value;
+      if (this.respuesta.codigoError === '0') {
+        this.lista = this.respuesta.funcionarios;
+      }
+    })
+      .catch((err) => {
+        this.messageService.add({key: 'custom', severity: 'error', summary: 'Información',
+          detail: 'Error tecnico al consultar funcionarios.', closable: true});
+      });
   }
 
 }

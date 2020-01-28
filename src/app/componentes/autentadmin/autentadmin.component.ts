@@ -17,6 +17,7 @@ export class AutentadminComponent implements OnInit {
   private respuesta: Irespuesta;
   usuario: string;
   clave: string;
+  token;
 
   constructor(private _authService: AuthServiceService,
               private router: Router, private _ciudadservice: CiudadanoService,
@@ -26,11 +27,24 @@ export class AutentadminComponent implements OnInit {
   }
   validar() {
     if (this._authService.autentAdmin(this.usuario, this.clave)) {
-      this.messageService.add({key: 'custom', severity: 'success', summary: 'Información', detail: 'Usuario correcto. ', closable: true});
+
+      const x: Promise<Irespuesta> = this._authService.crearTk(this.usuario, this.clave);
+
+      x.then((value: Irespuesta) => {
+
+        this.respuesta = value;
+        this.token = this.respuesta.token;
+      })
+        .catch((err) => {
+          this.messageService.add({key: 'custom', severity: 'error', summary: 'Información',
+            detail: 'Error tecnico al obtener token .', closable: true});
+        });
+      localStorage.setItem('id_token', this.token);
       this.router.navigate(['gestionfuncionario']);
+
     } else {
       this.messageService.add({key: 'custom', severity: 'error', closable: false, life: 2000,
-        summary: 'Información', detail: 'Datos incorrectos, intente de nuevo! '});
+        summary: 'Información', detail: 'Datos de autenticacion incorrectos, verifique e intente de nuevo! '});
 
       this.router.navigate(['autenticaadmin']);
     }

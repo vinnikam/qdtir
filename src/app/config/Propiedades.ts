@@ -1,8 +1,21 @@
 export const valores = {
-  ip_servidor : 'http://10.180.220.35:7777/',
+  ip_servidor : 'http://127.0.0.1:7101/' , // 'http://10.180.220.35:7777/',
   admin: 'adminrit',
   clave: '9102qdtir'
 }
+export const tiposIdenJuridico = [
+  {codigo: '', nombre: 'Seleccione una opción'},
+  {codigo: '3', nombre: 'NIT'},
+  {codigo: '9', nombre: 'NIT EXTRANJERO'}
+];
+export const tiposIdenNatural = [
+  {codigo: '', nombre: 'Seleccione una opción'},
+  {codigo: '4', nombre: 'CEDULA DE CIUDADANIA'},
+  {codigo: '2', nombre: 'CEDULA DE EXTRANJERIA'},
+  {codigo: '5', nombre: 'PASAPORTE'},
+  {codigo: '7', nombre: 'CARNET DIPLOMATICO'}
+
+];
 // ng build --prod --base-href="/RITDQWEB/index.html"
 export const es = {
   // date

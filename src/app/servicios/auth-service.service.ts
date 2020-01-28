@@ -5,6 +5,7 @@ import {Irespuesta} from '../dto/irespuesta';
 import {Contribuyente} from '../dto/contribuyente';
 import {HttpClient} from '@angular/common/http';
 import {valores} from '../config/Propiedades';
+import {Irtaoam} from '../dto/irtaoam';
 
 @Injectable()
 export class AuthServiceService {
@@ -15,6 +16,7 @@ export class AuthServiceService {
   urlLoginFuncionario = 'ServiciosRITDQ/resources/consultas/autenticar';
   urlcreartk = 'ServiciosRITDQ/resources/consultas/creatk';
   urlvalidatk = 'ServiciosRITDQ/resources/consultas/validatk';
+  urlpropiedad = 'ServiciosRITDQ/resources/propiedades/obtener';
 
 
   private doc: string;
@@ -87,14 +89,14 @@ export class AuthServiceService {
   }
 
 
-  loginCiudadano(ciudadano: Contribuyente): Promise<Irespuesta> {
+  loginCiudadano(ruta: string, ciudadano: Contribuyente): Promise<Irtaoam> {
     const datosC = {
 
       tipoDocumento: this.tipoIdentificacion(ciudadano.tipoDocumento),
       numeroDocumento: ciudadano.nroIdentificacion,
       password: ciudadano.clave
     };
-    return this.http.post<Irespuesta>(`${this.urlLoginCiudadano}`, datosC).toPromise();
+    return this.http.post<Irtaoam>(`${ruta}`, datosC).toPromise();
   }
   loginFuncionario(ciudadano: Contribuyente): Promise<Irespuesta> {
     const datosF = {
@@ -106,9 +108,6 @@ export class AuthServiceService {
 
   autentAdmin(usuario: string, clave: string): boolean {
     if (usuario === valores.admin && clave === valores.clave) {
-      this.token = this.crearTk(usuario, clave);
-
-      localStorage.setItem('id_token', this.token);
       this.ingresaadmin(usuario);
       return true;
     } else {
@@ -143,7 +142,7 @@ export class AuthServiceService {
       usuarioauten: usuario,
       snombre: clave
     };
-    return this.http.post<Irespuesta>(`${this.urlcreartk}`, datosC).toPromise();
+    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlcreartk}`, datosC).toPromise();
 
   }
   validaTk(tk: string) {
@@ -151,7 +150,14 @@ export class AuthServiceService {
 
       token: tk
     };
-    return this.http.post<Irespuesta>(`${this.urlvalidatk}`, datosC).toPromise();
+    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlvalidatk}`, datosC).toPromise();
+
+  }
+  consultaPropiedad(param: string) {
+    const datosC = {
+      pnombre: param
+    };
+    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlpropiedad}`, datosC).toPromise();
 
   }
 

@@ -101,7 +101,7 @@ export class Descuento1Component implements OnInit, OnDestroy {
         // alert(value);
         if (this.respuesta.codigoError === '0') {
           this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
-            detail: 'Se actualizaron las notificacoines, a partir de este momento son los valores activos. ', closable: true});
+            detail: 'Se actualizaron las notificaciones, a partir de este momento son los valores activos. ', closable: true});
           this.consultaDatos();
         } else {
           this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
