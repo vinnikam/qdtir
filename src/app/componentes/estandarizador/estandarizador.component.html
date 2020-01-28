@@ -1,7 +1,12 @@
 
 <p-toast position="top-left"></p-toast>
 
+
 <div class="panel-body" *ngIf="capturaDireccion">
+
+    <div [formGroup]="formulario">
+
+
   <button type="button" class="close" ng-click="cerrarCaptura()">&times;</button>
 
   <p-panel header="Departamento y Municipio">
@@ -15,19 +20,18 @@
     <div id="deptomun" >
       <div class="clearfix invisible-md-12"></div>
 
+      <p-messages [(value)]="msgs" ></p-messages>
+
       <div class="row show-grid ">
 
         <div class="col-md-6">
           <span class="innerTitleBold_css">Departamento: </span>
-          <p-dropdown [options]="listdptos" [(ngModel)]="departamento" optionLabel="nombre" (onChange)="cambioDepto()"></p-dropdown>
-
-
-
-
+          <p-dropdown [options]="listdptos"  name="departamento"   formControlName="departamento" required="required" optionLabel="nombre" (onChange)="cambioDepto()" placeholder="Seleccione"></p-dropdown>
         </div>
+
         <div class="col-md-6">
           <span class="innerTitleBold_css">Municipio: </span>
-          <p-dropdown [options]="listmunicipios" [(ngModel)]="mpioDireccion" optionLabel="nombre"></p-dropdown>
+          <p-dropdown [options]="listmunicipios" name="mpioDireccion" ngModel formControlName="mpioDireccion" optionLabel="nombre" placeholder="Seleccione" required></p-dropdown>
 
         </div>
 
@@ -41,9 +45,9 @@
 
       <div class="row show-grid ">
 
-        <div class="col-md-6" *ngIf="validacionTipoUso">
+        <div class="col-md-6" >
           <span class="innerTitleBold_css">C&oacute;digo Postal: </span>
-          <input type="text" pInputText [(ngModel)]="codPostalDireccion" title="Codigo Postal"/>
+          <input type="number" pInputText name="codPostalDireccion" formControlName="codPostalDireccion" title="Codigo Postal" required/>
 
           <span class="input-group-btn modalFixBtn_css tooltip-info">
               <button class="btn btn-default" type="button" data-toggle="tooltip" data-placement="top"
@@ -56,7 +60,7 @@
         </div>
         <div class="col-md-6">
           <span class="innerTitleBold_css">Tipo de uso: </span>
-          <p-dropdown [options]="listaTU" [(ngModel)]="dirTipoUso" optionLabel="nombre"></p-dropdown>
+          <p-dropdown [options]="listaTU" name="dirTipoUso" ngModel formControlName="dirTipoUso" optionLabel="nombre" placeholder="Seleccione" required></p-dropdown>
 
         </div>
 
@@ -74,23 +78,25 @@
 
       <p-panel header="Actualizar Dirección">
 
+
+
         <div aling ="center" class="col-md-12">
-          <p-dropdown [options]="listviaprimaria" [(ngModel)]="viaPrimaria" (onChange)="cambioDir()" placeholder="Seleccione" optionLabel="nombre" ></p-dropdown>
+          <p-dropdown [options]="listviaprimaria" name="viaPrimaria" ngModel formControlName="viaPrimaria" (onChange)="cambioDir()" placeholder="Seleccione" optionLabel="nombre"></p-dropdown>
 
 
-          <input type="text" pInputText [(ngModel)]="nroViaPpal" (input)="cambioDir()" title="Número v&iacute;a principal" size="3" />
+          <input type="text" pInputText name="nroViaPpal" ngModel formControlName="nroViaPpal" (input)="cambioDir()" title="Número v&iacute;a principal" size="3" />
 
 
-          <p-dropdown [options]="letras" [(ngModel)]="letraViaPpal" optionLabel="nombre" placeholder="Seleccione" (onChange)="cambioDir()"></p-dropdown>
+          <p-dropdown [options]="letras20" name="letraViaPpal" ngModel formControlName="letraViaPpal" optionLabel="nombre" placeholder="Seleccione" (onChange)="cambioDir()"></p-dropdown>
 
 
-          <p-dropdown [options]="bis" [(ngModel)]="bis1" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
+          <p-dropdown [options]="bis10" name="bis1" ngModel formControlName="bis1" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
 
 
-          <p-dropdown [options]="letras" [(ngModel)]="letraBis" optionLabel="nombre" (onChange)="cambioDir()"  placeholder="Seleccione"></p-dropdown>
+          <p-dropdown [options]="letras10" name="letraBis" ngModel formControlName="letraBis" optionLabel="nombre" (onChange)="cambioDir()"  placeholder="Seleccione"></p-dropdown>
 
 
-          <p-dropdown [options]="cuadrante" [(ngModel)]="cuadrante1" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
+          <p-dropdown [options]="cuadrante" name="cuadrante1" ngModel formControlName="cuadrante1" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
 
         </div>
 
@@ -99,18 +105,20 @@
         <div aling ="center" class="col-md-12">
 
 
-          <input type="text" pInputText [(ngModel)]="nroViaGen"  (input)="cambioDir()" title="Número v&iacute;a general" size="3" />
+          <input type="text" pInputText name="nroViaGen" ngModel formControlName="nroViaGen" (input)="cambioDir()" title="Número v&iacute;a general" size="3" />
 
-          <p-dropdown [options]="letras" [(ngModel)]="letraViaGen" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
-
-
-          <input type="number" pInputText [(ngModel)]="nroPlaca" (input)="cambioDir()" title="N&uacute;mero de placa" />
+          <p-dropdown [options]="letras" name="letraViaGen" ngModel formControlName="letraViaGen" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
 
 
+          <input type="number" pInputText name="nroPlaca" ngModel formControlName="nroPlaca" (input)="cambioDir()" title="N&uacute;mero de placa" />
 
-          <p-dropdown [options]="cuadrante" [(ngModel)]="cuadranteVG" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
+
+
+          <p-dropdown [options]="cuadrante" name="cuadranteVG" ngModel formControlName="cuadranteVG" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
 
         </div>
+
+
 
       </p-panel>
 
@@ -131,12 +139,14 @@
         botón &quot;Agregar Complemento&quot;. Repita este proceso hasta completar su dirección y verifíquela
         en el recuadro.</small>
     </p>
+
+
     <div class="row ">
       <div class="col-md-4">
-        <p-dropdown [options]="complemento" [(ngModel)]="complemento1" optionLabel="nombre" (change)="cambioDir()" placeholder="Seleccione el Complemento 1" ></p-dropdown>
+        <p-dropdown [options]="complemento" name="complemento1" ngModel formControlName="complemento1" optionLabel="nombre" (change)="cambioDir()" placeholder="Seleccione el Complemento 1" ></p-dropdown>
       </div>
       <div class="col-md-3">
-        <input type="text" pInputText [(ngModel)]="complemento2" (input)="cambioDir()" title="N&uacute;mero de placa" placeholder="Complemento 2"/>
+        <input type="text" pInputText name="complemento2" ngModel formControlName="complemento2" (input)="cambioDir()" title="N&uacute;mero de placa" placeholder="Complemento 2"/>
 
       </div>
       <div class="col-md-3">
@@ -147,7 +157,10 @@
 
   </p-panel>
 
+    </div>
 </div>
+
+
 
 
 
@@ -174,10 +187,7 @@
 
 
 <div class="modal-footer-dir" >
-  <button type="button" class="btn btn-primary" (click)="cancel()">
-    <span class="glyphicon glyphicon-level-up" aria-hidden="true"></span>
-    Regresar
-  </button>
+
   <button type="button" class="btn btn-success" (click)="ok()" *ngIf="!validacionRegistroDireccion">
     <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
     Guardar
@@ -190,6 +200,7 @@
 
 
 </div>
+
 
 
 <!--

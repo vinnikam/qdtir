@@ -205,31 +205,20 @@
 
           <div class="col-lg-12" *ngIf="tipoContacto == '3'">
 
+            <div [formGroup]="myForm">
 
-            <form name="myForm" novalidate="novalidate">
-
+              <p-messages [(value)]="msgsEmail" ></p-messages>
               <div class="row show-grid ">
-
                 <div class="col-md-6">
-
                   <label class="required_css">Correo electrónico</label>
-
-
-
-
-                  <input type="text" [name]="email" class="form-control" ng-maxlength="200" [ngModelOptions]="{standalone: true}" [(ngModel)]="email" [id]="email"/>
-
-
-
+                  <input type="text" name="email" formControlName="email" class="form-control" ng-maxlength="200" placeholder="Email" required/>
                 </div>
 
 
                 <div class="col-md-6">
-
                   <label class="required_css">Tipo de uso</label>
 
-
-                  <select class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="mailTipoUso" [name]="mailTipoUso" [id]="mailTipoUso">
+                  <select class="form-control" name="mailTipoUso" formControlName="mailTipoUso" required="required">
                     <option *ngFor="let ban of listaTU" [value]="ban.codigo">
                       {{ban.nombre}}
                     </option>
@@ -241,17 +230,13 @@
               <hr>
 
               <div class="buttons_css">
-                <button type="button" class="btn btn-primary" (click)="cancel()">
-                  <span class="glyphicon glyphicon-level-up" aria-hidden="true"></span>
-                  Cancelar
-                </button>
                 <button type="button" class="btn btn-success" (click)="registrar()">
                   <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
                   Crear Contacto
                 </button>
               </div>
 
-            </form>
+            </div>
 
 
 
@@ -262,24 +247,26 @@
 
           <div class="col-lg-12" *ngIf="tipoContacto == '1'">               <!-- TELEFONO -->
             <div class="row">
-              <form role="form" name="myFormT" novalidate="novalidate">
 
+
+              <div [formGroup]="myFormT">
+                <p-messages [(value)]="msgsTelefono" ></p-messages>
                 <div class="col-lg-12">
                   <div class="row show-grid ">
                     <div class="col-lg-3">
                       <span class="innerTitleBold_css">Tel&eacute;fono: </span>
-                      <input class="form-control" [name]="telefono"  [id]="telefono" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="telefono" minlength="7"   required="true" [maxlength]="14" />
+                      <input class="form-control" name="telefono"  type="text" formControlName="telefono"  required/>
                     </div>
 
                     <div class="col-lg-3">
                       <span class="innerTitleBold_css">Ext: </span>
-                      <input class="form-control" type="text" [name]="ext"  [id]="ext" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="ext" [ngModelOptions]="{standalone: true}"/>
+                      <input class="form-control" type="text" name="ext"  type="text" formControlName ="ext" />
                     </div>
 
                     <div class="col-lg-3">
                       <span class="innerTitleBold_css">Tipo de uso: </span>
 
-                      <select class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="telTipoUso" [name]="telTipoUso" [id]="telTipoUso">
+                      <select class="form-control" formControlName="telTipoUso" name="telTipoUso" required>
                         <option *ngFor="let ban of listaTU" [value]="ban.codigo">
                           {{ban.nombre}}
                         </option>
@@ -289,7 +276,7 @@
 
                     <div class="col-lg-3">
                       <span class="innerTitleBold_css">Tipo: </span>
-                      <select class="form-control" id="seleccion" ng-init="tipo='FIJO'" [(ngModel)]="tipo" [ngModelOptions]="{standalone: true}" [(ngModel)]="tipo" [name]="tipo" [id]="tipo">
+                      <select class="form-control" id="seleccion"  formControlName="tipo" name="tipo" required>
                         <option value="FIJO">Fijo</option>
                         <option value="CELULAR">Celular</option>
                         <option value="AVANTEL">Avantel</option>
@@ -299,17 +286,13 @@
                   </div>
                 </div>
 
-              </form>
+              </div>
             </div>
 
             <hr>
 
             <div class="buttons_css">
-              <button type="button" class="btn btn-primary" (click)="cancel()">
-                <span class="glyphicon glyphicon-level-up" aria-hidden="true"></span>
-                Cancelar
-              </button>
-              <button type="button" class="btn btn-success" (click)="registrar()">
+               <button type="button" class="btn btn-success" (click)="registrar()">
                 <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
                 Crear Contacto
               </button>

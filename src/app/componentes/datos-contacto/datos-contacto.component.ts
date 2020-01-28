@@ -4,7 +4,17 @@ import {Router} from '@angular/router';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 import {Irespuesta} from '../../dto/irespuesta';
-import {bis, complemento, cuadrante, departamentos, letras, municipios, tipoViaPrimaria} from '../../config/Divipola';
+import {
+  bis,
+  bis10,
+  complemento,
+  cuadrante,
+  departamentos,
+  letras,
+  letras10,
+  municipios,
+  tipoViaPrimaria
+} from '../../config/Divipola';
 import {Basicovo} from '../../dto/basicovo';
 import {Contacto} from '../../dto/contacto';
 
@@ -18,6 +28,7 @@ import {TipoUso} from '../../dto/tipo-uso';
 import {Message, MessageService} from 'primeng/api';
 import {Contribuyente} from '../../dto/contribuyente';
 import {UtilidadesService} from '../../servicios/utilidades.service';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 
 @Component({
@@ -27,16 +38,10 @@ import {UtilidadesService} from '../../servicios/utilidades.service';
 })
 export class DatosContactoComponent implements OnInit, OnDestroy {
 
-  /*
-  constructor(private ciudService: CiudadanoService,
-              private router: Router) {
-    if (this.ciudService.ciudadanoActivo === undefined) {
-      alert('No hay ciudadano activo')
-      this.router.navigate(['/crearciu']);
-    }
 
-  }
-*/
+  myFormT: FormGroup;
+
+  myForm: FormGroup;
 
   @Input() dptoDireccion: any;
   @Input() mpioDireccion: any;
@@ -58,7 +63,10 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   prmIn: any;
   listviaprimaria: any;
   letras: any;
+  letras10: any;
+
   bis: any;
+  bis10: any;
   cuadrante: any;
   complemento: any ;
   complemento1: any ;
@@ -97,6 +105,9 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   items: MenuItem[];
   activeItem: MenuItem;
 
+  msgsEmail: Message[] = [];
+
+  msgsTelefono: Message[] = [];
 
   respuesta: Irespuesta;
   respuestauso: TipoUso;
@@ -128,7 +139,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
 
-  constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private router: Router,
+  constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private formBuilder: FormBuilder, private formBuilder2: FormBuilder, private router: Router,
               private messageService: MessageService, private utilidades: UtilidadesService) {
 
     this.url = ciudService.url;
@@ -147,6 +158,8 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
     this.listviaprimaria = tipoViaPrimaria;
     this.letras = letras;
+
+    this.letras10 = letras;
     this.bis = bis;
     this.cuadrante = cuadrante;
     this.complemento =  complemento;
@@ -192,11 +205,94 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
     ];
     this.activeItem = this.items[0];
 
+
+    this.buildForm();
+    this.buildForm2();
+
   }
 
 
 
+  private buildForm(){
+    this.myFormT = this.formBuilder.group({
+      telefono: ['', Validators.required],
+      ext: ['', ],
+      telTipoUso: ['', Validators.required],
+      tipo: ['', Validators.required]
+    });
+  }
 
+
+  private buildForm2(){
+    this.myForm= this.formBuilder2.group({
+      email: ['', Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)],
+      mailTipoUso: ['', Validators.required]
+    });
+  }
+
+
+
+  validarTelefono(): boolean {
+
+    if (this.myFormT.value.telefono === null || this.myFormT.value.telefono == '') {
+
+      this.msgsTelefono = [];
+      this.msgsTelefono.push({severity:'error', summary:'Campo Obligatorio', detail:'El Teléfono es Requerido.'});
+      return false;
+    }
+
+
+    if (this.myFormT.value.telTipoUso === null || this.myFormT.value.telTipoUso == '') {
+
+      this.msgsTelefono = [];
+      this.msgsTelefono.push({severity:'error', summary:'Campo Obligatorio', detail:'El Tipo uso es Requerido.'});
+      return false;
+    }
+
+
+    if (this.myFormT.value.tipo === null || this.myFormT.value.tipo == '') {
+
+      this.msgsTelefono = [];
+      this.msgsTelefono.push({severity:'error', summary:'Campo Obligatorio', detail:'El Tipo es Requerido.'});
+      return false;
+    }
+
+    if (this.myFormT.invalid) {
+      return false;
+    } else {
+      return true;
+    }
+
+
+  }
+
+  validarEmail(): boolean {
+
+    if (this.myForm.value.email === null || this.myForm.value.email == '') {
+
+      this.msgsEmail = [];
+      this.msgsEmail.push({severity:'error', summary:'Campo Obligatorio', detail:'El Email es Requerido.'});
+      return false;
+    }
+
+
+    if (this.myForm.value.mailTipoUso === null || this.myForm.value.mailTipoUso == '') {
+
+      this.msgsEmail = [];
+      this.msgsEmail.push({severity:'error', summary:'Campo Obligatorio', detail:'El Tipo de uso es Requerido.'});
+      return false;
+    }
+
+
+
+    if (this.myForm.invalid) {
+      return false;
+    } else {
+      return true;
+    }
+
+
+  }
 
 
 
@@ -279,20 +375,6 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   }
 
 
-  cambioDir(): void{
-
-    this.direccion = this.viaPrimaria;
-    if (this.nroViaPpal !== '') this.direccion += ' ' + this.nroViaPpal;
-    if (this.letraViaPpal !== void 0 && this.letraViaPpal !== void 0 && this.letraViaPpal !== '') this.direccion += ' ' + this.letraViaPpal;
-    if (this.bis1 !== void 0 && this.bis1 !== void 0 && this.bis1 !== '') this.direccion += ' ' + this.bis1;
-    if (this.letraBis !== void 0 && this.letraBis !== void 0 && this.letraBis !== '') this.direccion += ' ' + this.letraBis;
-    if (this.cuadrante1 !== void 0 && this.cuadrante1 !== void 0 && this.cuadrante1 !== '') this.direccion += ' ' + this.cuadrante1;
-    if (this.nroViaGen !== '') this.direccion += ' ' + this.nroViaGen;
-    if (this.letraViaGen !== void 0 && this.letraViaGen !== void 0 && this.letraViaGen !== '') this.direccion += ' ' + this.letraViaGen;
-    if (this.nroPlaca !== '') this.direccion += ' ' + this.nroPlaca;
-    if (this.cuadranteVG !== void 0 && this.cuadranteVG !== void 0 && this.cuadranteVG !== '') this.direccion += ' ' + this.cuadranteVG;
-
-  }
 
 
   editarDirNotificacion(): Promise<Irespuesta>{
@@ -303,27 +385,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   }
 
 
-  complementar(): void{
-    let compl = '';
-    if (this.direccion === void 0 || this.direccion == '') {
-      // mostrarMensaje('Debe pirmero diligenciar la direcci\xf3n antes de adicionarle el complemento.', AlertLevel.WARNING);
-      return;
-    }
 
-    if (this.complemento1 !== void 0 && this.complemento1 !== '') {
-      compl += ' ' + this.complemento1;
-    }
-
-    if (compl !== '' && this.complemento2 !== void 0 && this.complemento2 !== '') {
-      const x = this.complemento2.trim();
-      this.direccion += compl + ' ' + x;
-    } else {
-      // mostrarMensaje('Debe diligenciar los dos campos del complemento de la direcci\xf3n para poderlo agregar.', AlertLevel.WARNING);
-    }
-
-    this.complemento1 = '';
-    this.complemento2 = '';
-  }
 
 
   cancel(): void{
@@ -365,6 +427,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   addContacto(): void{
 
+    this.limpiarCampos();
     this.displayAddContacto = true;
     this.ciudService.validacionDireccion = true;
     this.ciudService.validacionRegistroDireccion = true;
@@ -372,6 +435,43 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   }
 
+
+
+
+  limpiarCampos():void{
+
+    /*
+    this.listviaprimaria = tipoViaPrimaria;
+    this.letras = letras;
+    this.letras10 = letras10;
+    this.bis = bis;
+    this.bis10 = bis10;
+    this.cuadrante = cuadrante;
+    this.complemento =  complemento;
+    this.nroViaPpal = '';
+    this.letraBis = '';
+    this.nroViaGen = '';
+    this.letraViaGen = '';
+    this.nroPlaca = '';
+    this.cuadranteVG = '';
+
+    this.telefono = '';
+    this.ext = '';
+
+
+    this.email = '';
+
+    this.mailTipoUso = '';
+
+    this.telTipoUso = '';
+
+    this.tipo = '';
+    */
+
+    this.myFormT.reset();
+    this.myForm.reset();
+
+  }
 
   consultarTipo(): Promise<TipoUso> {
     console.log('el servicio configurado...' + this.urluso);
@@ -388,50 +488,67 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
     this.contacto.pais     = '49' ;
 
 
-    switch( parseInt(this.tipoContacto ) ) {
-      case 1:                                                         // TELEFONO
-        this.urlEditar = this.urlEditaTelContacto ;
-        this.contacto.nuevoTelefono = this.telefono ;
-        this.contacto.municipio     = '149' ; // $scope.telMpio ;
-        this.contacto.depto         = '11' ; // $scope.telDpto ;
-        this.contacto.codPostal     = '110111' ; // $scope.telcodPostal ;
-        this.contacto.tipo          = this.tipo ;
-        this.contacto.ext           = this.ext ;
-        this.contacto.tipoUso       = this.telTipoUso;
-        this.contacto.tipoT =  this.tipoContacto;
-        this.contacto.tipoContacto =  this.tipoContacto;
+     if(parseInt(this.tipoContacto ) === 1)
+     {
+       if(this.validarTelefono()) {
+
+         this.urlEditar = this.urlEditaTelContacto;
+         this.contacto.nuevoTelefono = this.myFormT.value.telefono;
+         this.contacto.municipio = '149'; // $scope.telMpio ;
+         this.contacto.depto = '11'; // $scope.telDpto ;
+         this.contacto.codPostal = '110111'; // $scope.telcodPostal ;
+         this.contacto.tipo = this.myFormT.value.tipo;
+         this.contacto.ext = this.myFormT.value.ext;
+         this.contacto.tipoUso = this.myFormT.value.telTipoUso;
+         this.contacto.tipoT = this.tipoContacto;
+         this.contacto.tipoContacto = this.tipoContacto;
+
+         this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
+           catchError(() => of([]))
+         ).subscribe((cont: Irespuesta) => {
+           this.consultarDatos(this.tipoDocumento, this.numeroDocumento);  });
+
+         this.limpiarCampos();
+         this.displayAddContacto = false;
+
+       }
 
 
-        break ;
-      case 2:                                                         // DIRECCION
-        this.urlEditar = this.urlEditarDirNoti ;
-        this.contacto.direccion    = this.direccion ;
-        this.contacto.municipio    = this.mpioDireccion.cod ;
-        this.contacto.departamento = this.dptoDireccion.cod ;
-        this.contacto.codPostal    = this.codPostal ;
-        this.contacto.tipoUso      = this.dirTipoUso;
-        break ;
-      case 3:                                                         // EMAIL
-        this.urlEditar = this.urlEditaCorreoContacto ;
-        this.contacto.nuevocorreo = this.email ;
-        this.contacto.respuesta   = '' ;
-        this.contacto.tipoUso     = this.mailTipoUso ;
-        this.contacto.tipoT =  this.tipoContacto;
-        this.contacto.tipoContacto =  this.tipoContacto;
-        break;
-      default:
+     }
 
-        alert( 'Tipo de contacto no definido');
+
+    if(parseInt(this.tipoContacto ) === 3) {
+      if (this.validarEmail()) {
+
+        this.urlEditar = this.urlEditaCorreoContacto;
+        this.contacto.nuevocorreo = this.myForm.value.email;
+        this.contacto.respuesta = '';
+        this.contacto.tipoUso = this.myForm.value.mailTipoUso;
+        this.contacto.tipoT = this.tipoContacto;
+        this.contacto.tipoContacto = this.tipoContacto;
+
+        this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
+          catchError(() => of([]))
+        ).subscribe((cont: Irespuesta) => {
+          this.consultarDatos(this.tipoDocumento, this.numeroDocumento);  });
+
+        this.limpiarCampos();
+        this.displayAddContacto = false;
+
+      }
+
     }
 
 
+    if(parseInt(this.tipoContacto ) === 2) {
 
-    this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
-      catchError(() => of([]))
-    ).subscribe((cont: Irespuesta) => {
-      this.consultarDatos(this.tipoDocumento, this.numeroDocumento);  });
-
-    this.displayAddContacto = false;
+      this.urlEditar = this.urlEditarDirNoti ;
+      this.contacto.direccion    = this.direccion ;
+      this.contacto.municipio    = this.mpioDireccion.cod ;
+      this.contacto.departamento = this.dptoDireccion.cod ;
+      this.contacto.codPostal    = this.codPostal ;
+      this.contacto.tipoUso      = this.dirTipoUso;
+    }
 
   }
 

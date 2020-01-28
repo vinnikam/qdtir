@@ -296,7 +296,21 @@ export const  letras = [{codigo: 'A', nombre: 'A'}, {codigo: 'B', nombre: 'B'}, 
   {codigo: 'W', nombre: 'W'}, {codigo: 'X', nombre: 'X'},
   {codigo: 'Y', nombre: 'Y'}, {codigo: 'Z', nombre: 'Z'}];
 
+
+export const  letras10 = [{codigo: 'A', nombre: 'A'}, {codigo: 'B', nombre: 'B'}, {codigo: 'C', nombre: 'C'}, {codigo: 'D', nombre: 'D'},
+  {codigo: 'E', nombre: 'E'}, {codigo: 'F', nombre: 'F'},
+  {codigo: 'G', nombre: 'G'}, {codigo: 'H', nombre: 'H'}, {codigo: 'I', nombre: 'I'}, {codigo: 'J', nombre: 'J'},
+  {codigo: 'K', nombre: 'K'}, {codigo: 'L', nombre: 'L'},
+  {codigo: 'M', nombre: 'M'}, {codigo: 'N', nombre: 'N'}, {codigo: 'O', nombre: 'O'}, {codigo: 'P', nombre: 'P'},
+  {codigo: 'Q', nombre: 'Q'}, {codigo: 'R', nombre: 'R'},
+  {codigo: 'S', nombre: 'S'}, {codigo: 'T', nombre: 'T'}, {codigo: 'U', nombre: 'U'}, {codigo: 'V', nombre: 'V'},
+  {codigo: 'W', nombre: 'W'}, {codigo: 'X', nombre: 'X'},
+  {codigo: 'Y', nombre: 'Y'}, {codigo: 'Z', nombre: 'Z'}];
+
+
 export const  bis = [{codigo: 'BIS', nombre: 'BIS'}];
+
+export const  bis10 = [{codigo: 'BIS', nombre: 'BIS'}];
 
 export const  cuadrante = [{codigo: 'SUR', nombre: 'SUR'}, {codigo: 'ESTE', nombre: 'ESTE'}];
 
