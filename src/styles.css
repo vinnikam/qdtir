@@ -155,7 +155,16 @@ body {
   color: #fff;
 }
 .base-header-admi {
-  background: #038c3a;
+  background: #7EAA7E;
+  padding: 20px;
+  font-size: 1.4em;
+  font-weight: normal;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+}
+.base-header-ciud {
+  background: #85AFD4;
   padding: 20px;
   font-size: 1.4em;
   font-weight: normal;

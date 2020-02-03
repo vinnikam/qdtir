@@ -96,40 +96,52 @@ export class CiudadanonvComponent implements OnInit {
       const jsonString = JSON.stringify(this.formulario.value);
       // console.log(jsonString);
       this.contribuyente = JSON.parse(jsonString) as Contribuyente;
-      // console.log(this.contribuyente);
 
-      // alert(elContribuyente.tipoPersona);
-      // alert('ok');
-      // console.log(this.contribuyente);
-      const x: Promise<Irespuesta> = this.ciudadServ.crear(this.contribuyente);
+      const x: Promise<Irespuesta> = this.ciudadServ.buscar(this.contribuyente);
       x.then((value: Irespuesta) => {
-        // alert('Carga paises1');
         this.respuesta = value;
         if (this.respuesta.codigoError === '0') {
-          // this.paises = this.respuesta.divpolitica;
-          //  alert('SE REGISTRO' );
-          this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
-            detail: 'Se registro el contribuyente..', closable: true});
-
+          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'El contribuyente a registrar ya se encuentra en la base de RIT. ', closable: true});
 
         } else {
-          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-            detail: 'No se registro el contribuyente.'+ this.respuesta.mensaje, closable: true});
-
-          // alert('NO SE REGISTRO');
-
+          this.guardaContrib();
         }
-      })
-        .catch((err) => {
-          this.messageService.add({key: 'custom', severity: 'error', summary: 'Información',
-            detail: 'Error técnico en el registro del contribuyente.', closable: true});
 
-          // alert('Error tecnico en la consulta de paises' + err);
+      })
+        .catch(() => {
+          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'Error tecnico en la consulta del servicio buscar contribuyente', closable: true});
         });
+
     }
 
 
 
+
+  }
+  guardaContrib(): void {
+    const jsonString = JSON.stringify(this.formulario.value);
+    this.contribuyente = JSON.parse(jsonString) as Contribuyente;
+    const x: Promise<Irespuesta> = this.ciudadServ.crear(this.contribuyente);
+    x.then((value: Irespuesta) => {
+      this.respuesta = value;
+      if (this.respuesta.codigoError === '0') {
+        this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
+          detail: 'Se registro el contribuyente..', closable: true});
+        this.cargarFormulario();
+
+
+      } else {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'No se registro el contribuyente.'+ this.respuesta.mensaje, closable: true});
+
+      }
+    })
+      .catch((err) => {
+        this.messageService.add({key: 'custom', severity: 'error', summary: 'Información',
+          detail: 'Error técnico en el registro del contribuyente.', closable: true});
+      });
 
   }
   validar(): boolean {

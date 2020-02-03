@@ -31,13 +31,13 @@ export class UtilidadesService {
       case  'PASAPORTE':
         return '5';
       case  'CARNET_DIPLOMATICO':
-        return '7';
+        return '6';
       case  'REGISTRO_CIVIL_DE_NACIMIENTO':
-        return '8';
+        return '7';
       case  'NUMERO_UNICO_DE_IDENTIFICACION_PERSONAL':
-        return '9';
+        return '8';
       case  'NIT_EXTRANJERO':
-        return '10';
+        return '9';
       default:
         return '2';
     }
