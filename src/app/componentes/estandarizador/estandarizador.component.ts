@@ -9,7 +9,7 @@ import {Contacto} from '../../dto/contacto';
 import {Basicovo} from '../../dto/basicovo';
 import {TipoUso} from '../../dto/tipo-uso';
 import {Message, MessageService} from 'primeng/api';
-import {of, Subscription} from 'rxjs';
+import {Observable, of, Subscription} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Contribuyente} from '../../dto/contribuyente';
 import {UtilidadesService} from "../../servicios/utilidades.service";
@@ -92,7 +92,7 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
   dirTipoUso: any;
 
   constructor(public http: HttpClient, private ciudService: CiudadanoService, private router: Router,  private formBuilder: FormBuilder,
-              private datosservicios: DatoscservicioService, private messageService: MessageService, private utilidades: UtilidadesService) {
+              private messageService: MessageService, private utilidades: UtilidadesService) {
     this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
       this.ciudadanoeActivo = data;
     });
@@ -272,6 +272,8 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
 
   }
 
+
+
   consultarContribuyente(tipo: string, numero: string): Promise<Irespuesta> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     const params = {codTId: tipo, nroId: numero};
@@ -365,52 +367,48 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
 
       this.ciudService.displayDirNotificacion.next(false);
 
-      const x: Promise<Irespuesta> = this.editarDirNotificacion();
-      x.then((value: Irespuesta) => {
-        this.respuesta = value;
-        // alert(value);
-        if (this.respuesta.codigoError === '0') {
-          this.ciudService.validacionDireccion = false;
-          this.messageService.add({
-            key: 'custom', severity: 'warn', summary: 'Información',
-            detail: 'La dirección de notificación se edito correctamente. ', closable: true
-          });
 
-        } else {
-          this.messageService.add({
-            key: 'custom', severity: 'warn', summary: 'Información',
-            detail: 'Error al editar la dirección. ', closable: true
-          });
 
-        }
-      })
-        .catch(() => {
-          this.messageService.add({
-            key: 'custom', severity: 'warn', summary: 'Información',
-            detail: 'Error al editar la dirección ', closable: true
-          });
+      this.editarDirNotificacion().pipe(
+        catchError(() => of([]))
+      ).subscribe((value:  Irespuesta) =>
+
+
+        {
+          this.respuesta = value;
+          // alert(value);
+          if (this.respuesta.codigoError === '0') {
+            this.ciudService.validacionDireccion = false;
+            this.messageService.add({
+              key: 'custom', severity: 'warn', summary: 'Información',
+              detail: 'La dirección de notificación se edito correctamente. ', closable: true
+            });
+
+          } else {
+            this.messageService.add({
+              key: 'custom', severity: 'warn', summary: 'Información',
+              detail: 'Error al editar la dirección. ', closable: true
+            });
+
+          }
         });
 
 
-      this.consultarContribuyente(this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento), this.ciudadanoeActivo.nroIdentificacion);
+        this.consultarContribuyente(this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento), this.ciudadanoeActivo.nroIdentificacion);
+        this.limpiarCampos();
 
-      this.limpiarCampos();
     }
 
 
-  }
+    }
 
 
-  editarDirNotificacion(): Promise<Irespuesta> {
+
+  editarDirNotificacion(): Observable<Irespuesta>{
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const params = {direccion: this.direccion, municipio: this.mpioDireccion.codigo, departamento: this.codDepartamento, tipoUso: 5, pais: 49,
-      codPostal: this.codPostalDireccion, idSujeto:  this.idSujeto };
-    return this.http.post<Irespuesta>(this.ciudService.urlEditarDirNoti, params, {headers}).toPromise();
-
-  }
-
-  cancel(): void {
-    this.datosservicios.displayDirNotificacion = false;
+    const params = {direccion: this.direccion, municipio: this.formulario.value.mpioDireccion.codigo, departamento: this.formulario.value.departamento.codigo, tipoUso: 5, pais: 49,
+      codPostal: this.formulario.value.codPostalDireccion, idSujeto:  this.idSujeto };
+    return this.http.post<Irespuesta>(this.ciudService.urlEditarDirNoti, params, {headers});
   }
 
 
@@ -513,9 +511,30 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
 
       this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
         catchError(() => of([]))
-      ).subscribe((cont: Irespuesta) => {
+      ).subscribe((contribuyente: Irespuesta) => {
 
-        this.consultarContribuyente(this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento), this.ciudadanoeActivo.nroIdentificacion);
+        if(contribuyente.codigoError === '0') {
+
+          this.messageService.add({
+            key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'El Contacto Dirección se agrego correctamente. ', closable: true
+          });
+
+        }
+
+        else{
+
+          this.messageService.add({
+            key: 'custom', severity: 'Error', summary: 'Error',
+            detail: 'Ocurrio un error en el momento de agregar la diirección . ', closable: true
+          });
+
+
+        }
+
+       this.ciudService.ciudadanoActivo.next(
+        this.ciudService.consultarDatos(this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento), this.ciudadanoeActivo.nroIdentificacion).contribuyente
+       )
       });
 
       this.limpiarCampos();

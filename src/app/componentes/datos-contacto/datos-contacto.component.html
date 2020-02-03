@@ -207,12 +207,20 @@
 
             <div [formGroup]="myForm">
 
+
+              <div *ngIf="myForm.get('email').errors && myForm.get('email').dirty " class="error">
+                <p *ngIf="myForm.get('email').hasError('pattern')" class="error">Error Correo electronico. </p>
+              </div>
+
               <p-messages [(value)]="msgsEmail" ></p-messages>
               <div class="row show-grid ">
                 <div class="col-md-6">
                   <label class="required_css">Correo electrónico</label>
                   <input type="text" name="email" formControlName="email" class="form-control" ng-maxlength="200" placeholder="Email" required/>
                 </div>
+
+
+
 
 
                 <div class="col-md-6">
@@ -250,6 +258,8 @@
 
 
               <div [formGroup]="myFormT">
+
+
                 <p-messages [(value)]="msgsTelefono" ></p-messages>
                 <div class="col-lg-12">
                   <div class="row show-grid ">
