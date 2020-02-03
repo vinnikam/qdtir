@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 import {Irespuesta} from '../dto/irespuesta';
 import {Contribuyente} from '../dto/contribuyente';
@@ -68,7 +68,13 @@ export class CiudadanoService {
   urlEliminaCorreoContacto = valores.ip_servidor + 'ServiciosRITDQ/resources/contribuyente/eliminaCorreoContac';
 
 
-
+  respuesta: Irespuesta;
+  direccion: string;
+  aDirCon: any;
+  aDirNot: any;
+  aDirMai: any;
+  aDirTel: any;
+  aUnoPor: any;
 
   validacionDireccion = false;
   validacionRegistroDireccion = false;
@@ -82,6 +88,9 @@ export class CiudadanoService {
   constructor(private http: HttpClient) {
     // this.ciudadanoActivo = null;
   }
+
+
+
 
   buscar(ciudadano: Contribuyente): Promise<Irespuesta> {
     const datos = {
@@ -159,6 +168,41 @@ export class CiudadanoService {
 
 
 
+  consultarDatos(tipoDocumento: string, numeroDocumento: string): Irespuesta {
+
+    if (tipoDocumento != null && numeroDocumento != null) {
+      this.consultarContribuyente(tipoDocumento, numeroDocumento).then((value: Irespuesta) => {
+        this.respuesta  = value;
+        this.aDirCon = this.respuesta.contribuyente.dirContacto ;
+        this.aDirNot = this.respuesta.contribuyente.dirContactoNot ;
+        this.aDirMai = this.respuesta.contribuyente.email ;
+        this.aDirTel = this.respuesta.contribuyente.telefonos ;
+        this.aUnoPor = this.respuesta.contribuyente.aplicaDescuento ;
+        this.direccion = this.respuesta.contribuyente.dirContactoNot[0].direccion;
+        console.log('los telefonos--->', JSON.stringify(this.aDirTel));
+      })
+        .catch((err: HttpErrorResponse) => {
+          console.log(err);
+          if (err.status !== 200) {
+          }
+        });
+
+
+    }
+
+    return this.respuesta;
+
+  }
+
+
+
+  consultarContribuyente(tipo: string, numero: string): Promise<Irespuesta>{
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let params = {codTId: tipo, nroId: numero};
+
+    return this.http.post<Irespuesta>(this.url, params,{ headers: headers}).toPromise();
+
+  }
 
 
 

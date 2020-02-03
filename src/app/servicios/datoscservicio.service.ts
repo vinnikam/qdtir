@@ -1,27 +1,73 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Contribuyente} from '../dto/contribuyente';
 import {Irespuesta} from '../dto/irespuesta';
 import {Telefono} from '../dto/telefono';
 import {Correo} from '../dto/correo';
 import {Direccion} from '../dto/direccion';
+import {CiudadanoService} from "./ciudadano.service";
 
-@Injectable({
-  providedIn: 'root'
-})
+
+@Injectable()
 export class DatoscservicioService {
-  server = 'http://10.180.220.35:7777/';
-  urlBuscar = 'ServiciosRITDQ/resources/contribuyente';
+
 
   displayDirNotificacion: boolean;
   direccion: string;
+  url: string;
+  respuesta: Irespuesta;
 
-  constructor(private http: HttpClient) {
+  aDirCon: any;
+  aDirNot: any;
+  aDirMai: any;
+  aDirTel: any;
+  aUnoPor: any;
 
+  constructor(private http: HttpClient, private  ciudService: CiudadanoService) {
+    this.url = ciudService.url;
     this.displayDirNotificacion = false;
 
 
   }
+
+
+
+  consultarDatos(tipoDocumento: string, numeroDocumento: string): Irespuesta {
+
+    if (tipoDocumento != null && numeroDocumento != null) {
+      this.consultarContribuyente(tipoDocumento, numeroDocumento).then((value: Irespuesta) => {
+        this.respuesta  = value;
+        this.aDirCon = this.respuesta.contribuyente.dirContacto ;
+        this.aDirNot = this.respuesta.contribuyente.dirContactoNot ;
+        this.aDirMai = this.respuesta.contribuyente.email ;
+        this.aDirTel = this.respuesta.contribuyente.telefonos ;
+        this.aUnoPor = this.respuesta.contribuyente.aplicaDescuento ;
+        this.direccion = this.respuesta.contribuyente.dirContactoNot[0].direccion;
+        console.log('los telefonos--->', JSON.stringify(this.aDirTel));
+      })
+        .catch((err: HttpErrorResponse) => {
+          console.log(err);
+          if (err.status !== 200) {
+          }
+        });
+
+
+    }
+
+    return this.respuesta;
+
+  }
+
+
+
+  consultarContribuyente(tipo: string, numero: string): Promise<Irespuesta>{
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    let params = {codTId: tipo, nroId: numero};
+
+    return this.http.post<Irespuesta>(this.url, params,{ headers: headers}).toPromise();
+
+  }
+
 
   consultaTelefonos(idSujeto: number): Promise<Telefono[]> {
     return null;

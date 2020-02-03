@@ -1,5 +1,6 @@
 export const valores = {
-  ip_servidor : 'http://10.180.220.35:7777/',
+  //ip_servidor : 'http://10.180.220.35:7777/',
+  ip_servidor : 'http://10.180.52.86:7101/',
   admin: 'adminrit',
   clave: '9102qdtir'
 }

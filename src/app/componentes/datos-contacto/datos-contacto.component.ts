@@ -17,8 +17,6 @@ import {
 } from '../../config/Divipola';
 import {Basicovo} from '../../dto/basicovo';
 import {Contacto} from '../../dto/contacto';
-
-import {TabMenuModule} from 'primeng/tabmenu';
 import {MenuItem} from 'primeng/api';
 import {catchError} from 'rxjs/operators';
 import {of, Subscription} from 'rxjs';
@@ -29,6 +27,7 @@ import {Message, MessageService} from 'primeng/api';
 import {Contribuyente} from '../../dto/contribuyente';
 import {UtilidadesService} from '../../servicios/utilidades.service';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {DatoscservicioService} from "../../servicios/datoscservicio.service";
 
 
 @Component({
@@ -184,10 +183,28 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
         if (this.ciudService.idSujetoActiv !== this.ciudadanoeActivo.idSujeto) {
           this.tipoDocumento = this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento);
           this.numeroDocumento = this.ciudadanoeActivo.nroIdentificacion;
-          this.consultarDatos(this.tipoDocumento, this.numeroDocumento);
+          this.aDirCon = this.ciudadanoeActivo.dirContacto ;
+          this.aDirNot = this.ciudadanoeActivo.dirContactoNot ;
+          this.aDirMai = this.ciudadanoeActivo.email ;
+          this.aDirTel = this.ciudadanoeActivo.telefonos ;
+          this.aUnoPor = this.ciudadanoeActivo.aplicaDescuento ;
+          this.direccion = this.ciudadanoeActivo.dirContactoNot[0].direccion;
+
+        /*
+          this.respuesta =  this.ciudService.consultarDatos(this.tipoDocumento, this.numeroDocumento);
+          this.aDirCon = this.respuesta.contribuyente.dirContacto ;
+          this.aDirNot = this.respuesta.contribuyente.dirContactoNot ;
+          this.aDirMai = this.respuesta.contribuyente.email ;
+          this.aDirTel = this.respuesta.contribuyente.telefonos ;
+          this.aUnoPor = this.respuesta.contribuyente.aplicaDescuento ;
+          this.direccion = this.respuesta.contribuyente.dirContactoNot[0].direccion;
+        */
         }
       }
     });
+
+
+
     this.contactoSubscription = this.ciudService.displayDirNotificacion.subscribe((data: true) => {
       this.displayDirNotificacion = data;
     });
@@ -439,35 +456,6 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
   limpiarCampos():void{
-
-    /*
-    this.listviaprimaria = tipoViaPrimaria;
-    this.letras = letras;
-    this.letras10 = letras10;
-    this.bis = bis;
-    this.bis10 = bis10;
-    this.cuadrante = cuadrante;
-    this.complemento =  complemento;
-    this.nroViaPpal = '';
-    this.letraBis = '';
-    this.nroViaGen = '';
-    this.letraViaGen = '';
-    this.nroPlaca = '';
-    this.cuadranteVG = '';
-
-    this.telefono = '';
-    this.ext = '';
-
-
-    this.email = '';
-
-    this.mailTipoUso = '';
-
-    this.telTipoUso = '';
-
-    this.tipo = '';
-    */
-
     this.myFormT.reset();
     this.myForm.reset();
 
@@ -483,15 +471,11 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   registrar(): void
   {
-
     this.contacto.idSujeto = this.idSujeto ;
     this.contacto.pais     = '49' ;
-
-
      if(parseInt(this.tipoContacto ) === 1)
      {
        if(this.validarTelefono()) {
-
          this.urlEditar = this.urlEditaTelContacto;
          this.contacto.nuevoTelefono = this.myFormT.value.telefono;
          this.contacto.municipio = '149'; // $scope.telMpio ;
@@ -506,6 +490,13 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
          this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
            catchError(() => of([]))
          ).subscribe((cont: Irespuesta) => {
+
+           this.messageService.add({
+             key: 'custom', severity: 'warn', summary: 'Información',
+             detail: 'El Contacto Teléfonico se agrego correctamente. ', closable: true
+           });
+
+
            this.consultarDatos(this.tipoDocumento, this.numeroDocumento);  });
 
          this.limpiarCampos();
@@ -530,6 +521,13 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
         this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
           catchError(() => of([]))
         ).subscribe((cont: Irespuesta) => {
+
+          this.messageService.add({
+            key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'El Contacto Email se agrego correctamente. ', closable: true
+          });
+
+
           this.consultarDatos(this.tipoDocumento, this.numeroDocumento);  });
 
         this.limpiarCampos();
@@ -597,6 +595,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.contactoSubscription.unsubscribe();
+    this.contactoAddSubscription.unsubscribe();
     this.constribySubscription.unsubscribe();
   }
 
