@@ -121,6 +121,9 @@ export class CiudadanonvComponent implements OnInit {
 
   }
   guardaContrib(): void {
+    if (!this.tipoPersonaNat) {
+      this.formulario.value.primerNombre = this.formulario.value.razonsocial;
+    }
     const jsonString = JSON.stringify(this.formulario.value);
     this.contribuyente = JSON.parse(jsonString) as Contribuyente;
     const x: Promise<Irespuesta> = this.ciudadServ.crear(this.contribuyente);
@@ -282,6 +285,9 @@ export class CiudadanonvComponent implements OnInit {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
         this.paises = this.respuesta.divpolitica;
+        this.formulario.controls.departamento.setValue(undefined); //  null
+        this.formulario.controls.municipio.setValue(undefined); //  "5667"
+
 
       } else {
         const  bas = new Basicovo();
@@ -307,7 +313,6 @@ export class CiudadanonvComponent implements OnInit {
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
           detail: 'No cargo deptos. ', closable: true});
-
         // alert();
       }
     })
