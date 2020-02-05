@@ -54,8 +54,8 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
     // alert('Consumio servicio autenticacion');
     // alert(value);
     if (this.respuesta.codigoError === '0') {
-      // ASIGNA EL VALOR AL BEHAIVOR
-      this.ciudService.ciudadanoActivo.next(this.respuesta.contribuyente);
+
+
 
       // this.ciudService.ciudadanoActivo = this.respuesta.contribuyente;
       this.ciudadanoeActivo = this.respuesta.contribuyente;
@@ -65,6 +65,8 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
       //  detail: 'Se encontró contribuyente. Puede consultar la información en cada una de las pestañas. ', closable: true});
       this.certificadoRit += 'par1=' + this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento)  +
         '&par2=' + this.ciudadanoeActivo.nroIdentificacion;
+      this.respuesta.contribuyente.certificadoRit = this.certificadoRit;
+      this.ciudService.ciudadanoActivo.next(this.respuesta.contribuyente);
       if (this.ciudadanoeActivo.naturaleza.codigo === '2') {
         this.esjuridico = true;
       } else {

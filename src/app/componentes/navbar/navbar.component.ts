@@ -3,11 +3,12 @@ import {AuthServiceService} from '../../servicios/auth-service.service';
 import {Router} from '@angular/router';
 
 import {CiudadanoService} from '../../servicios/ciudadano.service';
-import {NavbarserviceService} from '../../servicios/navbarservice.service';
+
 import {MenuItem} from 'primeng/api';
 import {Subscription} from 'rxjs';
 import {Contribuyente} from '../../dto/contribuyente';
-import index from '@angular/cdk/schematics/ng-add';
+
+import {Message, MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-navbar',
@@ -30,11 +31,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constribySubscription: Subscription;
   dataSubscription: Subscription;
   cambioForm = false;
+  contribuyenteActivo: Contribuyente;
 
 
   constructor(private authService: AuthServiceService,
               private router: Router,
-              private ciudService: CiudadanoService) {
+              private ciudService: CiudadanoService,
+              private messageService: MessageService) {
 
     this.itemsingreso = [
       {label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'},
@@ -48,7 +51,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
-
+      this.contribuyenteActivo = data;
     });
     this.dataSubscription = this.ciudService.recargarFormulario.subscribe((data: boolean) => {
       this.cambioForm = data;
@@ -87,11 +90,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
           {label: 'Crear / Inactivar', icon: 'pi pi-user-plus', routerLink: '/gestionfuncionario'},
         ]
       },
-      {label: 'Parametros', icon: 'pi pi-user-plus',
-        items: [
-          {label: 'Gestionar', icon: 'pi pi-user-plus', routerLink: '/gestionparam'},
-        ]
-      },
       {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salirAdmin(); }},
 
     ];
@@ -108,7 +106,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
               {label: 'De notificación', icon: 'pi pi-dollar', routerLink: '/descuento'},
               {label: 'Histórico Direción Ppal.', icon: 'pi pi-dollar', routerLink: '/historicodir'}
             ]
-          }
+          },
+          {label: 'Certificado RIT', icon: 'pi pi-search-plus', command:  (event: Event) => {this.certifRIT(); }}
         ]
       },
       {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
@@ -149,7 +148,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/autenticaadmin']);
 
   }
+  certifRIT(): void {
+    if (this.contribuyenteActivo !== null) {
+      window.location.href = this.contribuyenteActivo.certificadoRit;
+    } else {
+      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+        detail: 'Actualmente no hay un ciudadano seleccionado, realice la búsqueda para generar el certificado.', closable: true});
+    }
 
+  }
   ngOnDestroy(): void {
     this.constribySubscription.unsubscribe();
     this.dataSubscription.unsubscribe();

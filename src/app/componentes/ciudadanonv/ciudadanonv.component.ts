@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Contribuyente} from '../../dto/contribuyente';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -16,7 +16,7 @@ import {Subscription} from 'rxjs';
   templateUrl: './ciudadanonv.component.html',
   styleUrls: ['./ciudadanonv.component.css']
 })
-export class CiudadanonvComponent implements OnInit {
+export class CiudadanonvComponent implements OnInit, OnDestroy {
   contribuyente: Contribuyente;
   tipoPersonaNat: boolean;
   escolombia: boolean ;
@@ -31,6 +31,7 @@ export class CiudadanonvComponent implements OnInit {
   respuesta ?: Irespuesta;
 
   dataSubscription: Subscription;
+  constribySubscription: Subscription;
 
   estipotext = false;
 
@@ -68,6 +69,10 @@ export class CiudadanonvComponent implements OnInit {
   ngOnInit() {
     this.dataSubscription = this.ciudadServ.recargarFormulario.subscribe((data: boolean)  => {
       // this.formulario.reset();
+    });
+    this.constribySubscription = this.ciudadServ.ciudadanoActivo.subscribe((data: Contribuyente ) => {
+      // this.ciudadanoeActivo = data;
+
     });
     // this.formulario.reset();
     this.cargarFormulario();
@@ -136,6 +141,8 @@ export class CiudadanonvComponent implements OnInit {
         this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
           detail: 'Se registro el contribuyente..', closable: true});
         this.cargarFormulario();
+        this.cargacontribuyente();
+
 
 
       } else {
@@ -391,4 +398,30 @@ export class CiudadanonvComponent implements OnInit {
     this.formulario.controls.notif.setValue(undefined); //  null
   }
   get f() { return this.formulario.controls; }
+
+  cargacontribuyente(): void {
+
+    const x: Promise<Irespuesta> = this.ciudadServ.buscar(this.contribuyente);
+    x.then((value: Irespuesta) => {
+      this.respuesta = value;
+      if (this.respuesta.codigoError === '0') {
+        this.ciudadServ.ciudadanoActivo.next(this.respuesta.contribuyente);
+        this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
+          detail: 'Ya se cargó el contribuyente, verifique y complemente los demás datos. ', closable: true});
+      } else {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'No se encontró contribuyente con los parametros ingresados, intente buscar de nuevo. ', closable: true});
+      }
+    })
+      .catch(() => {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Error tecnico en la consulta del servicio Buscar', closable: true});
+      });
+
+  }
+  ngOnDestroy(): void {
+    this.constribySubscription.unsubscribe();
+    this.dataSubscription.unsubscribe();
+  }
+
 }

@@ -195,8 +195,6 @@ export class CiudadanoService {
 
   }
 
-
-
   consultarContribuyente(tipo: string, numero: string): Promise<Irespuesta>{
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
     let params = {codTId: tipo, nroId: numero};
