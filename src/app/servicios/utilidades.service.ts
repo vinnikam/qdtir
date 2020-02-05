@@ -13,7 +13,6 @@ export class UtilidadesService {
     if (fecha !== undefined) {
       const newDate = new Date(fecha);
       fecha = this.datapipe.transform(newDate, 'dd/MM/yyyy' );
-      // alert(newDate + ' ' + fecha);
     }
 
     return fecha;
@@ -65,6 +64,13 @@ export class UtilidadesService {
         default:
           return '2';
       }
+  }
+  obtenerFechahoy(): Date {
+    const hoy = new Date();
+    const fecha = this.datapipe.transform(hoy, 'MM-dd-yyyy');
+    const hoyD = new Date(fecha);
+    return hoyD;
+
   }
 
 }

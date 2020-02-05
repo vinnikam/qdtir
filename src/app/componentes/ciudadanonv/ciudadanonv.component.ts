@@ -86,9 +86,10 @@ export class CiudadanonvComponent implements OnInit {
     this.formulario.controls.tipoPersona.setValue(2);
     this.cargarFormulario();
   }
-  registrar(): void {
+  registrar(soloconsulta: boolean): void {
+
     // alert (this.formulario.invalid);
-    const valido = this.validar();
+    const valido = this.validar(soloconsulta);
 
     if (!valido) {
       return ;
@@ -105,7 +106,9 @@ export class CiudadanonvComponent implements OnInit {
             detail: 'El contribuyente a registrar ya se encuentra en la base de RIT. ', closable: true});
 
         } else {
-          this.guardaContrib();
+          if (!soloconsulta) {
+            this.guardaContrib();
+          }
         }
 
       })
@@ -137,7 +140,7 @@ export class CiudadanonvComponent implements OnInit {
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'No se registro el contribuyente.'+ this.respuesta.mensaje, closable: true});
+          detail: 'No se registro el contribuyente.' + this.respuesta.mensaje, closable: true});
 
       }
     })
@@ -147,7 +150,7 @@ export class CiudadanonvComponent implements OnInit {
       });
 
   }
-  validar(): boolean {
+  validar(soloconsulta: boolean): boolean {
 
     if (this.formulario.value.tipoDocumento === null) {
       this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
@@ -159,7 +162,9 @@ export class CiudadanonvComponent implements OnInit {
         detail: 'El Número de documento es Requerido.', closable: true});
       return false;
     }
-
+    if (soloconsulta) {
+      return true;
+    }
     if (this.formulario.value.nroIdentificacion === '') {
       this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
         detail: 'El Número de documento es Requerido.', closable: true});
@@ -359,6 +364,10 @@ export class CiudadanonvComponent implements OnInit {
   }
   cambioDepto(): void {
     this.cargarMunic(this.formulario.value.departamento);
+  }
+  verificar(): void {
+    this.registrar(true);
+
   }
   cargarFormulario(): void {
     this.formulario.controls.nroIdentificacion.setValue(undefined); // "5667"

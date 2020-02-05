@@ -11,6 +11,8 @@ import {UtilidadesService} from '../../servicios/utilidades.service';
 import {Funcionario} from '../../dto/funcionario';
 
 
+
+
 @Component({
   selector: 'app-gestionfunc',
   templateUrl: './gestionfunc.component.html',
@@ -67,6 +69,9 @@ export class GestionfuncComponent implements OnInit {
     }
   }
   inactivarfuncio() {
+    if (!this.validar(true)) {
+      return false;
+    }
 
     const x: Promise<Irespuesta> = this.funcinarServ.inactivar(this.formulario.value.usuario,
       this.util.cambiafecha(this.formulario.value.fechaFin));
@@ -77,6 +82,7 @@ export class GestionfuncComponent implements OnInit {
       if (this.respuesta.codigoError === '0') {
         this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
           detail: 'Se inactivo el funcionario ' + this.formulario.value.usuario, closable: true});
+        this.limpiar();
         this.consultaAll();
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -90,6 +96,9 @@ export class GestionfuncComponent implements OnInit {
 
   }
   registraFuncio() {
+    if (!this.validar(false)) {
+      return false;
+    }
     const x: Promise<Irespuesta> = this.funcinarServ.crear(this.formulario.value.usuario,
       this.util.cambiafecha(this.formulario.value.fechaInicio), this.util.cambiafecha(this.formulario.value.fechaFin));
     this.util.cambiafecha(this.formulario.value.fechaInicio);
@@ -101,6 +110,7 @@ export class GestionfuncComponent implements OnInit {
       if (this.respuesta.codigoError === '0') {
         this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
           detail: 'Se registro el funcionario ' + this.formulario.value.usuario, closable: true});
+        this.limpiar();
         this.consultaAll();
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -131,5 +141,58 @@ export class GestionfuncComponent implements OnInit {
           detail: 'Error tecnico al consultar funcionarios.', closable: true});
       });
   }
+  validar(activar: boolean): boolean {
+    const hoy = this.util.obtenerFechahoy();
 
+    if (activar) {
+      const ffin = new Date(this.formulario.value.fechaFin);
+      if (ffin < hoy ) {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'La fecha de fin, no puede ser menor o igual a la fecha de hoy.', closable: true});
+        return false;
+      }
+
+      if (!this.buscaFuncio(this.formulario.value.usuario)) {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Usuario que desea inactivar, no se encuentra activo.', closable: true});
+        return false;
+      }
+    }
+    if (!activar) {
+      const fini = new Date(this.formulario.value.fechaInicio);
+      const ffin = new Date(this.formulario.value.fechaFin);
+      if (fini >= ffin) {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'La fecha de inicio no puede ser mayor ó igual a la fecha de Fin.', closable: true});
+        return false;
+      }
+      if (fini < hoy) {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'La fecha de inicio no puede ser menor que la fecha de hoy.', closable: true});
+        return false;
+      }
+      if (this.buscaFuncio(this.formulario.value.usuario)) {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Usuario que desea registrar, ya está encuentra activo.', closable: true});
+        return false;
+      }
+
+    }
+    return true;
+  }
+  buscaFuncio(funcionario: string): boolean {
+    let esta = false;
+    for (const datof of this.lista) {
+      if ( datof.nombre === funcionario) {
+        esta = true;
+      }
+    }
+    return esta;
+  }
+  limpiar(): void {
+    this.formulario.controls.fechaInicio.setValue(undefined);
+    this.formulario.controls.fechaFin.setValue(undefined);
+    this.formulario.controls.usuario.setValue(undefined);
+
+  }
 }
