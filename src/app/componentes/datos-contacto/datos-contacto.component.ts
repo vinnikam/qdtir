@@ -44,6 +44,8 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   editForm: FormGroup;
 
+  editFormTel: FormGroup;
+
   @Input() dptoDireccion: any;
   @Input() mpioDireccion: any;
   @Input() codPostalDireccion: any;
@@ -117,6 +119,9 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   displaymodificarContacto : boolean;
 
+
+  displaymodificarContactoTel : boolean;
+
   displayDirNotificacion = false;
   displayDirNotificacion2 = false;
   displayAddContacto = false;
@@ -144,7 +149,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
 
-  constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private formBuilder: FormBuilder, private formBuilder2: FormBuilder,  private formBuilder3: FormBuilder,private router: Router,
+  constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private formBuilder: FormBuilder, private formBuilder2: FormBuilder,  private formBuilder3: FormBuilder,   private formBuilder4: FormBuilder, private router: Router,
               private messageService: MessageService, private utilidades: UtilidadesService, private confirmationService: ConfirmationService) {
 
     this.url = ciudService.url;
@@ -196,15 +201,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
           this.aUnoPor = this.ciudadanoeActivo.aplicaDescuento ;
           this.direccion = this.ciudadanoeActivo.dirContactoNot[0].direccion;
 
-        /*
-          this.respuesta =  this.ciudService.consultarDatos(this.tipoDocumento, this.numeroDocumento);
-          this.aDirCon = this.respuesta.contribuyente.dirContacto ;
-          this.aDirNot = this.respuesta.contribuyente.dirContactoNot ;
-          this.aDirMai = this.respuesta.contribuyente.email ;
-          this.aDirTel = this.respuesta.contribuyente.telefonos ;
-          this.aUnoPor = this.respuesta.contribuyente.aplicaDescuento ;
-          this.direccion = this.respuesta.contribuyente.dirContactoNot[0].direccion;
-        */
+
         }
       }
     });
@@ -232,6 +229,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
     this.buildForm();
     this.buildForm2();
     this.buildForm3();
+    this.buildForm4();
 
   }
 
@@ -263,6 +261,14 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
     });
   }
 
+
+  private buildForm4(){
+    this.editFormTel = this.formBuilder4.group({
+      telefono: ['', Validators.required],
+      ext: ['', ],
+      tipo: ['', Validators.required]
+    });
+  }
 
 
   validarTelefono(): boolean {
@@ -578,6 +584,15 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
 
+
+  modificarContactoTel(contacto: any ) {
+    this.displaymodificarContactoTel = true;
+    this.contacto = contacto;
+  }
+
+
+
+
   validarCorreo(): boolean {
 
     if (this.editForm.value.email === null || this.editForm.value.email == '') {
@@ -599,36 +614,127 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
 
-  actualizarCorreoNotificacion(){
+  validarTel(): boolean {
 
 
-    if(this.validarCorreo()) {
 
-      this.urlEditar = this.urlEditaCorreoContacto;
+      if (this.editFormTel.value.telefono === null || this.editFormTel.value.telefono == '') {
+
+        this.msgsTelefono = [];
+        this.msgsTelefono.push({severity:'error', summary:'Campo Obligatorio', detail:'El Teléfono es Requerido.'});
+        return false;
+      }
+
+
+      if (this.editFormTel.value.tipo === null || this.editFormTel.value.tipo == '') {
+
+        this.msgsTelefono = [];
+        this.msgsTelefono.push({severity:'error', summary:'Campo Obligatorio', detail:'El Tipo es Requerido.'});
+        return false;
+      }
+
+      if (this.editFormTel.invalid) {
+        return false;
+      } else {
+        return true;
+      }
+
+
+    }
+
+
+
+
+
+
+  actualizarTelefonoNotificacion(){
+
+
+    if(this.validarTel()) {
+
+      this.urlEditar = this.urlEditaTelContacto;
       this.contacto.idSujeto = this.idSujeto;
-      this.contacto.nuevocorreo = this.editForm.value.email;
+      this.contacto.nuevoTelefono = this.editFormTel.value.telefono;
+      this.contacto.municipio = '149'; // $scope.telMpio ;
+      this.contacto.depto = '11'; // $scope.telDpto ;
+      this.contacto.codPostal = '110111'; // $scope.telcodPostal ;
+      this.contacto.tipo = this.editFormTel.value.tipo;
+      this.contacto.ext = this.editFormTel.value.ext;
       this.contacto.tipoUso = '5';
+      this.contacto.tipoT = this.tipoContacto;
+      this.contacto.tipoContacto = this.tipoContacto;
+
       this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
         catchError(() => of([]))
       ).subscribe((cont: Irespuesta) => {
 
         this.messageService.add({
           key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'El Contacto Email se modifico correctamente. ', closable: true
+          detail: 'El Contacto Teléfonico se modifico correctamente. ', closable: true
         });
 
-        this.consultarDatos(this.tipoDocumento, this.numeroDocumento);
-      });
 
-      this.displaymodificarContacto = false;
-    }
+        this.consultarDatos(this.tipoDocumento, this.numeroDocumento);  });
+
+      this.limpiarCampos();
+      this.displaymodificarContactoTel = false;
+       }
   }
+
+
+  actualizarCorreoNotificacion()
+
+  {
+  if(this.validarCorreo()) {
+
+  this.urlEditar = this.urlEditaCorreoContacto;
+  this.contacto.idSujeto = this.idSujeto;
+  this.contacto.nuevocorreo = this.editForm.value.email;
+  this.contacto.tipoUso = '5';
+  this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
+    catchError(() => of([]))
+).subscribe((cont: Irespuesta) => {
+
+  this.messageService.add({
+                            key: 'custom', severity: 'warn', summary: 'Información',
+                            detail: 'El Contacto Email se modifico correctamente. ', closable: true
+                          });
+
+  this.consultarDatos(this.tipoDocumento, this.numeroDocumento);
+});
+
+this.displaymodificarContacto = false;
+}
+}
+
 
 
 
   verborra(contacto: any) {
     this.borrardialog = true;
     this.contactoborra = contacto;
+  }
+
+
+
+  verborraTel(contacto: any) {
+    this.borrardialog = true;
+    this.contactoborra = contacto;
+  }
+
+
+  EliminarContacto(){
+
+  this.eliminaContacto(this.contactoborra);
+    this.borrardialog = false;
+
+  }
+
+
+  SalirContacto(){
+
+    this.borrardialog = false;
+
   }
 
 
@@ -686,7 +792,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
         this.msgsConfirmacion = [{severity:'info', summary:'Confirmar', detail:'Registro Borrado'}];
       },
       reject: () => {
-        this.msgsConfirmacion = [{severity:'info', summary:'Rejected', detail:'You have rejected'}];
+        this.msgsConfirmacion = [{severity:'info', summary:'Salir', detail:'Salircted'}];
       }
     });
   }
