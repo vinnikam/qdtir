@@ -84,17 +84,7 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
       // alert('Error tecnico en la consulta del servicio Buscar');
         });
 
-    /*
-    const  ciudadano = {
-      tipoiden: this.tipoiden,
-      identificacion: this.identificacion
-    };
-    this.ciudService.buscar(elCiudadano);
-    if (this.elCiudadano !== null) {
-      alert('Existe');
-    } else {
-      alert('No existe');
-    }*/
+
 
   }
   nuevaBusqueda(): void {

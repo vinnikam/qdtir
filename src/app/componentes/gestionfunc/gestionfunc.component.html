@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <div class="container py-3">
-  <h2 class="base-header">Registrar Contribuyente</h2>
+  <h2 class="base-header">Registrar Funcionario</h2>
   <div class="row">
 
     <div class="col-md-10 mx-auto">
@@ -72,4 +72,29 @@
       </form>
     </div>
   </div>
+</div>
+<div class="container ">
+  <h2 class="base-header-activ">FUNCIONARIOS ACTIVOS</h2>
+  <p-table [value]="lista" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" width="20%">USUARIO DEL FUNCIONARIO</th>
+        <th scope="col" width="20%">ESTADO</th>
+        <th scope="col" width="30%">FECHA INICIO ACCESO</th>
+        <th scope="col" width="30%">FECHA FIN ACCESO</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-dato>
+      <tr >
+        <td >{{dato.nombre}}</td>
+        <td >{{dato.estado}}</td>
+        <td >{{dato.fechaInicioS}}</td>
+        <td >{{dato.fechaFinS}}</td>
+
+      </tr>
+    </ng-template>
+
+  </p-table>
+
 </div>

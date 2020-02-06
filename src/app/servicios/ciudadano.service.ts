@@ -21,7 +21,7 @@ import {DireccionesHistSujeto} from '../dto/direcciones-hist-sujeto';
 @Injectable()
 export class CiudadanoService {
 
-  ciudadanoActivo = new BehaviorSubject<Contribuyente>(null);
+
   listaEsta: Establecimiento[];
   listaDesc: Descuentovo[];
   listaActiv: Actividad[];
@@ -80,9 +80,10 @@ export class CiudadanoService {
   validacionRegistroDireccion = false;
   validacionTipoUso = false;
 
-
+  ciudadanoActivo = new BehaviorSubject<Contribuyente>(null);
   displayDirNotificacion = new BehaviorSubject(true);
   displayAddContacto = new BehaviorSubject(true);
+  recargarFormulario = new BehaviorSubject(true);
 
 
   constructor(private http: HttpClient) {

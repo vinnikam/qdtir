@@ -13,7 +13,7 @@ export class Contribuyente {
   primerApellido: string;
   segundoApellido: string;
   matriculaMercantil: string;
-  estadoRIT: string;
+  estadoRIT ?: string;
   tipoPersona: number; // 1 NATURAL - 2 JURIDICA
   direccion: string;
   municipio: number;
@@ -32,6 +32,7 @@ export class Contribuyente {
   naturaleza: Basicovo;
   fecharegimenBogota: string;
   regimenTrib: string;
+
 
   dirContacto ?: DireccionesContacto [];
   dirContactoNot ?: DireccionesContactoNotificacion[];

@@ -8,9 +8,10 @@ import {Irespuesta} from '../dto/irespuesta';
   providedIn: 'root'
 })
 export class FuncionarioService {
-  urlconsulta = 'ServiciosRITDQ/resources/consultas/consultafuncio/';
-  urlcrear = 'ServiciosRITDQ/resources/consultas/crearfuncio/';
-  urlinactivar = 'ServiciosRITDQ/resources/consultas/inactfuncio/';
+  urlconsulta = 'ServiciosRITDQ/resources/funcionario/consultafuncio/';
+  urlcrear = 'ServiciosRITDQ/resources/funcionario/crearfuncio/';
+  urlinactivar = 'ServiciosRITDQ/resources/funcionario/inactfuncio/';
+  urlconsultaAll = 'ServiciosRITDQ/resources/funcionario/todosFuncio/';
 
 
   constructor(private http: HttpClient) { }
@@ -36,5 +37,8 @@ export class FuncionarioService {
       fechafin: fechafina
     };
     return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlinactivar}`, datos).toPromise();
+  }
+  consultarAll(): Promise<Irespuesta> {
+    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlconsultaAll}`, null).toPromise();
   }
 }

@@ -69,8 +69,10 @@ const appRoutes: Routes = [
   {path: 'predios', component: PrediosComponent, canActivate: [Seguridad]},
   {path: 'gestionfuncionario', component: GestionfuncComponent, canActivate: [Seguridad]},
   {path: 'descuento', component: Descuento1Component, canActivate: [Seguridad]},
-  {path: 'historicodir', component: DireNhistComponent, canActivate: [Seguridad]}
-]
+  {path: 'historicodir', component: DireNhistComponent, canActivate: [Seguridad]},
+  {path: 'gestionparam', component: DireNhistComponent, canActivate: [Seguridad]}
+];
+
 
 @NgModule({
   declarations: [
@@ -92,7 +94,7 @@ const appRoutes: Routes = [
     GestionfuncComponent,
     AutentadminComponent,
     EstandarizadorComponent,
-    DireNhistComponent
+    DireNhistComponent,
 
   ],
   imports: [

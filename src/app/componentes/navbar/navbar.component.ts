@@ -7,6 +7,7 @@ import {NavbarserviceService} from '../../servicios/navbarservice.service';
 import {MenuItem} from 'primeng/api';
 import {Subscription} from 'rxjs';
 import {Contribuyente} from '../../dto/contribuyente';
+import index from '@angular/cdk/schematics/ng-add';
 
 @Component({
   selector: 'app-navbar',
@@ -27,6 +28,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   item: MenuItem;
 
   constribySubscription: Subscription;
+  dataSubscription: Subscription;
+  cambioForm = false;
 
 
   constructor(private authService: AuthServiceService,
@@ -47,82 +50,90 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
 
     });
-    // this.items = this.navbarservice.getItems();
-    // alert(this.ciudservic.rolCiudadano);
-    // this.items = this.navbarservice.getItems();
-    // alert('recarga');
+    this.dataSubscription = this.ciudService.recargarFormulario.subscribe((data: boolean) => {
+      this.cambioForm = data;
+
+    });
+
     this.estaAutenticado = this.authService.estaAutenticado();
     this.perfilusuario = this.authService.perfilusuario;
+
     this.itemsingreso = [
       {label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'},
-      {label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/autenticarCiud'}];
-
+      {label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/autenticarCiud'},
+      {label: 'funcionarios-adm', icon: 'pi pi-sign-in', routerLink: '/autenticaadmin'}
+    ];
     this.itemsciud = [
-        {label: 'Contribuyente', icon: 'pi pi-user-plus',
-          items: [
-            {label: 'Datos personales', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
-            {label: 'Datos de Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
-            {label: 'Datos 1 %', icon: 'pi pi-dollar', routerLink: '/descuento'},
-            {label: 'Direcciones Notificacion', icon: 'pi pi-dollar', routerLink: '/historicodir'}
-          ]
-        },
-        {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
-        {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
-        {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'},
-        {label: 'Predios', icon: 'pi pi-home', routerLink: '/predios'},
-        {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'},
-        {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
-     ];
+      {label: 'Contribuyente', icon: 'pi pi-user-plus',
+        items: [
+          {label: 'Datos personales', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
+          {label: 'Datos de Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
+          {label: 'Datos 1 %', icon: 'pi pi-dollar', routerLink: '/descuento'},
+          {label: 'Direcciones Notificacion', icon: 'pi pi-dollar', routerLink: '/historicodir'}
+        ]
+      },
+      {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
+      {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
+      {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'},
+      {label: 'Predios', icon: 'pi pi-home', routerLink: '/predios'},
+      {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'},
+      {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
+    ];
 
-    this.itemsfunc = [
-        {label: 'Contribuyente', icon: 'pi pi-user-plus',
-          items: [
-            {label: 'Crear', icon: 'pi pi-user-plus', routerLink: '/crearciu'},
-            {label: 'Buscar', icon: 'pi pi-search-plus', command:  (event: Event) => {this.buscarciud(); }},
-            {label: 'Información', icon: 'pi pi-search-plus',
-              items: [
-                {label: 'Personales', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
-                {label: 'De Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
-                {label: 'De notificación', icon: 'pi pi-dollar', routerLink: '/descuento'},
-                {label: 'Historico Direción Ppal.', icon: 'pi pi-dollar', routerLink: '/historicodir'}
 
-              ]
-            }
-          ]
-        },
-        {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
-        {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
-        {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'},
-        {label: 'Predios', icon: 'pi pi-home', routerLink: '/predios'},
-        {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'},
-        {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
-      ];
     this.itemsadm = [
       {label: 'Funcionario', icon: 'pi pi-user-plus',
         items: [
           {label: 'Crear / Inactivar', icon: 'pi pi-user-plus', routerLink: '/gestionfuncionario'},
         ]
       },
-      {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salirAdmin(); }}
+      {label: 'Parametros', icon: 'pi pi-user-plus',
+        items: [
+          {label: 'Gestionar', icon: 'pi pi-user-plus', routerLink: '/gestionparam'},
+        ]
+      },
+      {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salirAdmin(); }},
+
     ];
-   /* if (this._authservice.perfilusuario === 3) {
-        alert('Adiciona');
-        this.itemsciud.push( {label: 'Gestion Funcionario', icon: 'pi pi-align-center mx-auto', routerLink: '/gestionfuncionario'});
-    }*/
 
-
+    this.itemsfunc = [
+      {label: 'Contribuyente', icon: 'pi pi-user-plus',
+        items: [
+          {label: 'Crear', icon: 'pi pi-user-plus', command:  (event: Event) => {this.nvocontriby(); } },
+          {label: 'Buscar', icon: 'pi pi-search-plus', command:  (event: Event) => {this.buscarciud(); }},
+          {label: 'Información', icon: 'pi pi-search-plus',
+            items: [
+              {label: 'Personales', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
+              {label: 'De Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
+              {label: 'De notificación', icon: 'pi pi-dollar', routerLink: '/descuento'},
+              {label: 'Histórico Direción Ppal.', icon: 'pi pi-dollar', routerLink: '/historicodir'}
+            ]
+          }
+        ]
+      },
+      {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
+      {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
+      {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'},
+      {label: 'Predios', icon: 'pi pi-home', routerLink: '/predios'},
+      {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'},
+      {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
+    ];
 
   }
-  closeItem(event, index) {
-    this.itemsciud = this.itemsciud.filter((item, i) => i !== index);
-    event.preventDefault();
-  }
+
   buscarciud(): void {
     this.ciudService.ciudadanoActivo.next(null);
     this.router.navigate(['/crearbus']);
 
   }
-  salir() {
+  nvocontriby(): void {
+    this.ciudService.ciudadanoActivo.next(null);
+    this.ciudService.recargarFormulario.next(!this.cambioForm);
+    this.router.navigate(['/crearciu']);
+
+  }
+
+  salir(): void {
     this.authService.salir();
     // alert ('salir');
     // this._flashMessagesService.show('Salio de la aplicacion', { cssClass: 'alert-success', timeout: 2000 });
@@ -130,7 +141,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/autenticar']);
 
   }
-  salirAdmin() {
+  salirAdmin(): void {
     this.authService.salir();
     // alert ('salir');
     // this._flashMessagesService.show('Salio de la aplicacion', { cssClass: 'alert-success', timeout: 2000 });
@@ -138,7 +149,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/autenticaadmin']);
 
   }
+
   ngOnDestroy(): void {
     this.constribySubscription.unsubscribe();
+    this.dataSubscription.unsubscribe();
   }
+
 }

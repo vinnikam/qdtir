@@ -28,20 +28,21 @@
         <div class="form-group row">
           <div class="col-sm-6">
             <label >Tipo de Identificación : </label>
-
-            <select class="custom-select" class="form-control"  name="tipoDocumento" formControlName="tipoDocumento">
-              <option selected>Seleccione el tipo de Identificación</option>
-              <option value="4">CEDULA</option>
-              <option value="3">NIT</option>
-              <option value="5">PASAPORTE</option>
-              <option value="6">CARNET DIPLOMATICO</option>
-              <option value="9">NIT EXTRANJERO</option>
+            <select class="custom-select" class="form-control"  formControlName="tipoDocumento" name="tipoDocumento" ngModel (change)="this.cambiotiden()">
+              <option *ngFor="let dato of tiposDocumento" [value]="dato.codigo">
+                {{dato.nombre}}
+              </option>
             </select>
+          </div>
+          <div class="col-sm-6" *ngIf="estipotext">
+            <label>Número de Identificacion: </label>
+            <input type="text" name="numidentificacion" formControlName="nroIdentificacion" class="form-control" ngModel  autocomplete="off"/>
 
           </div>
-          <div class="col-sm-6">
-            <label>Numero de Identificacion: </label>
-            <input type="text" name="numidentificacion" formControlName="nroIdentificacion" class="form-control" ngModel  autocomplete="off"/>
+          <div class="col-sm-6" *ngIf="!estipotext">
+            <label>Número de Identificacion: </label>
+            <input type="number" name="numidentificacion" formControlName="nroIdentificacion" class="form-control" ngModel  autocomplete="off"/>
+
           </div>
         </div>
 
@@ -165,6 +166,8 @@
           </div>
           <div class="col-sm-6">
             <button class="btn btn-primary px-4 float-right" type="submit">Registrar</button>
+            <button class="btn btn-warning px-4 float-right" type="reset">Limpiar</button>
+
           </div>
         </div>
 
