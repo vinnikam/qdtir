@@ -30,6 +30,8 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import {TooltipModule} from 'primeng/tooltip';
 
 
+import {ConfirmationService} from 'primeng/api';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {MenubarModule} from 'primeng/menubar';
 import {ButtonModule} from 'primeng/button';
@@ -112,6 +114,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     CalendarModule,
     TableModule,
+    ConfirmDialogModule,
     ToastModule,
     MessageModule,
     MessagesModule,

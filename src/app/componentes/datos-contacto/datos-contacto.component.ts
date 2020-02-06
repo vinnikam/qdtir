@@ -2,7 +2,6 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Router} from '@angular/router';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-
 import {Irespuesta} from '../../dto/irespuesta';
 import {
   bis,
@@ -17,7 +16,7 @@ import {
 } from '../../config/Divipola';
 import {Basicovo} from '../../dto/basicovo';
 import {Contacto} from '../../dto/contacto';
-import {MenuItem} from 'primeng/api';
+import {ConfirmationService, MenuItem} from 'primeng/api';
 import {catchError} from 'rxjs/operators';
 import {of, Subscription} from 'rxjs';
 import {ModalService} from '../../servicios/modal.service';
@@ -28,6 +27,7 @@ import {Contribuyente} from '../../dto/contribuyente';
 import {UtilidadesService} from '../../servicios/utilidades.service';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DatoscservicioService} from "../../servicios/datoscservicio.service";
+import {Representante} from "../../dto/representante";
 
 
 @Component({
@@ -42,11 +42,13 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   myForm: FormGroup;
 
+  editForm: FormGroup;
+
   @Input() dptoDireccion: any;
   @Input() mpioDireccion: any;
   @Input() codPostalDireccion: any;
   @Input() tipoContacto: string;
-
+  borrardialog: boolean;
   listdptos: any;
   listmunicipios: any;
   viaPrimaria: any;
@@ -72,6 +74,8 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   complemento2: any ;
   letraViaGen: any;
   cuadranteVG: any;
+
+  contactoborra : any;
 
   name: string;
   direccion: string;
@@ -105,11 +109,13 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   activeItem: MenuItem;
 
   msgsEmail: Message[] = [];
-
   msgsTelefono: Message[] = [];
+  msgsConfirmacion: Message[] = [];
 
   respuesta: Irespuesta;
   respuestauso: TipoUso;
+
+  displaymodificarContacto : boolean;
 
   displayDirNotificacion = false;
   displayDirNotificacion2 = false;
@@ -138,8 +144,8 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
 
-  constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private formBuilder: FormBuilder, private formBuilder2: FormBuilder, private router: Router,
-              private messageService: MessageService, private utilidades: UtilidadesService) {
+  constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private formBuilder: FormBuilder, private formBuilder2: FormBuilder,  private formBuilder3: FormBuilder,private router: Router,
+              private messageService: MessageService, private utilidades: UtilidadesService, private confirmationService: ConfirmationService) {
 
     this.url = ciudService.url;
     this.urluso = ciudService.urluso;
@@ -225,6 +231,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
     this.buildForm();
     this.buildForm2();
+    this.buildForm3();
 
   }
 
@@ -244,6 +251,15 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
     this.myForm= this.formBuilder2.group({
       email: ['', Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)],
       mailTipoUso: ['', Validators.required]
+    });
+  }
+
+
+
+  private buildForm3(){
+    this.editForm= this.formBuilder3.group({
+      email: ['',
+        Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]
     });
   }
 
@@ -310,6 +326,9 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
   }
+
+
+
 
 
 
@@ -552,8 +571,69 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
 
+  modificarContacto(contacto: any ) {
+    this.displaymodificarContacto = true;
+    this.contacto = contacto;
+}
 
-  eliminaContacto(contacto: any ) {
+
+
+  validarCorreo(): boolean {
+
+    if (this.editForm.value.email === null || this.editForm.value.email == '') {
+
+      this.msgsEmail = [];
+      this.msgsEmail.push({severity:'error', summary:'Campo Obligatorio', detail:'El Email es Requerido.'});
+      return false;
+    }
+
+
+    if (this.editForm.invalid) {
+      return false;
+    } else {
+      return true;
+    }
+
+
+  }
+
+
+
+  actualizarCorreoNotificacion(){
+
+
+    if(this.validarCorreo()) {
+
+      this.urlEditar = this.urlEditaCorreoContacto;
+      this.contacto.idSujeto = this.idSujeto;
+      this.contacto.nuevocorreo = this.editForm.value.email;
+      this.contacto.tipoUso = '5';
+      this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
+        catchError(() => of([]))
+      ).subscribe((cont: Irespuesta) => {
+
+        this.messageService.add({
+          key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'El Contacto Email se modifico correctamente. ', closable: true
+        });
+
+        this.consultarDatos(this.tipoDocumento, this.numeroDocumento);
+      });
+
+      this.displaymodificarContacto = false;
+    }
+  }
+
+
+
+  verborra(contacto: any) {
+    this.borrardialog = true;
+    this.contactoborra = contacto;
+  }
+
+
+
+    eliminaContacto(contacto: any ) {
 
     console.log('contacto --->', JSON.stringify( contacto));
 
@@ -592,6 +672,26 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
       this.consultarDatos(this.tipoDocumento, this.numeroDocumento);  });
 
   }
+
+
+
+  confirmEliminacion(contacto: any) {
+    this.confirmationService.confirm({
+      message: 'Quiere borrar este registro?',
+      header: 'Confirmación Eliminación',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+
+        this.eliminaContacto(contacto);
+        this.msgsConfirmacion = [{severity:'info', summary:'Confirmar', detail:'Registro Borrado'}];
+      },
+      reject: () => {
+        this.msgsConfirmacion = [{severity:'info', summary:'Rejected', detail:'You have rejected'}];
+      }
+    });
+  }
+
+
 
   ngOnDestroy(): void {
     this.contactoSubscription.unsubscribe();
