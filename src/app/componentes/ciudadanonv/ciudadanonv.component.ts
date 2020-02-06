@@ -33,7 +33,11 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
   dataSubscription: Subscription;
   constribySubscription: Subscription;
 
+  ciudadanoeActivo: Contribuyente;
+
   estipotext = false;
+
+  notificadialog = false;
 
 
   constructor(private router: Router , private formBuilder: FormBuilder, private ciudadServ: CiudadanoService,
@@ -107,9 +111,10 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
       x.then((value: Irespuesta) => {
         this.respuesta = value;
         if (this.respuesta.codigoError === '0') {
-          this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-            detail: 'El contribuyente a registrar ya se encuentra en la base de RIT. ', closable: true});
-
+          this.ciudadanoeActivo = this.respuesta.contribuyente;
+          // this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          //  detail: 'El contribuyente a registrar ya se encuentra en la base de RIT. ', closable: true});
+          this.notificadialog = true;
         } else {
           if (!soloconsulta) {
             this.guardaContrib();
@@ -423,5 +428,13 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
     this.constribySubscription.unsubscribe();
     this.dataSubscription.unsubscribe();
   }
-
+  ircrear(accion: number): void {
+    if (accion === 1) {
+      this.ciudadServ.ciudadanoActivo.next(this.ciudadanoeActivo);
+      this.router.navigate(['/crearbus']);
+    } else {
+      this.ciudadServ.ciudadanoActivo.next(null);
+    }
+    this.notificadialog = false;
+  }
 }

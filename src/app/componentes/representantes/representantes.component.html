@@ -29,7 +29,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
-      <div style="text-align:left">
+      <div style="text-align:left" *ngIf="ciudadanoeActivo !== null">
         <button class="btn "  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="vercrear()"></button>
       </div>
     </ng-template>

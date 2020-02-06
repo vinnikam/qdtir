@@ -125,7 +125,7 @@ const appRoutes: Routes = [
     RadioButtonModule,
     TooltipModule
   ],
-  providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService, MessageService, DatePipe],
+  providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService, MessageService, DatePipe, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

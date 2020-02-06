@@ -132,10 +132,37 @@
     </div>
   </div>
 
-
-
-
 </div>
 
+<p-dialog header="Información" [modal]="true" [positionTop]="100"  [(visible)]="notificadialog" [style]="{width: '500px', height: '200px'}"
+          [closable]="true" [baseZIndex]="10000">
+  <div class="container">
+    <div >
 
+      <div class="form-group row">
+        <div class="col-sm-9">
+
+          ¿ El contribuyente no existe, desea crearlo ?
+
+        </div>
+
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <button class="btn  px-4 float-left" class="ui-button-success" pButton type="button" label="Si" icon="pi pi-check" (click)="ircrear(1)"></button>
+
+
+        </div>
+        <div class="col-sm-6">
+
+          <button class="btn  px-4 float-left" class="ui-button-info" pButton type="button" label="No" icon="pi pi-check" (click)="ircrear(0)"></button>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+</p-dialog>
 

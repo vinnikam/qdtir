@@ -136,7 +136,7 @@
             <td class="center cleanBgBtn_css">
 
 
-               <button class="btn"  pButton type="button" label="Eliminar"  [name]="prueba2" id="prueba2" (click)="verborra(datosTel)"></button>
+              <button class="btn"  pButton type="button" label="Eliminar"  [name]="prueba2" id="prueba2" (click)="verborra(datosTel)"></button>
             </td>
           </tr>
         </ng-template>
@@ -292,7 +292,7 @@
             <hr>
 
             <div class="buttons_css">
-               <button type="button" class="btn btn-success" (click)="registrar()">
+              <button type="button" class="btn btn-success" (click)="registrar()">
                 <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
                 Crear Contacto
               </button>
@@ -330,7 +330,7 @@
 
       <div *ngIf="editForm.get('email').errors && editForm.get('email').dirty " class="error">
         <p *ngIf="editForm.get('email').hasError('pattern')" class="error">Error Correo electrónico. </p>
-        <p *ngIf="editForm.get('email').hasError('required')" class="error">El Correo electrónico es obligatorio. </p>
+
       </div>
 
       <p-messages [(value)]="msgsEmail" ></p-messages>
@@ -370,23 +370,23 @@
   <div class="container">
     <div >
 
-        <div class="form-group row">
-          <div class="col-sm-9">
-            <label>fecha de Cierra: </label>
-         </div>
-
+      <div class="form-group row">
+        <div class="col-sm-9">
+          <label>desea Eliminar el registro? </label>
         </div>
-        <div class="form-group row">
-          <div class="col-sm-9">
-            <button class="btn  px-4 float-left"  pButton type="button" label="Eliminar" icon="pi pi-check" (click)="EliminarContacto()"></button>
-          </div>
 
-          <div class="col-sm-9">
-            <button class="btn  px-4 float-left"  pButton type="button" label="Salir" icon="pi pi-check" (click)="salirConfirmacion()"></button>
-          </div>
-
-
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <button class="btn  px-4 float-left"  pButton type="button" label="Eliminar" icon="pi pi-check" ></button>
         </div>
+
+        <div class="col-sm-6">
+          <button class="btn  px-4 float-left"  pButton type="button" label="Salir" icon="pi pi-check"></button>
+        </div>
+
+
+      </div>
 
 
     </div>

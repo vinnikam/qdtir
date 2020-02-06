@@ -84,6 +84,7 @@ export class CiudadanoService {
   displayDirNotificacion = new BehaviorSubject(true);
   displayAddContacto = new BehaviorSubject(true);
   recargarFormulario = new BehaviorSubject(true);
+  actualizaDireccion = new BehaviorSubject(true);
 
 
   constructor(private http: HttpClient) {

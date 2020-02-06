@@ -26,8 +26,7 @@ import {Message, MessageService} from 'primeng/api';
 import {Contribuyente} from '../../dto/contribuyente';
 import {UtilidadesService} from '../../servicios/utilidades.service';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DatoscservicioService} from "../../servicios/datoscservicio.service";
-import {Representante} from "../../dto/representante";
+
 
 
 @Component({
@@ -141,7 +140,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   constribySubscription: Subscription;
   ciudadanoeActivo: Contribuyente;
-
+  actualizaDireccionS: Subscription;
 
 
   constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private formBuilder: FormBuilder, private formBuilder2: FormBuilder,  private formBuilder3: FormBuilder,private router: Router,
@@ -178,6 +177,8 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+
     this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
       this.ciudadanoeActivo = data;
       if (this.ciudadanoeActivo === null || this.ciudadanoeActivo === undefined) {
@@ -208,6 +209,15 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
         }
       }
     });
+    this.actualizaDireccionS = this.ciudService.actualizaDireccion.subscribe((data: boolean) => {
+      const rta = data;
+      if (rta) {
+        this.consultarDatos(this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento),
+          this.ciudadanoeActivo.nroIdentificacion);
+      }
+
+    });
+
 
 
 
@@ -237,7 +247,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
 
-  private buildForm(){
+  private buildForm() {
     this.myFormT = this.formBuilder.group({
       telefono: ['', Validators.required],
       ext: ['', ],
@@ -247,8 +257,8 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   }
 
 
-  private buildForm2(){
-    this.myForm= this.formBuilder2.group({
+  private buildForm2() {
+    this.myForm = this.formBuilder2.group({
       email: ['', Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)],
       mailTipoUso: ['', Validators.required]
     });
@@ -256,13 +266,13 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
 
-  private buildForm3(){
-    this.editForm= this.formBuilder3.group({
+
+  private buildForm3() {
+    this.editForm = this.formBuilder3.group({
       email: ['',
         Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]
     });
   }
-
 
 
   validarTelefono(): boolean {
@@ -326,11 +336,6 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
   }
-
-
-
-
-
 
   consultarDatos(tipoDocumento: string, numeroDocumento: string): void {
 
@@ -697,6 +702,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
     this.contactoSubscription.unsubscribe();
     this.contactoAddSubscription.unsubscribe();
     this.constribySubscription.unsubscribe();
+    this.actualizaDireccionS.unsubscribe();
   }
 
 
