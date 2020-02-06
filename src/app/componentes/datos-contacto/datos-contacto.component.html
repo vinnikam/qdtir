@@ -70,11 +70,8 @@
             <td>{{dato.departamento.nombre}}</td>
             <td>{{dato.pais.nombre}}</td>
             <td class="center cleanBgBtn_css">
-              <button class="btn btn-default" type="button" title="Click para eliminar este registro"
-                      data-toggle="modal" (click)="eliminaContacto(dato)">
-                <i class="glyphicon glyphicon-trash"></i>
-              </button>
-              <button class="btn"  pButton type="button" label="Eliminar" (click)="eliminaContacto(dato)"></button>
+
+              <button class="btn"  pButton type="button" label="Eliminar" (click)="confirmEliminacion(dato)"></button>
             </td>
           </tr>
         </ng-template>
@@ -97,15 +94,18 @@
           <tr >
             <td>{{x.fechaModificacion}}</td>
             <td>{{x.tipoT.nombre}}-{{x.uso.nombre}}</td>
-            <td>{{x.direccion}}</td>
+            <td>{{x.direccion}}-{{x.uso.codigo}}</td>
 
-            <td class="center cleanBgBtn_css">
-              <button class="btn btn-default" type="button" title="Click para eliminar este registro"
-                      data-toggle="modal" (click)="eliminaContacto(x)">
-                <i class="glyphicon glyphicon-trash"></i>
-              </button>
-              <button class="btn"  pButton type="button" label="Eliminar" (click)="eliminaContacto(x)"></button>
+            <td class="center cleanBgBtn_css" *ngIf="x.uso.codigo !== '5'">
+              <p-confirmDialog [style]="{width: '50vw'}" [key]="prueba"></p-confirmDialog>
+              <button class="btn"  pButton type="button" label="Eliminar" [name]="prueba" id="prueba" (click)="confirmEliminacion(x)"></button>
             </td>
+
+            <td class="center cleanBgBtn_css" *ngIf="x.uso.codigo === '5'">
+              <button class="btn"  pButton type="button" label="Modificar" (click)="modificarContacto(x)"></button>
+            </td>
+
+
           </tr>
         </ng-template>
 
@@ -134,11 +134,9 @@
             <td>{{datosTel.depto.nombre}}</td>
             <td>{{datosTel.pais.nombre}}</td>
             <td class="center cleanBgBtn_css">
-              <button class="btn btn-default" type="button" title="Click para eliminar este registro"
-                      data-toggle="modal" (click)="eliminaContacto(datosTel)">
-                <i class="glyphicon glyphicon-trash"></i>
-              </button>
-              <button class="btn"  pButton type="button" label="Eliminar" (click)="eliminaContacto(datosTel)"></button>
+
+
+               <button class="btn"  pButton type="button" label="Eliminar"  [name]="prueba2" id="prueba2" (click)="verborra(datosTel)"></button>
             </td>
           </tr>
         </ng-template>
@@ -151,14 +149,6 @@
 
 
 
-
-
-
-
-
-
-
-
 </div>
 
 <!-- /////////////////////////////  SECCIÓN PANEL PRINCIPAL FIN    ////////////////////////////// -->
@@ -166,7 +156,7 @@
 
 
 <div *ngIf="displayDirNotificacion">
-  <p-dialog header="ASISTENTE PARA INGRESAR DIRECCIÓN ESTANDARIZADA" [(visible)]="displayDirNotificacion" [modal]="true" [responsive]="true" [style]="{width: '1050px'}" [minY]="70"
+  <p-dialog header="ASISTENTE PARA INGRESAR DIRECCIÓN ESTANDARIZADA" [(visible)]="displayDirNotificacion" [modal]="true" [responsive]="true" [style]="{width: '1050px'}" [minY]="30"
             [maximizable]="false" [baseZIndex]="10000" [closable]="true" positionTop="100">
     <app-estandarizador></app-estandarizador>
 
@@ -175,7 +165,7 @@
 
 
 
-<p-dialog header="Agregar nuevo contacto" [(visible)]="displayAddContacto" [modal]="true" [responsive]="true" [style]="{width: '1050px'}" [minY]="70"
+<p-dialog header="Agregar nuevo contacto" [(visible)]="displayAddContacto" [modal]="true" [responsive]="true" [style]="{width: '1050px'}" [minY]="30"
           [maximizable]="false" [baseZIndex]="10000" [closable]="true" positionTop="100">
 
 
@@ -325,5 +315,81 @@
     </div>
   </div>
 
+
+</p-dialog>
+
+
+<p-dialog header="Modificar Correo de Notificación contacto" [(visible)]="displaymodificarContacto" [modal]="true" [responsive]="true" [style]="{width: '650px'}" [minY]="80"
+          [maximizable]="false" [baseZIndex]="10000" [closable]="true" positionTop="100">
+
+
+  <div class="col-lg-12">
+
+    <div [formGroup]="editForm">
+
+
+      <div *ngIf="editForm.get('email').errors && editForm.get('email').dirty " class="error">
+        <p *ngIf="editForm.get('email').hasError('pattern')" class="error">Error Correo electrónico. </p>
+        <p *ngIf="editForm.get('email').hasError('required')" class="error">El Correo electrónico es obligatorio. </p>
+      </div>
+
+      <p-messages [(value)]="msgsEmail" ></p-messages>
+      <div class="row show-grid ">
+        <div class="col-md-6">
+          <label class="required_css">Correo electrónico</label>
+          <input type="text" name="email" formControlName="email" class="form-control" ng-maxlength="200" placeholder="Email"/>
+        </div>
+
+
+
+      </div>
+      <hr>
+
+      <div class="buttons_css">
+        <button type="button" class="btn btn-success" (click)="actualizarCorreoNotificacion()">
+          <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+          Actualizar Contacto
+        </button>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+</p-dialog>
+
+
+<p-dialog header="BORRAR" [modal]="true" [positionTop]="100"  [(visible)]="borrardialog" [style]="{width: '500px', height: '200px'}"
+          [closable]="true" [baseZIndex]="10000">
+  <div class="container">
+    <div >
+
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>fecha de Cierra: </label>
+         </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <button class="btn  px-4 float-left"  pButton type="button" label="Eliminar" icon="pi pi-check" (click)="EliminarContacto()"></button>
+          </div>
+
+          <div class="col-sm-9">
+            <button class="btn  px-4 float-left"  pButton type="button" label="Salir" icon="pi pi-check" (click)="salirConfirmacion()"></button>
+          </div>
+
+
+        </div>
+
+
+    </div>
+  </div>
 
 </p-dialog>

@@ -4,7 +4,6 @@ import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {Router} from '@angular/router';
 import {Irespuesta} from '../../dto/irespuesta';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {DatoscservicioService} from '../../servicios/datoscservicio.service';
 import {Contacto} from '../../dto/contacto';
 import {Basicovo} from '../../dto/basicovo';
 import {TipoUso} from '../../dto/tipo-uso';
@@ -36,6 +35,7 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
   codDepartamento: number;
   direccion: string;
 
+  ubicacion: string;
   contacto: Contacto;
   respuesta: Irespuesta;
 
@@ -58,6 +58,8 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
   cuadrante: Basicovo[];
 
   msgs: Message[] = [];
+
+  msgsComplemento: Message[] = [];
 
   letras20: Basicovo[];
 
@@ -107,6 +109,7 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
     this.listviaprimaria = tipoViaPrimaria;
     this.letras = letras;
     this.bis = bis;
+    this.ubicacion = '2';
     this.cuadrante = cuadrante;
     this.letras20 = letras;
     this.letras10 = letras10;
@@ -138,40 +141,91 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
 
 
 
-  validar(): boolean {
+  validar(ubi : string): boolean {
 
-    if (this.formulario.value.departamento === null || this.formulario.value.departamento == '') {
+
+    if (this.formulario.value.departamento === null || this.formulario.value.departamento === '') {
 
       this.msgs = [];
-      this.msgs.push({severity:'error', summary:'Campo Obligatorio', detail:'El departamento es Requerido.'});
+      this.msgs.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'El departamento es Requerido.'});
       return false;
     }
 
-
-    if (this.formulario.value.mpioDireccion === null || this.formulario.value.mpioDireccion == '') {
+    if (this.formulario.value.mpioDireccion === null || this.formulario.value.mpioDireccion === '') {
 
       this.msgs = [];
-      this.msgs.push({severity:'error', summary:'Campo Obligatorio', detail:'El Municipio es Requerido.'});
+      this.msgs.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'El Municipio es Requerido.'});
       return false;
- }
-    if (this.formulario.value.dirTipoUso === null || this.formulario.value.dirTipoUso == '') {
+    }
+    if (this.formulario.value.dirTipoUso === null || this.formulario.value.dirTipoUso === '') {
       this.msgs = [];
-      this.msgs.push({severity:'error', summary:'Campo Obligatorio', detail:'El Tipo de Uso es Requerido.'});
+      this.msgs.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'El Tipo de Uso es Requerido.'});
       return false;
 
-   }
-    if (this.formulario.value.codPostalDireccion === null || this.formulario.value.codPostalDireccion == '') {
+    }
+    if (this.formulario.value.codPostalDireccion === null || this.formulario.value.codPostalDireccion === '') {
       this.msgs = [];
-      this.msgs.push({severity:'error', summary:'Campo Obligatorio', detail:'El Código Postal es Requerido.'});
+      this.msgs.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'El Código Postal es Requerido.'});
       return false;
 
     }
 
 
-    if (this.formulario.value.viaPrimaria === null || this.formulario.value.viaPrimaria == '') {
-      this.msgs = [];
-      this.msgs.push({severity:'error', summary:'Campo Obligatorio', detail:'La vía Primaria es Requerido.'});
-      return false;
+
+
+
+    if(ubi === '2') {
+
+
+
+      if (this.formulario.value.viaPrimaria === null || this.formulario.value.viaPrimaria === '') {
+        this.msgs = [];
+        this.msgs.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'La vía Primaria es Requerido.'});
+        return false;
+
+      }
+
+      if (this.formulario.value.nroViaPpal === null || this.formulario.value.nroViaPpal === '') {
+        this.msgs = [];
+        this.msgs.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'Número vía Primaria es Requerido.'});
+        return false;
+
+      }
+
+
+      if (this.formulario.value.nroViaGen === null || this.formulario.value.nroViaGen === '') {
+        this.msgs = [];
+        this.msgs.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'Número Via General es Requerido.'});
+        return false;
+
+      }
+
+      if (this.formulario.value.nroPlaca === null || this.formulario.value.nroPlaca === '') {
+        this.msgs = [];
+        this.msgs.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'Número de placa es Requerido.'});
+        return false;
+
+      }
+
+
+    }
+
+    if(ubi === '1'){
+
+      if (this.formulario.value.complemento1 === null || this.formulario.value.complemento1 === '') {
+        this.msgsComplemento = [];
+        this.msgsComplemento.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'El complemento 1 es Requerido.'});
+        return false;
+
+      }
+
+      if (this.formulario.value.complemento2 === null || this.formulario.value.complemento2 === '') {
+        this.msgsComplemento = [];
+        this.msgsComplemento.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'El complemento 2 es Requerido.'});
+        return false;
+
+      }
+
 
     }
 
@@ -194,7 +248,8 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
       mpioDireccion: ['', Validators.required],
       dirTipoUso: ['', Validators.required],
       codPostalDireccion: ['', Validators.maxLength(6)],
-      viaPrimaria: ['', Validators.required],
+      ubicacion:['', ],
+      viaPrimaria: ['',],
       nroViaPpal: ['', ],
       letraViaPpal: ['',],
       bis1: ['', ],
@@ -362,19 +417,16 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
 
   ok(): void {
 
-    if(this.validar()) {
+
+      if (this.validar(this.ubicacion)) {
 
 
-      this.ciudService.displayDirNotificacion.next(false);
+        this.ciudService.displayDirNotificacion.next(false);
 
 
-
-      this.editarDirNotificacion().pipe(
-        catchError(() => of([]))
-      ).subscribe((value:  Irespuesta) =>
-
-
-        {
+        this.editarDirNotificacion().pipe(
+          catchError(() => of([]))
+        ).subscribe((value: Irespuesta) => {
           this.respuesta = value;
           // alert(value);
           if (this.respuesta.codigoError === '0') {
@@ -397,7 +449,7 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
         this.consultarContribuyente(this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento), this.ciudadanoeActivo.nroIdentificacion);
         this.limpiarCampos();
 
-    }
+      }
 
 
     }
@@ -416,66 +468,68 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
 
   capturar(): void {
     this.capturaDireccion = true;
+    this.direccion = '';
+
   }
 
 
 
   cambioDir(): void {
 
-    this.direccion = this.formulario.value.viaPrimaria.codigo;
+    if(this.ubicacion === '2') {
 
-    if (this.formulario.value.nroViaPpal !== undefined) {
-      if (this.formulario.value.nroViaPpal !== '') {
-        this.direccion += ' ' + this.formulario.value.nroViaPpal;
+      this.direccion = this.formulario.value.viaPrimaria.codigo;
+
+      if (this.formulario.value.nroViaPpal !== undefined) {
+        if (this.formulario.value.nroViaPpal !== '') {
+          this.direccion += ' ' + this.formulario.value.nroViaPpal;
+        }
       }
-    }
-    if (this.formulario.value.letraViaPpal !== undefined) {
-            if ( this.formulario.value.letraViaPpal.codigo !== undefined && this.formulario.value.letraViaPpal.codigo !== undefined && this.formulario.value.letraViaPpal.codigo !== '')
-            {
-             this.direccion += ' ' + this.formulario.value.letraViaPpal.codigo;
-            }
-    }
-    if (this.formulario.value.bis1 !== undefined && this.formulario.value.bis1.codigo !== undefined && this.formulario.value.bis1.codigo !== undefined && this.formulario.value.bis1.codigo !== '')
-      {
+      if (this.formulario.value.letraViaPpal !== undefined) {
+        if (this.formulario.value.letraViaPpal.codigo !== undefined && this.formulario.value.letraViaPpal.codigo !== undefined && this.formulario.value.letraViaPpal.codigo !== '') {
+          this.direccion += ' ' + this.formulario.value.letraViaPpal.codigo;
+        }
+      }
+      if (this.formulario.value.bis1 !== undefined && this.formulario.value.bis1.codigo !== undefined && this.formulario.value.bis1.codigo !== undefined && this.formulario.value.bis1.codigo !== '') {
         this.direccion += ' ' + this.formulario.value.bis1.codigo;
       }
-    if (this.formulario.value.letraBis !== undefined && this.formulario.value.letraBis.codigo !== undefined && this.formulario.value.letraBis.codigo !== undefined && this.formulario.value.letraBis.codigo !== '')
-      {
+      if (this.formulario.value.letraBis !== undefined && this.formulario.value.letraBis.codigo !== undefined && this.formulario.value.letraBis.codigo !== undefined && this.formulario.value.letraBis.codigo !== '') {
         this.direccion += ' ' + this.formulario.value.letraBis.codigo;
       }
-    if (this.formulario.value.cuadrante1 !== undefined && this.formulario.value.cuadrante1.codigo !== undefined && this.formulario.value.cuadrante1.codigo !== '')
-      {
+      if (this.formulario.value.cuadrante1 !== undefined && this.formulario.value.cuadrante1.codigo !== undefined && this.formulario.value.cuadrante1.codigo !== '') {
         this.direccion += ' ' + this.formulario.value.cuadrante1.codigo;
       }
-    if (this.formulario.value.nroViaGen !== undefined) {
-      if (this.formulario.value.nroViaGen !== '') {
-        this.direccion += ' ' + this.formulario.value.nroViaGen;
+      if (this.formulario.value.nroViaGen !== undefined) {
+        if (this.formulario.value.nroViaGen !== '') {
+          this.direccion += ' ' + this.formulario.value.nroViaGen;
+        }
       }
-    }
-    if (this.formulario.value.letraViaGen !== undefined && this.formulario.value.letraViaGen.codigo !== undefined && this.formulario.value.letraViaGen.codigo !== undefined && this.formulario.value.letraViaGen.codigo !== '')
-      {
+      if (this.formulario.value.letraViaGen !== undefined && this.formulario.value.letraViaGen.codigo !== undefined && this.formulario.value.letraViaGen.codigo !== undefined && this.formulario.value.letraViaGen.codigo !== '') {
         this.direccion += ' ' + this.formulario.value.letraViaGen.codigo;
       }
 
-    if (this.formulario.value.nroPlaca !== undefined) {
-      if (this.formulario.value.nroPlaca !== '') {
-        this.direccion += ' ' + this.formulario.value.nroPlaca;
+      if (this.formulario.value.nroPlaca !== undefined) {
+        if (this.formulario.value.nroPlaca !== '') {
+          this.direccion += ' ' + this.formulario.value.nroPlaca;
+        }
       }
-    }
 
-    if (this.formulario.value.cuadranteVG !== undefined && this.formulario.value.cuadranteVG.codigo !== undefined && this.formulario.value.cuadranteVG.codigo !== undefined && this.formulario.value.cuadranteVG.codigo !== '')
-      {
+      if (this.formulario.value.cuadranteVG !== undefined && this.formulario.value.cuadranteVG.codigo !== undefined && this.formulario.value.cuadranteVG.codigo !== undefined && this.formulario.value.cuadranteVG.codigo !== '') {
         this.direccion += ' ' + this.formulario.value.cuadranteVG.codigo;
       }
-
+    }
   }
 
   complementar(): void {
     let compl = '';
-    if (this.direccion === undefined || this.direccion === '') {
-      // mostrarMensaje('Debe pirmero diligenciar la direcci\xf3n antes de adicionarle el complemento.', AlertLevel.WARNING);
-      return;
+    if(this.ubicacion === '2') {
+      if (this.direccion === undefined || this.direccion === '') {
+        // mostrarMensaje('Debe pirmero diligenciar la direcci\xf3n antes de adicionarle el complemento.', AlertLevel.WARNING);
+        return;
+      }
+
     }
+
 
     if (this.formulario.value.complemento1.codigo !== undefined && this.formulario.value.complemento1.codigo !== '') {
       compl += ' ' + this.formulario.value.complemento1.codigo;
@@ -483,6 +537,12 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
 
     if (compl !== '' && this.formulario.value.complemento2 !== undefined && this.formulario.value.complemento2 !== '') {
       const x = this.formulario.value.complemento2.trim();
+        if(this.direccion == undefined)
+        {
+          this.direccion = '';
+
+        }
+
       this.direccion += compl + ' ' + x;
     } else {
       // mostrarMensaje('Debe diligenciar los dos campos del complemento de la direcci\xf3n para poderlo agregar.', AlertLevel.WARNING);
@@ -493,9 +553,8 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
   }
 
 
-
   registrar(): void {
-    if(this.validar()) {
+    if(this.validar(this.ubicacion)) {
 
       this.contacto.idSujeto = this.idSujeto;
       this.contacto.pais = '49';
@@ -532,9 +591,8 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
 
         }
 
-       this.ciudService.ciudadanoActivo.next(
-        this.ciudService.consultarDatos(this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento), this.ciudadanoeActivo.nroIdentificacion).contribuyente
-       )
+        this.ciudService.consultarDatos(this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento), this.ciudadanoeActivo.nroIdentificacion);
+
       });
 
       this.limpiarCampos();

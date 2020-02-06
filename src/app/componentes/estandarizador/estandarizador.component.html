@@ -73,7 +73,18 @@
 
 
 
-  <div class="row">
+      <div class="col-lg-12">
+        <label>Seleccione la ubicación: </label>
+        <br>
+        <p-radioButton name="ubicacion" value="2" label="Urbano" formControlName="ubicacion" [(ngModel)]="ubicacion"></p-radioButton>
+        <p-radioButton name="ubicacion" value="1" label="Rural" formControlName="ubicacion"  [(ngModel)]="ubicacion"></p-radioButton>
+        <hr>
+      </div>
+
+
+
+      <div class="col-lg-12" *ngIf="ubicacion == '2'">
+      <div class="row">
     <div aling ="center" class="col-md-12">
 
       <p-panel header="Actualizar Dirección">
@@ -125,6 +136,7 @@
     </div>
   </div>
 
+      </div>
   <br/>
 
   <p-panel header="Adicionar Complemento a la dirección">
@@ -132,7 +144,7 @@
     <p>
       <br/>
 
-
+      <p-messages [(value)]="msgsComplemento" ></p-messages>
 
 
       <small>Seleccione los datos requeridos en la lista desplegable inferior. Digite en el recuadro el detalle y pulse el

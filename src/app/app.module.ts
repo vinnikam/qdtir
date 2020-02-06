@@ -27,8 +27,8 @@ import {TabMenuModule} from 'primeng/tabmenu';
 import {DropdownModule} from 'primeng/dropdown';
 import {CheckboxModule} from 'primeng/checkbox';
 import {RadioButtonModule} from 'primeng/radiobutton';
-
-
+import {ConfirmationService} from 'primeng/api';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {MenubarModule} from 'primeng/menubar';
 import {ButtonModule} from 'primeng/button';
@@ -109,6 +109,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     CalendarModule,
     TableModule,
+    ConfirmDialogModule,
     ToastModule,
     MessageModule,
     MessagesModule,
@@ -118,7 +119,7 @@ const appRoutes: Routes = [
     TabViewModule,
     RadioButtonModule
   ],
-  providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService, MessageService, DatePipe],
+  providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService, MessageService, ConfirmationService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

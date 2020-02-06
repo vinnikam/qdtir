@@ -160,6 +160,8 @@ export class CiudadanoService {
     return this.http.post<Irespuesta>(urlFinal, contacto,{headers: headers});
   }
 
+
+
   eliminarContacto(contacto: Datacontacto, urlFinal: string): Observable<Irespuesta>  {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post<Irespuesta>(urlFinal, contacto, {headers: headers});
