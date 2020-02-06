@@ -6,6 +6,8 @@ import {AuthServiceService} from '../../servicios/auth-service.service';
 import {FormBuilder} from '@angular/forms';
 import {Message, MessageService} from 'primeng/api';
 import {Subscription} from 'rxjs';
+import {UtilidadesService} from '../../servicios/utilidades.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-ciudadano',
@@ -24,9 +26,14 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
   constribySubscription: Subscription;
   ciudadanoeActivo: Contribuyente;
 
-  private respuesta: Irespuesta;
+  notificadialog = false;
 
-  constructor(private ciudService: CiudadanoService, private autenticservice: AuthServiceService, private messageService: MessageService) {
+  private respuesta: Irespuesta;
+  certificadoRit = 'http://127.0.0.1:7101/ServiciosRITDQ/certificado?';
+
+  constructor(private ciudService: CiudadanoService, private autenticservice: AuthServiceService,
+              private messageService: MessageService, private utilidades: UtilidadesService,
+              private router: Router) {
     this.elCiudadano = new Contribuyente();
     this.esjuridico = false;
   }
@@ -51,8 +58,6 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
     // alert('Consumio servicio autenticacion');
     // alert(value);
     if (this.respuesta.codigoError === '0') {
-      // ASIGNA EL VALOR AL BEHAIVOR
-      this.ciudService.ciudadanoActivo.next(this.respuesta.contribuyente);
 
       // this.ciudService.ciudadanoActivo = this.respuesta.contribuyente;
       this.ciudadanoeActivo = this.respuesta.contribuyente;
@@ -60,6 +65,10 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
 
       // this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
       //  detail: 'Se encontró contribuyente. Puede consultar la información en cada una de las pestañas. ', closable: true});
+      this.certificadoRit += 'par1=' + this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento)  +
+        '&par2=' + this.ciudadanoeActivo.nroIdentificacion;
+      this.respuesta.contribuyente.certificadoRit = this.certificadoRit;
+      this.ciudService.ciudadanoActivo.next(this.respuesta.contribuyente);
       if (this.ciudadanoeActivo.naturaleza.codigo === '2') {
         this.esjuridico = true;
       } else {
@@ -72,8 +81,9 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
       this.ciudService.ciudadanoActivo.next(null);
       this.ciudadanoeActivo = null;
       this.rolCiudadano = false;
-      this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-      detail: 'No se encontró contribuyente con los parametros ingresados, intente de nuevo. ', closable: true});
+      // this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+      // detail: 'No se encontró contribuyente con los parametros ingresados, intente de nuevo. ', closable: true});
+      this.notificadialog = true;
     }
     this.ciudService.idSujetoVehiculos = 0;
     })
@@ -101,6 +111,10 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.constribySubscription.unsubscribe();
   }
-
-
+  ircrear(accion: number): void {
+    if (accion === 1) {
+      this.router.navigate(['/crearciu']);
+    }
+    this.notificadialog = false;
+  }
 }

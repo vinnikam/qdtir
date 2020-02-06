@@ -76,7 +76,7 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
   urlEditar: string;
   urlEditarDirNoti: string;
   departamento: Basicovo;
-  //departamento: any;
+  // departamento: any;
 
   listadirTipoUso: Basicovo[];
 
@@ -85,6 +85,8 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
 
   constribySubscription: Subscription;
   ciudadanoeActivo: Contribuyente;
+
+  actualizaDireccionS: Subscription;
 
   @Input() validacionRegistroDireccion: boolean;
   @Input() validacionTipoUso: boolean;
@@ -133,6 +135,9 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
     });
 
     this.addContactoSubscription = this.ciudService.displayAddContacto.subscribe((data: true) => {
+
+    });
+    this.actualizaDireccionS = this.ciudService.actualizaDireccion.subscribe((data: boolean) => {
 
     });
 
@@ -430,6 +435,7 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
           this.respuesta = value;
           // alert(value);
           if (this.respuesta.codigoError === '0') {
+            this.ciudService.actualizaDireccion.next(true);
             this.ciudService.validacionDireccion = false;
             this.messageService.add({
               key: 'custom', severity: 'warn', summary: 'Información',
@@ -554,7 +560,7 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
 
 
   registrar(): void {
-    if(this.validar(this.ubicacion)) {
+    if (this.validar(this.ubicacion)) {
 
       this.contacto.idSujeto = this.idSujeto;
       this.contacto.pais = '49';
@@ -573,6 +579,7 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
       ).subscribe((contribuyente: Irespuesta) => {
 
         if(contribuyente.codigoError === '0') {
+          this.ciudService.actualizaDireccion.next(true);
 
           this.messageService.add({
             key: 'custom', severity: 'warn', summary: 'Información',

@@ -97,7 +97,8 @@
             <td>{{x.direccion}}-{{x.uso.codigo}}</td>
 
             <td class="center cleanBgBtn_css" *ngIf="x.uso.codigo !== '5'">
-              <button class="btn"  pButton type="button" label="Eliminar" (click)="verborra(x)"></button>
+              <p-confirmDialog [style]="{width: '50vw'}" [key]="prueba"></p-confirmDialog>
+              <button class="btn"  pButton type="button" label="Eliminar" [name]="prueba" id="prueba" (click)="confirmEliminacion(x)"></button>
             </td>
 
             <td class="center cleanBgBtn_css" *ngIf="x.uso.codigo === '5'">
@@ -134,16 +135,9 @@
             <td>{{datosTel.pais.nombre}}</td>
             <td class="center cleanBgBtn_css">
 
-            <td class="center cleanBgBtn_css" *ngIf="datosTel.uso.codigo !== '5'">
-            <button class="btn"  pButton type="button" label="Eliminar"  (click)="verborraTel(datosTel)"></button>
+
+              <button class="btn"  pButton type="button" label="Eliminar"  [name]="prueba2" id="prueba2" (click)="verborra(datosTel)"></button>
             </td>
-
-            <td class="center cleanBgBtn_css" *ngIf="datosTel.uso.codigo === '5'">
-              <button class="btn"  pButton type="button" label="Modificar" (click)="modificarContactoTel(datosTel)"></button>
-            </td>
-
-
-
           </tr>
         </ng-template>
 
@@ -298,7 +292,7 @@
             <hr>
 
             <div class="buttons_css">
-               <button type="button" class="btn btn-success" (click)="registrar()">
+              <button type="button" class="btn btn-success" (click)="registrar()">
                 <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
                 Crear Contacto
               </button>
@@ -336,7 +330,7 @@
 
       <div *ngIf="editForm.get('email').errors && editForm.get('email').dirty " class="error">
         <p *ngIf="editForm.get('email').hasError('pattern')" class="error">Error Correo electrónico. </p>
-        <p *ngIf="editForm.get('email').hasError('required')" class="error">El Correo electrónico es obligatorio. </p>
+
       </div>
 
       <p-messages [(value)]="msgsEmail" ></p-messages>
@@ -376,80 +370,26 @@
   <div class="container">
     <div >
 
-        <div class="form-group row">
-          <div class="col-sm-9">
-            <label>desea Eliminar el registro? </label>
-         </div>
-
+      <div class="form-group row">
+        <div class="col-sm-9">
+          <label>desea Eliminar el registro? </label>
         </div>
-        <div class="form-group row">
-          <div class="col-sm-6">
-            <button class="btn  px-4 float-left"  pButton type="button" label="Eliminar" icon="pi pi-check" (click)="EliminarContacto()"></button>
-          </div>
 
-          <div class="col-sm-6">
-            <button class="btn  px-4 float-left"  pButton type="button" label="Salir" icon="pi pi-check" (click)="SalirContacto()"></button>
-          </div>
-
-
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <button class="btn  px-4 float-left"  pButton type="button" label="Eliminar" icon="pi pi-check" ></button>
         </div>
+
+        <div class="col-sm-6">
+          <button class="btn  px-4 float-left"  pButton type="button" label="Salir" icon="pi pi-check"></button>
+        </div>
+
+
+      </div>
 
 
     </div>
   </div>
-
-</p-dialog>
-
-
-<p-dialog header="Modificar Correo de Notificación contacto" [(visible)]="displaymodificarContactoTel" [modal]="true" [responsive]="true" [style]="{width: '650px'}" [minY]="80"
-          [maximizable]="false" [baseZIndex]="10000" [closable]="true" positionTop="100">
-
-
-               <!-- TELEFONO -->
-    <div class="row">
-
-
-      <div [formGroup]="editFormTel">
-
-
-        <p-messages [(value)]="msgsTelefono" ></p-messages>
-        <div class="col-lg-12">
-          <div class="row show-grid ">
-            <div class="col-lg-3">
-              <span class="innerTitleBold_css">Tel&eacute;fono: </span>
-              <input class="form-control" name="telefono"  type="text" formControlName="telefono"  required/>
-            </div>
-
-            <div class="col-lg-3">
-              <span class="innerTitleBold_css">Ext: </span>
-              <input class="form-control" type="text" name="ext"  type="text" formControlName ="ext" />
-            </div>
-
-
-            <div class="col-lg-3">
-              <span class="innerTitleBold_css">Tipo: </span>
-              <select class="form-control" id="seleccionT"  formControlName="tipo" name="tipo" required>
-                <option value="FIJO">Fijo</option>
-                <option value="CELULAR">Celular</option>
-                <option value="AVANTEL">Avantel</option>
-              </select>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <hr>
-
-    <div class="buttons_css">
-      <button type="button" class="btn btn-success" (click)="actualizarTelefonoNotificacion()">
-        <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
-        Crear Contacto
-      </button>
-    </div>
-                       <!-- TELEFONO -->
-
 
 </p-dialog>

@@ -27,6 +27,9 @@ import {TabMenuModule} from 'primeng/tabmenu';
 import {DropdownModule} from 'primeng/dropdown';
 import {CheckboxModule} from 'primeng/checkbox';
 import {RadioButtonModule} from 'primeng/radiobutton';
+import {TooltipModule} from 'primeng/tooltip';
+
+
 import {ConfirmationService} from 'primeng/api';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
@@ -119,9 +122,10 @@ const appRoutes: Routes = [
     CheckboxModule,
     PanelModule,
     TabViewModule,
-    RadioButtonModule
+    RadioButtonModule,
+    TooltipModule
   ],
-  providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService, MessageService, ConfirmationService, DatePipe],
+  providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService, MessageService, DatePipe, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

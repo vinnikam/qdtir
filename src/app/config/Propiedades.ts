@@ -1,5 +1,6 @@
 export const valores = {
-  //ip_servidor : 'http://10.180.220.35:7777/',
+  // ip_servidor : 'http://10.180.220.35:7777/',
+  certificadoRit : 'ServiciosRITDQ/certificado?',
   ip_servidor : 'http://10.180.52.86:7101/',
   admin: 'adminrit',
   clave: '9102qdtir'
@@ -14,10 +15,10 @@ export const tiposIdenNatural = [
   {codigo: '4', nombre: 'CEDULA DE CIUDADANIA'},
   {codigo: '2', nombre: 'CEDULA DE EXTRANJERIA'},
   {codigo: '5', nombre: 'PASAPORTE'},
-  {codigo: '7', nombre: 'CARNET DIPLOMATICO'},
+  {codigo: '6', nombre: 'CARNET DIPLOMATICO'},
   {codigo: '1', nombre: 'TARJETA DE IDENTIDAD'},
-  {codigo: '8', nombre: 'REGISTRO CIVIL'},
-  {codigo: '9', nombre: 'N.U.I.P'}
+  {codigo: '7', nombre: 'REGISTRO CIVIL'},
+  {codigo: '8', nombre: 'N.U.I.P'}
 
 ];
 // ng build --prod --base-href="/RITDQWEB/index.html"

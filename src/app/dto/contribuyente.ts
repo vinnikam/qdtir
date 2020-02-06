@@ -41,5 +41,7 @@ export class Contribuyente {
 
   aplicaDescuento?: AplicacionDescuento;
 
+  certificadoRit ?: string;
+
 
 }

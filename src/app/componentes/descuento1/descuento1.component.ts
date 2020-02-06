@@ -84,8 +84,8 @@ export class Descuento1Component implements OnInit, OnDestroy {
   }
   actualizar(valor) {
     if (valor === 1) {
-      console.log(this.idbuzon);
-      console.log(this.idnotif);
+      // console.log(this.idbuzon);
+      // console.log(this.idnotif);
       let bz = 0;
       let ntf = 0;
       if (this.idbuzon) {

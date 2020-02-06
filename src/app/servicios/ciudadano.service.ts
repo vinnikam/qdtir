@@ -84,6 +84,7 @@ export class CiudadanoService {
   displayDirNotificacion = new BehaviorSubject(true);
   displayAddContacto = new BehaviorSubject(true);
   recargarFormulario = new BehaviorSubject(true);
+  actualizaDireccion = new BehaviorSubject(true);
 
 
   constructor(private http: HttpClient) {
@@ -196,8 +197,6 @@ export class CiudadanoService {
     return this.respuesta;
 
   }
-
-
 
   consultarContribuyente(tipo: string, numero: string): Promise<Irespuesta>{
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
