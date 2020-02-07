@@ -146,7 +146,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   constribySubscription: Subscription;
   ciudadanoeActivo: Contribuyente;
-  actualizaDireccionS: Subscription;
+
 
 
   constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private formBuilder: FormBuilder, private formBuilder2: FormBuilder,  private formBuilder3: FormBuilder,   private formBuilder4: FormBuilder, private router: Router,
@@ -205,15 +205,6 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
         }
       }
     });
-    this.actualizaDireccionS = this.ciudService.actualizaDireccion.subscribe((data: boolean) => {
-      const rta = data;
-      if (rta) {
-        this.consultarDatos(this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento),
-          this.ciudadanoeActivo.nroIdentificacion);
-      }
-
-    });
-
 
 
 
@@ -670,8 +661,9 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
       this.contacto.tipo = this.editFormTel.value.tipo;
       this.contacto.ext = this.editFormTel.value.ext;
       this.contacto.tipoUso = '5';
-      this.contacto.tipoT = this.tipoContacto;
-      this.contacto.tipoContacto = this.tipoContacto;
+      this.contacto.tipoT = '1';
+      this.contacto.tipoContacto = '1';
+
 
       this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
         catchError(() => of([]))
@@ -812,7 +804,6 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
     this.contactoSubscription.unsubscribe();
     this.contactoAddSubscription.unsubscribe();
     this.constribySubscription.unsubscribe();
-    this.actualizaDireccionS.unsubscribe();
   }
 
 
