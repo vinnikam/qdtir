@@ -507,39 +507,39 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   {
     this.contacto.idSujeto = this.idSujeto ;
     this.contacto.pais     = '49' ;
-     if(parseInt(this.tipoContacto ) === 1)
-     {
-       if(this.validarTelefono()) {
-         this.urlEditar = this.urlEditaTelContacto;
-         this.contacto.nuevoTelefono = this.myFormT.value.telefono;
-         this.contacto.municipio = '149'; // $scope.telMpio ;
-         this.contacto.depto = '11'; // $scope.telDpto ;
-         this.contacto.codPostal = '110111'; // $scope.telcodPostal ;
-         this.contacto.tipo = this.myFormT.value.tipo;
-         this.contacto.ext = this.myFormT.value.ext;
-         this.contacto.tipoUso = this.myFormT.value.telTipoUso;
-         this.contacto.tipoT = this.tipoContacto;
-         this.contacto.tipoContacto = this.tipoContacto;
+    if(parseInt(this.tipoContacto ) === 1)
+    {
+      if(this.validarTelefono()) {
+        this.urlEditar = this.urlEditaTelContacto;
+        this.contacto.nuevoTelefono = this.myFormT.value.telefono;
+        this.contacto.municipio = '149'; // $scope.telMpio ;
+        this.contacto.depto = '11'; // $scope.telDpto ;
+        this.contacto.codPostal = '110111'; // $scope.telcodPostal ;
+        this.contacto.tipo = this.myFormT.value.tipo;
+        this.contacto.ext = this.myFormT.value.ext;
+        this.contacto.tipoUso = this.myFormT.value.telTipoUso;
+        this.contacto.tipoT = this.tipoContacto;
+        this.contacto.tipoContacto = this.tipoContacto;
 
-         this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
-           catchError(() => of([]))
-         ).subscribe((cont: Irespuesta) => {
+        this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
+          catchError(() => of([]))
+        ).subscribe((cont: Irespuesta) => {
 
-           this.messageService.add({
-             key: 'custom', severity: 'warn', summary: 'Información',
-             detail: 'El Contacto Teléfonico se agrego correctamente. ', closable: true
-           });
-
-
-           this.consultarDatos(this.tipoDocumento, this.numeroDocumento);  });
-
-         this.limpiarCampos();
-         this.displayAddContacto = false;
-
-       }
+          this.messageService.add({
+            key: 'custom', severity: 'warn', summary: 'Información',
+            detail: 'El Contacto Teléfonico se agrego correctamente. ', closable: true
+          });
 
 
-     }
+          this.consultarDatos(this.tipoDocumento, this.numeroDocumento);  });
+
+        this.limpiarCampos();
+        this.displayAddContacto = false;
+
+      }
+
+
+    }
 
 
     if(parseInt(this.tipoContacto ) === 3) {
@@ -589,7 +589,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   modificarContacto(contacto: any ) {
     this.displaymodificarContacto = true;
     this.contacto = contacto;
-}
+  }
 
 
 
@@ -627,29 +627,29 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
 
-      if (this.editFormTel.value.telefono === null || this.editFormTel.value.telefono == '') {
+    if (this.editFormTel.value.telefono === null || this.editFormTel.value.telefono == '') {
 
-        this.msgsTelefono = [];
-        this.msgsTelefono.push({severity:'error', summary:'Campo Obligatorio', detail:'El Teléfono es Requerido.'});
-        return false;
-      }
-
-
-      if (this.editFormTel.value.tipo === null || this.editFormTel.value.tipo == '') {
-
-        this.msgsTelefono = [];
-        this.msgsTelefono.push({severity:'error', summary:'Campo Obligatorio', detail:'El Tipo es Requerido.'});
-        return false;
-      }
-
-      if (this.editFormTel.invalid) {
-        return false;
-      } else {
-        return true;
-      }
-
-
+      this.msgsTelefono = [];
+      this.msgsTelefono.push({severity:'error', summary:'Campo Obligatorio', detail:'El Teléfono es Requerido.'});
+      return false;
     }
+
+
+    if (this.editFormTel.value.tipo === null || this.editFormTel.value.tipo == '') {
+
+      this.msgsTelefono = [];
+      this.msgsTelefono.push({severity:'error', summary:'Campo Obligatorio', detail:'El Tipo es Requerido.'});
+      return false;
+    }
+
+    if (this.editFormTel.invalid) {
+      return false;
+    } else {
+      return true;
+    }
+
+
+  }
 
 
 
@@ -687,22 +687,22 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
       this.limpiarCampos();
       this.displaymodificarContactoTel = false;
-       }
+    }
   }
 
 
   actualizarCorreoNotificacion()
 
   {
-  if(this.validarCorreo()) {
+    if(this.validarCorreo()) {
 
-  this.urlEditar = this.urlEditaCorreoContacto;
-  this.contacto.idSujeto = this.idSujeto;
-  this.contacto.nuevocorreo = this.editForm.value.email;
-  this.contacto.tipoUso = '5';
-  this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
-    catchError(() => of([]))
-).subscribe((cont: Irespuesta) => {
+      this.urlEditar = this.urlEditaCorreoContacto;
+      this.contacto.idSujeto = this.idSujeto;
+      this.contacto.nuevocorreo = this.editForm.value.email;
+      this.contacto.tipoUso = '5';
+      this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
+        catchError(() => of([]))
+      ).subscribe((cont: Irespuesta) => {
 
         this.messageService.add({
           key: 'custom', severity: 'warn', summary: 'Información',
@@ -734,7 +734,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   EliminarContacto(){
 
-  this.eliminaContacto(this.contactoborra);
+    this.eliminaContacto(this.contactoborra);
     this.borrardialog = false;
 
   }
@@ -748,7 +748,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
 
-    eliminaContacto(contacto: any ) {
+  eliminaContacto(contacto: any ) {
 
     console.log('contacto --->', JSON.stringify( contacto));
 
