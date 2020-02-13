@@ -9,14 +9,14 @@
 
   <button type="button" class="close" ng-click="cerrarCaptura()">&times;</button>
 
-  <p-panel header="Departamento y Municipio">
+  <p-panel header="Departamento y Municipio de la dirección">
 
     <p>
       Diligencie los campos requeridos con la dirección actual.
       <code>Deje en blanco los campos que no requiera </code>
-      y verifique en el recuadro superior su dirección completa.
+      y verifique en el recuadro inferior "Direcci&oacute;n Estandarizada" su nueva dirección.
     </p>
-
+    <br>
     <div id="deptomun" >
       <div class="clearfix invisible-md-12"></div>
 
@@ -24,28 +24,17 @@
 
       <div class="row show-grid ">
 
-        <div class="col-md-6">
+        <div class="col-md-3">
           <span class="innerTitleBold_css">Departamento: </span>
           <p-dropdown [options]="listdptos"  name="departamento"   formControlName="departamento" required="required" optionLabel="nombre" (onChange)="cambioDepto()" placeholder="Seleccione"></p-dropdown>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-3">
           <span class="innerTitleBold_css">Municipio: </span>
           <p-dropdown [options]="listmunicipios" name="mpioDireccion" ngModel formControlName="mpioDireccion" optionLabel="nombre" placeholder="Seleccione" required></p-dropdown>
 
         </div>
-
-      </div>
-    </div>
-
-    <br/>
-
-    <div >
-      <div class="clearfix invisible-md-12"></div>
-
-      <div class="row show-grid ">
-
-        <div class="col-md-6" >
+        <div class="col-md-3" >
           <span class="innerTitleBold_css">C&oacute;digo Postal: </span>
           <input type="number" pInputText name="codPostalDireccion" formControlName="codPostalDireccion" title="Codigo Postal" required/>
 
@@ -58,36 +47,29 @@
 
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <span class="innerTitleBold_css">Tipo de uso: </span>
           <p-dropdown [options]="listaTU" name="dirTipoUso" ngModel formControlName="dirTipoUso" optionLabel="nombre" placeholder="Seleccione" required></p-dropdown>
 
         </div>
 
       </div>
+
+    </div>
+    <div class="col-lg-12">
+      <label>Marque la ubicación de la dircción: </label>
+      <br>
+      <p-radioButton name="ubicacion" value="2" label="Urbana" formControlName="ubicacion" [(ngModel)]="ubicacion"></p-radioButton>
+      <p-radioButton name="ubicacion" value="1" label="Rural" formControlName="ubicacion"  [(ngModel)]="ubicacion"></p-radioButton>
+      <hr>
     </div>
 
   </p-panel>
-
-  <br/>
-
-
-
-      <div class="col-lg-12">
-        <label>Seleccione la ubicación: </label>
-        <br>
-        <p-radioButton name="ubicacion" value="2" label="Urbano" formControlName="ubicacion" [(ngModel)]="ubicacion"></p-radioButton>
-        <p-radioButton name="ubicacion" value="1" label="Rural" formControlName="ubicacion"  [(ngModel)]="ubicacion"></p-radioButton>
-        <hr>
-      </div>
-
-
-
-      <div class="col-lg-12" *ngIf="ubicacion == '2'">
-      <div class="row">
+  <div class="col-lg-12" >
+      <div class="row" *ngIf="ubicacion == '2'">
     <div aling ="center" class="col-md-12">
 
-      <p-panel header="Actualizar Dirección">
+      <p-panel header="Componente de la nueva Dirección. Ej CL 12 C BIS 12 A 34 SUR AP 824">
 
 
 
@@ -137,20 +119,20 @@
   </div>
 
       </div>
-  <br/>
 
-  <p-panel header="Adicionar Complemento a la dirección">
+
+  <p-panel header="Complemento a la dirección">
 
     <p>
-      <br/>
 
       <p-messages [(value)]="msgsComplemento" ></p-messages>
 
 
-      <small>Seleccione los datos requeridos en la lista desplegable inferior. Digite en el recuadro el detalle y pulse el
+      <p>Seleccione los datos requeridos en la lista desplegable inferior. Digite en el recuadro el detalle y pulse el
         botón &quot;Agregar Complemento&quot;. Repita este proceso hasta completar su dirección y verifíquela
-        en el recuadro.</small>
-    </p>
+        en el recuadro.
+        <br/>
+      </p>
 
 
     <div class="row ">
@@ -182,7 +164,7 @@
 
 
   <div class="form-group input-group tooltip-info">
-    <label class="required_css">Direcci&oacute;n Estandarizada: </label>
+    <label class="required_css"><strong>Nueva direcci&oacute;n Estandarizada:</strong> </label>
     <input type="text" class="form-control" [(ngModel)]="direccion" name="direccion" readonly="readonly" ng-required="true"/>
     <span class="input-group-btn modalFixBtn_css" data-toggle="tooltip" data-placement="top" title="Asistente para Direcciones">
       <button class="btn"  pButton type="button" label=" Asistente direcciones" (click)="capturar()" *ngIf="!capturaDireccion"></button>
@@ -202,12 +184,12 @@
 
   <button type="button" class="btn btn-success" (click)="ok()" *ngIf="!validacionRegistroDireccion">
     <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
-    Guardar
+    Guardar nueva dirección
   </button>
 
-  <button type="button" class="btn btn-warning" (click)="registrar()" *ngIf="validacionRegistroDireccion">
+  <button type="button" class="btn btn-success" (click)="registrar()" *ngIf="validacionRegistroDireccion">
     <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
-    Guardar
+    Guardar nueva dirección
   </button>
 
 

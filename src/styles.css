@@ -23,12 +23,16 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
 
 body {
-  background: #eff1f2;
+  /*background-image: url('http://127.0.0.1:7101/RITDQWEB/imagen/SUPERCADEBN.jpg');
+  background-repeat: no-repeat;*/
+  background: #eff1f4;
   font-family: 'Open Sans', sans-serif;
+
+  height: 100%;
 }
 
 .base {
-  width: 700px;
+  width: 800px;
   margin: 16px auto;
   font-size: 20px;
 }

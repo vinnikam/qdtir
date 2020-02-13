@@ -1,5 +1,6 @@
 <p-toast [style]="{marginTop: '80px'}"  key="custom" position="top-center"  [showTransitionOptions]="'400ms'" ></p-toast>
 
+<!--
 <div class="container" *ngIf="!estaAutenticado">
   <p-menubar [model]="this.itemsingreso" >
     <ng-template pTemplate="item" let-item let-i="index">
@@ -11,9 +12,11 @@
 
       </div>
     </ng-template>
+
   </p-menubar>
 
 </div>
+-->
 <div class="container" *ngIf="estaAutenticado && perfilusuario === 1">
   <p-menubar [model]="this.itemsciud" >
     <ng-template pTemplate="item" let-item let-i="index">
@@ -25,6 +28,10 @@
 
       </div>
     </ng-template>
+    <div>
+      Contribuyente : {{nombreusuario}}
+      <button pButton label="Salir" icon="fa fa-sign-out" (click)="salir(1)" style="margin-left:.25em"></button>
+    </div>
   </p-menubar>
 
 </div>
@@ -40,6 +47,10 @@
 
       </div>
     </ng-template>
+    <div>
+      Funcionario: {{nombreusuario}}
+      <button pButton label="Salir" icon="fa fa-sign-out" (click)="salir(2)" style="margin-left:.25em"></button>
+    </div>
   </p-menubar>
 
 </div>
@@ -55,6 +66,10 @@
 
       </div>
     </ng-template>
+    <div>
+      Administrador Activo: {{nombreusuario}}
+      <button pButton label="Salir" icon="fa fa-sign-out" (click)="salir(3)" style="margin-left:.25em"></button>
+    </div>
   </p-menubar>
 
 </div>
@@ -69,7 +84,7 @@
     <ul class="navbar-nav mr-auto">
 
       <li *ngIf="!_authService.estaAutenticado()" class="nav-item">
-        <a  class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/autenticar']" >Autenticar Funcionario</a>
+        <a  class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/funcionario']" >Autenticar Funcionario</a>
       </li>
       <li *ngIf="!_authService.estaAutenticado()" class="nav-item">
         <a  class="nav-link" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" [routerLink]="['/autenticarCiud']" >Autenticar Ciudadano</a>

@@ -21,7 +21,7 @@
         <td >{{dato.codigo}}</td>
         <td >{{dato.descripcion}}</td>
         <td >{{dato.fec_inicio}}</td>
-        <td style="text-align:center" ><button class="btn"  pButton type="button"  icon="pi pi-trash" (click)="verborra(dato)"></button>
+        <td style="text-align:center" ><button class="btn"  pButton type="button"  label="finalizar" (click)="verborra(dato)"></button>
 
         </td>
       </tr>
@@ -42,6 +42,7 @@
   <div class="container">
     <div >
       <form  class="base-container"  (ngSubmit)="this.guardar()" [formGroup]="formulario" >
+        <p-messages [(value)]="msgs"></p-messages>
 
         <div class="form-group row">
           <div class="col-sm-9">
@@ -86,7 +87,16 @@
 
         <div class="form-group row">
           <div class="col-sm-9">
-            <label>Fecha de Cese: </label>
+            <label>Fecha de Inicio: </label>
+            <br/>
+            <label>{{fechaInicial}}</label>
+
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>Fecha de finalización: </label>
             <p-calendar  name="fecCese" formControlName="fecCese"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy" [inline]="true"></p-calendar>
 
           </div>

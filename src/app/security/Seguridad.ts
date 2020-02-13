@@ -12,7 +12,7 @@ export class Seguridad implements CanActivate {
     if (this._authService.estaAutenticado()) {
       return true;
     } else {
-      this.router.navigate(['/autenticar']);
+      this.router.navigate(['/funcionario']);
       return false;
     }
   }

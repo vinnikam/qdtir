@@ -19,17 +19,17 @@ export class AutenticarciudComponent implements OnInit {
   private rtaoam: Irtaoam;
   private urlWSlogin: string;
 
-  constructor(private _authService: AuthServiceService,
-              private router: Router, private  _ciudadano : CiudadanoService, private messageService: MessageService) {
+  constructor(private authService: AuthServiceService,
+              private router: Router, private  ciudService : CiudadanoService, private messageService: MessageService) {
     this.elCiudadano = new Contribuyente();
-    this._authService.salir();
+    this.authService.salir();
     console.log('Inicio autenticar ciudadano');
   }
 
   ngOnInit() {
     this.urlWSlogin = localStorage.getItem('wsLogin');
     if (this.urlWSlogin === null) {
-      const x: Promise<Irespuesta> = this._authService.consultaPropiedad('wsLogin');
+      const x: Promise<Irespuesta> = this.authService.consultaPropiedad('wsLogin');
       x.then((value: Irespuesta) => {
         this.respuesta = value;
         if (this.respuesta.codigoError === '0') {
@@ -50,23 +50,23 @@ export class AutenticarciudComponent implements OnInit {
     }
   }
   autenticar() {
-    if (false) {
-      this._authService.ingresarCiudadano(this.elCiudadano.tipoDocumento, this.elCiudadano.nroIdentificacion);
+    if (true) {
+      this.authService.ingresarCiudadano(this.elCiudadano.tipoDocumento, this.elCiudadano.nroIdentificacion);
       this.router.navigate(['/crearbus']);
       return ;
     }
-    const x: Promise<Irtaoam> = this._authService.loginCiudadano(this.urlWSlogin, this.elCiudadano);
+    const x: Promise<Irtaoam> = this.authService.loginCiudadano(this.urlWSlogin, this.elCiudadano);
     x.then((value: Irtaoam) => {
       this.rtaoam = value;
       // alert('Consumio servicio autenticacion');
       if (this.rtaoam.authenticated !== 'false') {
-        this._authService.ingresarCiudadano(this.elCiudadano.tipoDocumento, this.elCiudadano.nroIdentificacion);
+        this.authService.ingresarCiudadano(this.elCiudadano.tipoDocumento, this.elCiudadano.nroIdentificacion);
         this.router.navigate(['/crearbus']);
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
           detail: this.rtaoam.responseDescription, closable: true});
-        this._ciudadano.autenticado = null;
+        this.ciudService.autenticado = null;
       }
 
     })

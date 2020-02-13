@@ -37,6 +37,10 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
   constribySubscription: Subscription;
   ciudadanoeActivo: Contribuyente;
 
+  msgs: Message[] = [];
+
+  fechaInicial: string;
+
   constructor(private ciudService: CiudadanoService,
               private router: Router, private activserv: ActividadesService,
               private formBuilder: FormBuilder, private messageService: MessageService,
@@ -57,6 +61,9 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.es = es;
+    this.formulario.controls.fec_inicio.setValue(this.util.obtenerFechahoy()); //  null
+    this.formularioborra.controls.fecCese.setValue(this.util.obtenerFechahoy());
+    //  null
     this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
       this.ciudadanoeActivo = data;
     });
@@ -105,12 +112,34 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
     this.consultarall();
 
 
+
     // alert('click');
   }
 
   guardar() {
 
     if (this.ciudService.ciudadanoActivo !== undefined) {
+      const fecha = new Date(this.formulario.value.fec_inicio);
+      const hoy = this.util.obtenerFechahoy();
+      if (fecha > hoy ) {
+        this.msgs = [];
+        this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'La fecha seleccionada es mayor a hoy. Verifique y continue.'});
+        return ;
+      }
+      if (this.formulario.value.idActividad === '') {
+        this.msgs = [];
+        this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'Seleccione la actividad que adiciona y continue.'});
+
+        return ;
+      }
+      const codigo = parseInt(this.formulario.value.idActividad, 0);
+      if (this.existe(codigo)){
+        this.msgs = [];
+        this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'La actividad seleccionada ya esta registrada.'});
+
+        return ;
+      }
+
       const jsonString = JSON.stringify(this.formulario.value);
       this.actividades = JSON.parse(jsonString) as Actividad;
       this.actividades.fec_inicio = this.util.cambiafecha(this.actividades.fec_inicio);
@@ -124,6 +153,7 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
         if (this.respuesta.codigoError === '0') {
           this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
             detail: 'Se asignó la nueva actividad.', closable: true});
+          this.limpiar(1);
           this.actividades = undefined;
           this.consultar( this.ciudadanoeActivo.idSujeto);
 
@@ -146,9 +176,21 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
   verborra(elesta: Actividad) {
     this.borrardialog = true;
     this.actividadesborra = elesta;
+    this.fechaInicial = this.util.cambiafecha(this.actividadesborra.fec_inicio);
     // alert('?');
   }
+
   borrar() {
+    const fecha = new Date(this.formularioborra.value.fecCese);
+    const finicial = new Date(this.fechaInicial);
+    const hoy = this.util.obtenerFechahoy();
+    if (fecha < finicial  || fecha > hoy) {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención',
+        detail: 'La fecha seleccionada debe ser mayor o igual a la fecha inicial, o es mayor a hoy. Verifique y continue.'});
+      return ;
+    }
+
     if (this.ciudService.ciudadanoActivo !== undefined) {
       const jsonString = JSON.stringify(this.formularioborra.value);
       this.actividades = JSON.parse(jsonString) as Actividad;
@@ -167,6 +209,7 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
         if (this.respuesta.codigoError === '0') {
           this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
             detail: 'Se borró la información.', closable: true});
+          this.limpiar(2);
           this.actividades = undefined;
           this.consultar( this.ciudadanoeActivo.idSujeto);
 
@@ -190,6 +233,7 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
   }
   consultarall() {
     if (this.listaall === undefined) {
+
       const x: Promise<Irespuesta> = this.activserv.consultarall();
       x.then((value: Irespuesta) => {
         this.respuesta = value;
@@ -210,11 +254,41 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
           this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
             detail: 'Error técnico en la consulta de todas las actividades. ', closable: true});
         });
+    } else if (this.listaall.length > 0) {
+      this.creardialog = true;
     }
 
+  }
+  limpiar(tipo: number): void {
+    if (tipo === 1) { // crear
+      this.formulario.controls.fec_inicio.setValue(this.util.obtenerFechahoy());
+      this.formulario.controls.idActividad.setValue(''); // "5667"
+    }
+    if (tipo === 2) { // borrar
+      this.formularioborra.controls.fecCese.setValue(this.util.obtenerFechahoy());
+    }
 
   }
   ngOnDestroy(): void {
     this.constribySubscription.unsubscribe();
+  }
+  existe(idadtiv: number): boolean {
+    let codigo = 0;
+    for (const datoA of this.listaall) {
+      if ( datoA.idActividad === idadtiv) {
+        codigo = datoA.codigo;
+        break;
+      }
+    }
+    let esta = false;
+    if (codigo > 0) {
+      for (const datof of this.lista) {
+        if ( datof.codigo === codigo) {
+          esta = true;
+          break;
+        }
+      }
+    }
+    return esta;
   }
 }

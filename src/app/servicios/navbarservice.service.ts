@@ -18,7 +18,7 @@ export class NavbarserviceService {
     if (this.autservice.estaAutenticado()) {
       this.items = [];
       if (this.autservice.perfilusuario === 1) {
-        this.items.push({label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'});
+        this.items.push({label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/funcionario'});
 
       } else if (this.autservice.perfilusuario === 2) {
 
@@ -30,8 +30,8 @@ export class NavbarserviceService {
 
     } else {
       this.items = [];
-      this.items.push({label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'});
-      this.items.push({label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/autenticarCiud'});
+      this.items.push({label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/funcionario'});
+      this.items.push({label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/contribuyente'});
       console.log(this.items);
     }
     return this.items;
@@ -44,7 +44,7 @@ export class NavbarserviceService {
   cargaitems() {
     if (this.autservice.estaAutenticado()) {
       this.items = [];
-      this.items.push({label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'});
+      this.items.push({label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/funcionario'});
       this.items.push({label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/autenticarCiud'});
     } else {
       this.items = [];

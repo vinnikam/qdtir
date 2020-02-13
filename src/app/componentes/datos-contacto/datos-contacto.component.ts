@@ -146,7 +146,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   constribySubscription: Subscription;
   ciudadanoeActivo: Contribuyente;
-
+  actualizaDireccionS: Subscription;
 
 
   constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private formBuilder: FormBuilder, private formBuilder2: FormBuilder,  private formBuilder3: FormBuilder,   private formBuilder4: FormBuilder, private router: Router,
@@ -205,7 +205,14 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
         }
       }
     });
+    this.actualizaDireccionS = this.ciudService.actualizaDireccion.subscribe((data: boolean) => {
+      const rta = data;
+      if (rta) {
+        this.consultarDatos(this.utilidades.convertirtipoidenticorto(this.ciudadanoeActivo.tipoDocumento),
+          this.ciudadanoeActivo.nroIdentificacion);
+      }
 
+    });
 
 
     this.contactoSubscription = this.ciudService.displayDirNotificacion.subscribe((data: true) => {
@@ -217,6 +224,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
     this.contactoAddSubscription = this.ciudService.displayAddContacto.subscribe((data: true) => {
       this.displayAddContacto = data;
     });
+
 
     this.items = [
       {label: 'Mis Direcciones', icon: 'fa fa-fw fa-bar-chart', id: '1' },
@@ -371,7 +379,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
         this.listaTU = this.respuestauso.uso;
 
-        console.log('--->', JSON.stringify( this.listaTU));
+        // console.log('--->', JSON.stringify( this.listaTU));
         this.listatelTipoUso = this.listaTU;
         this.listamailTipoUso = this.listaTU;
         this.listadirTipoUso  = this.listaTU;
@@ -480,7 +488,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
 
-  limpiarCampos():void{
+  limpiarCampos(): void {
     this.myFormT.reset();
     this.myForm.reset();
 
@@ -498,7 +506,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   {
     this.contacto.idSujeto = this.idSujeto ;
     this.contacto.pais     = '49' ;
-    if(parseInt(this.tipoContacto ) === 1)
+    if (parseInt(this.tipoContacto, 0 ) === 1)
     {
       if(this.validarTelefono()) {
         this.urlEditar = this.urlEditaTelContacto;
@@ -533,7 +541,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
     }
 
 
-    if(parseInt(this.tipoContacto ) === 3) {
+    if ( parseInt(this.tipoContacto, 0) === 3) {
       if (this.validarEmail()) {
 
         this.urlEditar = this.urlEditaCorreoContacto;
@@ -804,6 +812,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
     this.contactoSubscription.unsubscribe();
     this.contactoAddSubscription.unsubscribe();
     this.constribySubscription.unsubscribe();
+    this.actualizaDireccionS.unsubscribe();
   }
 
 

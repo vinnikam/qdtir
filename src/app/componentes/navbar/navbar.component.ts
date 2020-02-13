@@ -30,6 +30,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   constribySubscription: Subscription;
   dataSubscription: Subscription;
+  actualizaNombreUsu: Subscription;
+  nombreusuario = '';
+
   cambioForm = false;
   contribuyenteActivo: Contribuyente;
 
@@ -40,8 +43,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
               private messageService: MessageService) {
 
     this.itemsingreso = [
-      {label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'},
-      {label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/autenticarCiud'}
+      {label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/funcionario'},
+      {label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/contribuyente'}
     ];
     this.estaAutenticado = this.authService.estaAutenticado();
 
@@ -57,14 +60,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.cambioForm = data;
 
     });
+    this.actualizaNombreUsu = this.authService.actualizaNombreUsu.subscribe((data: string) => {
+      this.nombreusuario = data;
+    });
 
     this.estaAutenticado = this.authService.estaAutenticado();
     this.perfilusuario = this.authService.perfilusuario;
 
     this.itemsingreso = [
-      {label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/autenticar'},
-      {label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/autenticarCiud'},
-      {label: 'funcionarios-adm', icon: 'pi pi-sign-in', routerLink: '/autenticaadmin'}
+      {label: 'Autenticar Funcionario', icon: 'pi pi-sign-in', routerLink: '/funcionario'},
+      {label: 'Autenticar Ciudadano', icon: 'pi pi-sign-in', routerLink: '/contribuyente'},
+      {label: 'Gestión Funcionarios', icon: 'pi pi-sign-in', routerLink: '/admingral'}
     ];
     this.itemsciud = [
       {label: 'Contribuyente', icon: 'pi pi-user-plus',
@@ -75,12 +81,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
           {label: 'Direcciones Notificacion', icon: 'pi pi-dollar', routerLink: '/historicodir'}
         ]
       },
-      {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
-      {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
-      {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'},
+      {label: 'Datos ICA', icon: 'pi pi-user-plus',
+        items: [
+          {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
+          {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
+          {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'}
+        ]
+      },
       {label: 'Predios', icon: 'pi pi-home', routerLink: '/predios'},
-      {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'},
-      {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
+      {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'}
+      // {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
     ];
 
 
@@ -89,8 +99,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         items: [
           {label: 'Crear / Inactivar', icon: 'pi pi-user-plus', routerLink: '/gestionfuncionario'},
         ]
-      },
-      {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salirAdmin(); }},
+      }
+      // {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salirAdmin(); }},
 
     ];
 
@@ -110,12 +120,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
           {label: 'Certificado RIT', icon: 'pi pi-search-plus', command:  (event: Event) => {this.certifRIT(); }}
         ]
       },
-      {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
-      {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
-      {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'},
+      {label: 'Datos ICA', icon: 'pi pi-user-plus',
+        items: [
+          {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
+          {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
+          {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'}
+        ]
+      },
       {label: 'Predios', icon: 'pi pi-home', routerLink: '/predios'},
-      {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'},
-      {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
+      {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'}
+
+      // {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
     ];
 
   }
@@ -132,22 +147,26 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   }
 
-  salir(): void {
+  salir(par: number): void {
     this.authService.salir();
     // alert ('salir');
     // this._flashMessagesService.show('Salio de la aplicacion', { cssClass: 'alert-success', timeout: 2000 });
+    if (par === 1) {
+      this.router.navigate(['/contribuyente']);
+    }
+    if (par === 2) {
+      this.router.navigate(['/funcionario']);
+    }
+    if (par === 3) {
+      this.router.navigate(['/admingral']);
+    }
 
-    this.router.navigate(['/autenticar']);
 
   }
-  salirAdmin(): void {
+  /* salirAdmin(): void {
     this.authService.salir();
-    // alert ('salir');
-    // this._flashMessagesService.show('Salio de la aplicacion', { cssClass: 'alert-success', timeout: 2000 });
-
-    this.router.navigate(['/autenticaadmin']);
-
-  }
+    this.router.navigate(['/admingral']);
+  }*/
   certifRIT(): void {
     if (this.contribuyenteActivo !== null) {
       window.location.href = this.contribuyenteActivo.certificadoRit;
@@ -160,6 +179,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.constribySubscription.unsubscribe();
     this.dataSubscription.unsubscribe();
+    this.actualizaNombreUsu.unsubscribe();
   }
 
 }

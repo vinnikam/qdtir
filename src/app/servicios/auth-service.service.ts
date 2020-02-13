@@ -6,6 +6,7 @@ import {Contribuyente} from '../dto/contribuyente';
 import {HttpClient} from '@angular/common/http';
 import {valores} from '../config/Propiedades';
 import {Irtaoam} from '../dto/irtaoam';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable()
 export class AuthServiceService {
@@ -26,6 +27,8 @@ export class AuthServiceService {
 
 
   private respuesta: Irespuesta;
+  actualizaNombreUsu = new BehaviorSubject('');
+  nombreusuario: string;
 
 
   constructor(private ciudService: CiudadanoService, private http: HttpClient) { }

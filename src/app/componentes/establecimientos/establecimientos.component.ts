@@ -11,6 +11,7 @@ import {Contribuyente} from '../../dto/contribuyente';
 import {Message, MessageService} from 'primeng/api';
 import {UtilidadesService} from '../../servicios/utilidades.service';
 import {Subscription} from 'rxjs';
+import {ValidadorService} from '../../servicios/validador.service';
 
 @Component({
   selector: 'app-establecimientos',
@@ -33,6 +34,9 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
 
   constribySubscription: Subscription;
   ciudadanoeActivo: Contribuyente;
+
+  msgs: Message[] = [];
+  fechaInicial: string;
 
 
 
@@ -64,6 +68,9 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.es = es;
+    this.formulario.controls.fechaApertura.setValue(this.util.obtenerFechahoy());
+    this.formularioborra.controls.fechaCierre.setValue(this.util.obtenerFechahoy());
+
     this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
       this.ciudadanoeActivo = data;
       if (this.ciudService.ciudadanoActivo === null || this.ciudService.ciudadanoActivo === undefined ) {
@@ -113,6 +120,9 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
   }
 
   guardar() {
+    if ( !this.valido()) {
+      return ;
+    }
 
     const jsonString = JSON.stringify(this.formulario.value);
     this.establecimiento = JSON.parse(jsonString) as Establecimiento;
@@ -129,6 +139,7 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
          detail: 'Creo el establecimiento.', closable: true});
          this.establecimiento = undefined;
          this.consultar(this.ciudadanoeActivo.idSujeto);
+         this.limpiar(1);
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -145,8 +156,18 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
   verborra(elesta: Establecimiento) {
     this.borrardialog = true;
     this.establecimientoborra = elesta;
+    this.fechaInicial = this.util.cambiafecha(this.establecimientoborra.fechaApertura);
   }
   borrar() {
+    const fecha = new Date(this.formularioborra.value.fechaCierre);
+    const finicial = new Date(this.fechaInicial);
+    const hoy = this.util.obtenerFechahoy();
+    if (fecha < finicial  || fecha > hoy) {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención',
+        detail: 'La fecha seleccionada debe ser mayor o igual a la fecha inicial, o es mayor a hoy. Verifique y continue.'});
+      return ;
+    }
     const jsonString = JSON.stringify(this.formularioborra.value);
     this.establecimiento = JSON.parse(jsonString) as Establecimiento;
     this.establecimiento.fechaCierre = this.util.cambiafecha(this.establecimiento.fechaCierre);
@@ -161,6 +182,7 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
       if (this.respuesta.codigoError === '0') {
         this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
           detail: 'Borró el establecimiento.', closable: true});
+        this.limpiar(2);
 
         this.establecimiento = undefined;
         this.consultar(this.ciudadanoeActivo.idSujeto);
@@ -183,4 +205,57 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
     this.constribySubscription.unsubscribe();
   }
 
+  valido(): boolean {
+
+    if (this.formulario.value.nombre === '') {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El nombre es requerida.'});
+      return false;
+    }
+    if (this.formulario.value.direccion === '') {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'La direccioón es requerida.'});
+      return false;
+    }
+    const fecha = new Date(this.formulario.value.fechaApertura);
+    const hoy = this.util.obtenerFechahoy();
+    if (fecha > hoy ) {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'La fecha seleccionada es mayor a hoy. Verifique y continue.'});
+      return false;
+    }
+    if (this.formulario.value.codPostal === '') {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El código postal es requerido.'});
+      return false;
+    }
+    if (!ValidadorService.validaLongitud('' + this.formulario.value.codPostal, 6)) {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El código postal debe ser de 6 digitos mínimo.'});
+      return false;
+    }
+    if (this.formulario.value.telefono1 === '') {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El teléfono es requerido.'});
+      return false;
+    }
+
+    return true;
+  }
+  limpiar(tipo: number): void {
+    if (tipo === 1) { // crear
+      this.formulario.controls.fechaApertura.setValue(this.util.obtenerFechahoy());
+      this.formulario.controls.direccion.setValue(undefined); // "5667"
+      this.formulario.controls.telefono1.setValue(undefined); // "5667"
+      this.formulario.controls.codPostal.setValue(undefined); // "5667"
+      this.formulario.controls.pais.setValue('49'); // "5667"
+      this.formulario.controls.municipio.setValue('11001'); // "5667"
+      this.formulario.controls.ciudad.setValue('11001'); // "5667"
+      this.formulario.controls.depto.setValue('11'); // "5667"
+    }
+    if (tipo === 2) { // borrar
+      this.formularioborra.controls.fechaCierre.setValue(this.util.obtenerFechahoy());
+    }
+
+  }
 }

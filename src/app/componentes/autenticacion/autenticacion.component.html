@@ -14,7 +14,8 @@
           </div>
           <div class="col-sm-10">
             <label>Clave</label>
-            <input type="password" [(ngModel)]="elCiudadano.clave"  name="clave" class="form-control" autocomplete="off"/>
+
+            <input type="password"  [(ngModel)]="elCiudadano.clave"  id="clave" name="clave" class="form-control" autocomplete="off" data-toogle="password"/>
 
           </div>
         </div>
@@ -24,5 +25,15 @@
       </form>
     </div>
   </div>
-</div>
+  <!--  <div class="input-group">
+
+     <input type="{{pt}}" class="form-control" name="clave" placeholder="Contraseña" maxlength="20" />
+     <span class="input-group-addon">
+           <i class="{{ra}}" (ngClick)="pt=(pt=='password'?'text':'password'); ra=(pt=='password'?'fa fa-eye':'fa fa-eye');" ></i>
+      </span>
+   </div>
+   -->
+
+ </div>
+
 

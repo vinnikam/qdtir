@@ -12,6 +12,7 @@ import {UtilidadesService} from '../../servicios/utilidades.service';
 import {Contribuyente} from '../../dto/contribuyente';
 import {Basicovo} from '../../dto/basicovo';
 import {Subscription} from 'rxjs';
+import {ValidadorService} from '../../servicios/validador.service';
 
 @Component({
   selector: 'app-representantes',
@@ -43,10 +44,7 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
   constribySubscription: Subscription;
   ciudadanoeActivo: Contribuyente;
 
-
-
-
-
+  fechaInicial: string;
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private represerv: RepresentantesService,
@@ -71,6 +69,8 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.es = es;
+    this.formulario.controls.fechaInicio.setValue(this.util.obtenerFechahoy());
+    this.formularioborra.controls.fechaCierre.setValue(this.util.obtenerFechahoy());
     this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
       this.ciudadanoeActivo = data;
       if (this.ciudService.ciudadanoActivo === null || this.ciudService.ciudadanoActivo === undefined) {
@@ -123,7 +123,9 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
 
   }
   guardar() {
-
+    if (!this.valido()) {
+      return ;
+    }
     const jsonString = JSON.stringify(this.formulario.value);
     this.representante = JSON.parse(jsonString) as Representante;
     this.representante.idSujeto = this.ciudadanoeActivo.idSujeto;
@@ -140,13 +142,15 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
           detail: 'Creo el representante.', closable: true});
         this.representante = undefined;
         this.consultar(this.ciudadanoeActivo.idSujeto);
+        this.limpiar(1);
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
           detail: 'No creó representante.!', closable: true});
       }
     })
-      .catch(() => {
+      .catch((err) => {
+        // console.log(err);
         this.messageService.add({key: 'custom', severity: 'error', summary: 'Información',
           detail: 'Error tecnico en guardar representante ', closable: true});
         // alert();
@@ -161,8 +165,18 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
   verborra(elesta: Representante) {
     this.borrardialog = true;
     this.representanteborra = elesta;
+    this.fechaInicial = this.util.cambiafecha(this.representanteborra.fechaInicio);
   }
   borrar() {
+    const fecha = new Date(this.formularioborra.value.fechaCierre);
+    const finicial = new Date(this.fechaInicial);
+    const hoy = this.util.obtenerFechahoy();
+    if (fecha < finicial  || fecha > hoy) {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención',
+        detail: 'La fecha seleccionada debe ser mayor o igual a la fecha inicial, o es mayor a hoy. Verifique y continue.'});
+      return ;
+    }
     const jsonString = JSON.stringify(this.formularioborra.value);
     this.representante = JSON.parse(jsonString) as Representante;
     this.representante.fechaCierre = this.util.cambiafecha(this.representante.fechaCierre);
@@ -178,6 +192,7 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
 
         this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
           detail: 'Borró al representante. ', closable: true});
+        this.limpiar(2);
 
         this.representante = undefined;
         this.consultar(this.ciudadanoeActivo.idSujeto);
@@ -272,6 +287,52 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
             detail: 'Error tecnico en consultar las Tipos de representación. ', closable: true});
           // alert();
         });
+
+  }
+  valido(): boolean {
+    const fecha = new Date(this.formulario.value.fechaInicio);
+    const hoy = this.util.obtenerFechahoy();
+    if (fecha > hoy ) {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'La fecha seleccionada es mayor a hoy. Verifique y continue.'});
+      return false;
+    }
+    if (this.formulario.value.tipoDocumento === '') {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El Tipo de documento es requerida.'});
+      return false;
+    }
+    if (this.formulario.value.documento === '') {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El documento es requerida.'});
+      return false;
+    }
+
+    if (this.formulario.value.claseRepres === '') {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'La clase de representación es requerido.'});
+      return false;
+    }
+    if (this.formulario.value.tipoRepres === '') {
+      this.msgs = [];
+      this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El tipo de representación es requerido.'});
+      return false;
+    }
+
+    return true;
+  }
+  limpiar(tipo: number): void {
+    if (tipo === 1) { // crear
+      this.formulario.controls.fechaInicio.setValue(this.util.obtenerFechahoy());
+      this.formulario.controls.claseRepres.setValue(undefined); // "5667"
+      this.formulario.controls.tipoRepres.setValue(undefined); // "5667"
+      this.formulario.controls.documento.setValue(undefined); // "5667"
+      this.formulario.controls.tipoDocumento.setValue(undefined); // "5667"
+      this.formulario.controls.idRepresentacion.setValue(undefined); // "5667"
+    }
+    if (tipo === 2) { // borrar
+      this.formularioborra.controls.fechaCierre.setValue(this.util.obtenerFechahoy());
+    }
 
   }
   ngOnDestroy(): void {

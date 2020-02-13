@@ -55,13 +55,18 @@ import { EstandarizadorComponent } from './componentes/estandarizador/estandariz
 import { DireNhistComponent } from './componentes/dire-nhist/dire-nhist.component';
 
 
+import {ToggleButtonModule} from 'primeng/togglebutton';
+import { InicioComponent } from './componentes/inicio/inicio.component';
+
+
 
 
 const appRoutes: Routes = [
-  {path: '', component: AutenticacionComponent},
-  {path: 'autenticar', component: AutenticacionComponent},
-  {path: 'autenticarCiud', component: AutenticarciudComponent},
-  {path: 'autenticaadmin', component: AutentadminComponent},
+  {path: '', component: InicioComponent},
+  {path: 'inicio', component: InicioComponent}, // autenticar
+  {path: 'funcionario', component: AutenticacionComponent}, // autenticar
+  {path: 'contribuyente', component: AutenticarciudComponent}, // autenticarCiud
+  {path: 'admingral', component: AutentadminComponent}, // autenticaadmin
   {path: 'crearbus', component: CiudadanoComponent, canActivate: [Seguridad]},
   {path: 'crearciu', component: CiudadanonvComponent, canActivate: [Seguridad]},
   {path: 'datoscontacto', component: DatosContactoComponent, canActivate: [Seguridad]},
@@ -98,6 +103,7 @@ const appRoutes: Routes = [
     AutentadminComponent,
     EstandarizadorComponent,
     DireNhistComponent,
+    InicioComponent,
 
   ],
   imports: [
@@ -123,7 +129,8 @@ const appRoutes: Routes = [
     PanelModule,
     TabViewModule,
     RadioButtonModule,
-    TooltipModule
+    TooltipModule,
+    ToggleButtonModule
   ],
   providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService, MessageService, DatePipe, ConfirmationService],
   bootstrap: [AppComponent]

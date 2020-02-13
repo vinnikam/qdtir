@@ -9,6 +9,18 @@ export class UtilidadesService {
 
   constructor(private datapipe: DatePipe) { }
 
+  fechaValida(fecha: string): boolean {
+    if (fecha === undefined || fecha === '') {
+      return false;
+    }
+
+    const hoy = this.obtenerFechahoy();
+    const fechaCompa = new Date(fecha);
+    if (fechaCompa >= hoy) {
+      return true;
+    }
+    return false;
+  }
   cambiafecha(fecha: string) {
     if (fecha !== undefined) {
       const newDate = new Date(fecha);
@@ -69,6 +81,12 @@ export class UtilidadesService {
     const hoy = new Date();
     const fecha = this.datapipe.transform(hoy, 'MM-dd-yyyy');
     const hoyD = new Date(fecha);
+    return hoyD;
+
+  }
+  obtenerSolofecha(fecha: Date): Date {
+    const fechas = this.datapipe.transform(fecha, 'dd/MM/yyyy');
+    const hoyD = new Date(fechas);
     return hoyD;
 
   }

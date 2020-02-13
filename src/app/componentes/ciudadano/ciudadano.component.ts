@@ -28,6 +28,8 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
 
   notificadialog = false;
 
+  actualizaNombreUsu: Subscription;
+
   private respuesta: Irespuesta;
   certificadoRit = 'http://127.0.0.1:7101/ServiciosRITDQ/certificado?';
 
@@ -41,6 +43,9 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente ) => {
       this.ciudadanoeActivo = data;
+
+    });
+    this.actualizaNombreUsu = this.autenticservice.actualizaNombreUsu.subscribe((data: string) => {
 
     });
     if (this.autenticservice.datos !== undefined) {
@@ -73,6 +78,13 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
         this.esjuridico = true;
       } else {
         this.esjuridico = false;
+      }
+      if (this.autenticservice.perfilusuario === 1) {
+        if (this.ciudadanoeActivo !== null) {
+          this.autenticservice.actualizaNombreUsu.next(this.ciudadanoeActivo.primerNombre + ' ' + this.ciudadanoeActivo.primerApellido);
+        } else {
+          this.autenticservice.actualizaNombreUsu.next('');
+        }
       }
     } else {
       // alert(this.respuesta.mensaje);
@@ -110,6 +122,7 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.constribySubscription.unsubscribe();
+    this.actualizaNombreUsu.unsubscribe();
   }
   ircrear(accion: number): void {
     if (accion === 1) {

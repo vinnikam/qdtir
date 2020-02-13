@@ -71,7 +71,7 @@
             <td>{{dato.pais.nombre}}</td>
             <td class="center cleanBgBtn_css">
 
-              <button class="btn"  pButton type="button" label="Eliminar" (click)="confirmEliminacion(dato)"></button>
+              <button class="btn"  pButton type="button" label="Eliminar" (click)="verborra(dato)"></button>
             </td>
           </tr>
         </ng-template>
@@ -94,9 +94,10 @@
           <tr >
             <td>{{x.fechaModificacion}}</td>
             <td>{{x.tipoT.nombre}}-{{x.uso.nombre}}</td>
-            <td>{{x.direccion}}-{{x.uso.codigo}}</td>
+            <td>{{x.direccion}}</td>
 
             <td class="center cleanBgBtn_css" *ngIf="x.uso.codigo !== '5'">
+
               <button class="btn"  pButton type="button" label="Eliminar" (click)="verborra(x)"></button>
             </td>
 
@@ -127,7 +128,7 @@
         <ng-template pTemplate="body" let-datosTel>
           <tr>
             <td>{{datosTel.fechaModificacion}}</td>
-            <td>{{datosTel.tipoT.nombre}}-{{datosTel.uso.nombre}}</td>
+            <td>{{datosTel.tipoT.nombre}}</td>
             <td>{{datosTel.numero}}</td>
             <td>{{datosTel.ciudad.nombre}}</td>
             <td>{{datosTel.depto.nombre}}</td>
@@ -160,7 +161,7 @@
 
 
 <div *ngIf="displayDirNotificacion">
-  <p-dialog header="ASISTENTE PARA INGRESAR DIRECCIÓN ESTANDARIZADA" [(visible)]="displayDirNotificacion" [modal]="true" [responsive]="true" [style]="{width: '1050px'}" [minY]="30"
+  <p-dialog header="ASISTENTE PARA INGRESAR DIRECCIÓN ESTANDARIZADA" [(visible)]="displayDirNotificacion" [modal]="true" [responsive]="true" [style]="{width: '1050px'}" [minY]="0"
             [maximizable]="false" [baseZIndex]="10000" [closable]="true" positionTop="100">
     <app-estandarizador></app-estandarizador>
 
@@ -169,7 +170,7 @@
 
 
 
-<p-dialog header="Agregar nuevo contacto" [(visible)]="displayAddContacto" [modal]="true" [responsive]="true" [style]="{width: '1050px'}" [minY]="30"
+<p-dialog header="Agregar nuevo contacto" [(visible)]="displayAddContacto" [modal]="true" [responsive]="true" [style]="{width: '1050px'}" [minY]="0"
           [maximizable]="false" [baseZIndex]="10000" [closable]="true" positionTop="100">
 
 
@@ -178,23 +179,12 @@
       <div class="panel panel-default">
 
         <div class="panel-body">
-
-
-          <div class="col-lg-12">
-            <label>Seleccione el tipo de contacto: </label>
-
-            <br>
-            <p-radioButton name="tipoContacto" value="3" label="Correo electrónico" [(ngModel)]="tipoContacto"></p-radioButton>
-            <br>
-            <p-radioButton name="tipoContacto" value="2" label="Dirección" [(ngModel)]="tipoContacto"></p-radioButton>
-            <br>
-            <p-radioButton name="tipoContacto" value="1" label="Teléfono" [(ngModel)]="tipoContacto"></p-radioButton>
-
-
-            <hr>
+          <div class="row">
+            <div class="col-md-3">Seleccione el tipo de contacto : </div>
+            <div class="col-md-3"><p-radioButton name="tipoContacto" value="3" label="Correo electrónico" [(ngModel)]="tipoContacto"></p-radioButton></div>
+            <div class="col-md-3"> <p-radioButton name="tipoContacto" value="2" label="Dirección" [(ngModel)]="tipoContacto"></p-radioButton></div>
+            <div class="col-md-3"><p-radioButton name="tipoContacto" value="1" label="Teléfono" [(ngModel)]="tipoContacto"></p-radioButton></div>
           </div>
-
-
           <!-- EMAIL -->
 
           <div class="col-lg-12" *ngIf="tipoContacto == '3'">
@@ -203,7 +193,7 @@
 
 
               <div *ngIf="myForm.get('email').errors && myForm.get('email').dirty " class="error">
-                <p *ngIf="myForm.get('email').hasError('pattern')" class="error">Error Correo electronico. </p>
+                <p *ngIf="myForm.get('email').hasError('pattern')" class="error">Error correo electrónico. </p>
               </div>
 
               <p-messages [(value)]="msgsEmail" ></p-messages>
@@ -415,12 +405,12 @@
         <div class="row show-grid ">
           <div class="col-lg-3">
             <span class="innerTitleBold_css">Tel&eacute;fono: </span>
-            <input class="form-control" name="telefono"  type="text" formControlName="telefono"  required/>
+            <input class="form-control" name="telefono"  type="number" formControlName="telefono"  required/>
           </div>
 
           <div class="col-lg-3">
             <span class="innerTitleBold_css">Ext: </span>
-            <input class="form-control" type="text" name="ext"  type="text" formControlName ="ext" />
+            <input class="form-control" type="text" name="ext"  type="number" formControlName ="ext" />
           </div>
 
 

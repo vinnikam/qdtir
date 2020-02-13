@@ -578,7 +578,7 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
         catchError(() => of([]))
       ).subscribe((contribuyente: Irespuesta) => {
 
-        if(contribuyente.codigoError === '0') {
+        if (contribuyente.codigoError === '0') {
           this.ciudService.actualizaDireccion.next(true);
 
           this.messageService.add({
@@ -628,6 +628,7 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
     this.estandarizadorSubscription.unsubscribe();
     this.addContactoSubscription.unsubscribe();
     this.constribySubscription.unsubscribe();
+    this.actualizaDireccionS.unsubscribe();
   }
 
 
