@@ -54,8 +54,8 @@ body {
 }
 
 .base-header {
-  background: #008cba;
-  padding: 20px;
+  background: #105f79;
+  padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
   text-align: center;
@@ -115,7 +115,7 @@ body {
 }
 .base-header-repres {
   background: #7f9c8f;
-  padding: 20px;
+  padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
   text-align: center;
@@ -124,7 +124,7 @@ body {
 }
 .base-header-estab {
   background: #708e80;
-  padding: 20px;
+  padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
   text-align: center;
@@ -133,7 +133,7 @@ body {
 }
 .base-header-vehi {
   background: #8b9e96;
-  padding: 20px;
+  padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
   text-align: center;
@@ -142,7 +142,7 @@ body {
 }
 .base-header-pred {
   background: #717e78;
-  padding: 20px;
+  padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
   text-align: center;
@@ -151,7 +151,7 @@ body {
 }
 .base-header-activ {
   background: #8baa9c;
-  padding: 20px;
+  padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
   text-align: center;
@@ -159,8 +159,8 @@ body {
   color: #fff;
 }
 .base-header-admi {
-  background: #7EAA7E;
-  padding: 20px;
+  background: #037d11;
+  padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
   text-align: center;
@@ -168,8 +168,8 @@ body {
   color: #fff;
 }
 .base-header-ciud {
-  background: #85AFD4;
-  padding: 20px;
+  background: #076f68;
+  padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
   text-align: center;
@@ -178,11 +178,16 @@ body {
 }
 .norecord {
   background: orangered;
-  padding: 20px;
+  padding: 12px;
   font-weight: normal;
   text-align: center;
   text-transform: uppercase;
   color: #fff;
 }
-
+.minusculas{
+  text-transform:lowercase;
+}
+.mayusculas{
+  text-transform:uppercase;
+}
 

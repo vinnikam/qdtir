@@ -106,7 +106,7 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
     this.capturaDireccion = false;
     this.displayDirNotificacion = true;
     this.idSujeto = this.ciudadanoeActivo.idSujeto;
-    this.codPostalDireccion = '11001';
+    this.codPostalDireccion = '111311';
     this.contacto = new Contacto();
     this.listviaprimaria = tipoViaPrimaria;
     this.letras = letras;
@@ -140,6 +140,7 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
     this.actualizaDireccionS = this.ciudService.actualizaDireccion.subscribe((data: boolean) => {
 
     });
+    // this.formulario.controls.codPostalDireccion.setValue('111311');
 
     this.buildForm();
   }
@@ -306,6 +307,7 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
     this.formulario.value.dirTipoUso.codigo = '';
 
     this.formulario.reset();
+    this.formulario.controls.ubicacion.setValue(2);
 
   }
 

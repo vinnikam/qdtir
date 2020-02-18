@@ -1,3 +1,6 @@
+export const paises = [{codigo: '49', nombre: 'COLOMBIA'}];
+
+
 export const departamentos = [{cod: '91', nom: 'AMAZONAS', indice: 0}, {cod: '05', nom: 'ANTIOQUIA', indice: 1}, {cod: '81', nom: 'ARAUCA', indice: 2}, {cod: '08', nom: 'ATLANTICO', indice: 3}, {cod: '11', nom: 'BOGOTA D.C.', indice: 4},
   {cod: '13', nom: 'BOLIVAR', indice: 5}, {cod: '15', nom: 'BOYACA', indice: 6}, {cod: '17', nom: 'CALDAS', indice: 7}, {cod: '18', nom: 'CAQUETA', indice: 8}, {cod: '85', nom: 'CASANARE', indice: 9},
   {cod: '19', nom: 'CAUCA', indice: 10}, {cod: '20', nom: 'CESAR', indice: 11}, {cod: '27', nom: 'CHOCO', indice: 12}, {cod: '23', nom: 'CORDOBA', indice: 13}, {cod: '25', nom: 'CUNDINAMARCA', indice: 14},

@@ -90,5 +90,33 @@ export class UtilidadesService {
     return hoyD;
 
   }
+  validaCampo(campo: any): boolean {
+    if (campo === '' || campo === null || campo === undefined) {
+      return false;
+    }
+    return true;
+  }
+   validaLongitud(dato: string, longmin: number) {
+    console.log(dato.length);
+    if (dato.length < longmin) {
+      return false;
+    } else {
+      return true;
+    }
+
+  }
+  validaLongitudMinMax(dato: string, longmin: number, longmax) {
+    console.log(dato.length);
+    if (dato.length < longmin || dato.length > longmax) {
+      return false;
+    } else {
+      return true;
+    }
+
+  }
+  validarEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
 
 }

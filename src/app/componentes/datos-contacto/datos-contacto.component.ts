@@ -149,8 +149,10 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   actualizaDireccionS: Subscription;
 
 
-  constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private formBuilder: FormBuilder, private formBuilder2: FormBuilder,  private formBuilder3: FormBuilder,   private formBuilder4: FormBuilder, private router: Router,
-              private messageService: MessageService, private utilidades: UtilidadesService, private confirmationService: ConfirmationService) {
+  constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private formBuilder: FormBuilder,
+              private formBuilder2: FormBuilder,  private formBuilder3: FormBuilder,   private formBuilder4: FormBuilder, private router: Router,
+              private messageService: MessageService, private utilidades: UtilidadesService, private confirmationService: ConfirmationService,
+              private util: UtilidadesService) {
 
     this.url = ciudService.url;
     this.urluso = ciudService.urluso;
@@ -254,8 +256,8 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
   private buildForm2(){
-    this.myForm= this.formBuilder2.group({
-      email: ['', Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)],
+    this.myForm = this.formBuilder2.group({
+       email: [''],
       mailTipoUso: ['', Validators.required]
     });
   }
@@ -263,9 +265,8 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
   private buildForm3(){
-    this.editForm= this.formBuilder3.group({
-      email: ['',
-        Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]
+    this.editForm = this.formBuilder3.group({
+      email: ['']
     });
   }
 
@@ -281,26 +282,26 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   validarTelefono(): boolean {
 
-    if (this.myFormT.value.telefono === null || this.myFormT.value.telefono == '') {
+    if (this.myFormT.value.telefono === null || this.myFormT.value.telefono === '') {
 
       this.msgsTelefono = [];
-      this.msgsTelefono.push({severity:'error', summary:'Campo Obligatorio', detail:'El Teléfono es Requerido.'});
+      this.msgsTelefono.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'El Teléfono es Requerido.'});
       return false;
     }
 
 
-    if (this.myFormT.value.telTipoUso === null || this.myFormT.value.telTipoUso == '') {
+    if (this.myFormT.value.telTipoUso === null || this.myFormT.value.telTipoUso === '') {
 
       this.msgsTelefono = [];
-      this.msgsTelefono.push({severity:'error', summary:'Campo Obligatorio', detail:'El Tipo uso es Requerido.'});
+      this.msgsTelefono.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'El Tipo uso es Requerido.'});
       return false;
     }
 
 
-    if (this.myFormT.value.tipo === null || this.myFormT.value.tipo == '') {
+    if (this.myFormT.value.tipo === null || this.myFormT.value.tipo === '') {
 
       this.msgsTelefono = [];
-      this.msgsTelefono.push({severity:'error', summary:'Campo Obligatorio', detail:'El Tipo es Requerido.'});
+      this.msgsTelefono.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'El Tipo es Requerido.'});
       return false;
     }
 
@@ -315,18 +316,23 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   validarEmail(): boolean {
 
-    if (this.myForm.value.email === null || this.myForm.value.email == '') {
+    if (this.myForm.value.email === null || this.myForm.value.email === '') {
 
       this.msgsEmail = [];
-      this.msgsEmail.push({severity:'error', summary:'Campo Obligatorio', detail:'El Email es Requerido.'});
+      this.msgsEmail.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'El Email es Requerido.'});
+      return false;
+    }
+    if (!this.util.validarEmail(this.myForm.value.email)) {
+      this.msgsEmail = [];
+      this.msgsEmail.push({severity: 'error', summary: 'Formato', detail: 'El formato de correo esta incorrecto, revise.'});
       return false;
     }
 
 
-    if (this.myForm.value.mailTipoUso === null || this.myForm.value.mailTipoUso == '') {
+    if (this.myForm.value.mailTipoUso === null || this.myForm.value.mailTipoUso === '') {
 
       this.msgsEmail = [];
-      this.msgsEmail.push({severity:'error', summary:'Campo Obligatorio', detail:'El Tipo de uso es Requerido.'});
+      this.msgsEmail.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'El Tipo de uso es Requerido.'});
       return false;
     }
 
@@ -603,10 +609,15 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   validarCorreo(): boolean {
 
-    if (this.editForm.value.email === null || this.editForm.value.email == '') {
+    if (this.editForm.value.email === null || this.editForm.value.email === '') {
 
       this.msgsEmail = [];
-      this.msgsEmail.push({severity:'error', summary:'Campo Obligatorio', detail:'El Email es Requerido.'});
+      this.msgsEmail.push({severity: 'error', summary: 'Campo Obligatorio', detail: 'El Email es Requerido.'});
+      return false;
+    }
+    if (!this.util.validarEmail(this.editForm.value.email)) {
+      this.msgsEmail = [];
+      this.msgsEmail.push({severity: 'error', summary: 'Formato', detail: 'El formato de correo esta incorrecto, revise.'});
       return false;
     }
 
@@ -692,7 +703,6 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
   actualizarCorreoNotificacion()
-
   {
     if(this.validarCorreo()) {
 

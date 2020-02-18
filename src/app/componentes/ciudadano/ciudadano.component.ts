@@ -8,6 +8,9 @@ import {Message, MessageService} from 'primeng/api';
 import {Subscription} from 'rxjs';
 import {UtilidadesService} from '../../servicios/utilidades.service';
 import {Router} from '@angular/router';
+import {valores} from '../../config/Propiedades';
+
+
 
 @Component({
   selector: 'app-ciudadano',
@@ -27,11 +30,12 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
   ciudadanoeActivo: Contribuyente;
 
   notificadialog = false;
+  saledialog = false;
 
   actualizaNombreUsu: Subscription;
 
   private respuesta: Irespuesta;
-  certificadoRit = 'http://127.0.0.1:7101/ServiciosRITDQ/certificado?';
+  certificadoRit = `${valores.ip_servidor}${this.certificadoRit}`;
 
   constructor(private ciudService: CiudadanoService, private autenticservice: AuthServiceService,
               private messageService: MessageService, private utilidades: UtilidadesService,
@@ -41,6 +45,7 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente ) => {
       this.ciudadanoeActivo = data;
 
@@ -89,13 +94,15 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
     } else {
       // alert(this.respuesta.mensaje);
       // this.ciudService.ciudadanoActivo = null;
-
-      this.ciudService.ciudadanoActivo.next(null);
-      this.ciudadanoeActivo = null;
-      this.rolCiudadano = false;
-      // this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-      // detail: 'No se encontró contribuyente con los parametros ingresados, intente de nuevo. ', closable: true});
-      this.notificadialog = true;
+      if (this.ciudService.rolCiudadano) {
+        this.saledialog = true;
+      } else {
+        this.ciudService.ciudadanoActivo.next(null);
+        this.ciudadanoeActivo = null;
+        this.rolCiudadano = false;
+        this.notificadialog = true;
+        this.saledialog = false;
+      }
     }
     this.ciudService.idSujetoVehiculos = 0;
     })
@@ -129,5 +136,9 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
       this.router.navigate(['/crearciu']);
     }
     this.notificadialog = false;
+  }
+  irsalir(): void {
+    this.saledialog = false;
+    this.router.navigate(['/contribuyente']);
   }
 }

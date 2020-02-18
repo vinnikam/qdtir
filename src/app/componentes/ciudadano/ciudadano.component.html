@@ -167,4 +167,30 @@
   </div>
 
 </p-dialog>
+<p-dialog header="Información" [modal]="true" [positionTop]="100"  [(visible)]="saledialog" [style]="{width: '500px', height: '200px'}"
+          [closable]="true" [baseZIndex]="10000">
+  <div class="container">
+    <div >
+
+      <div class="form-group row">
+        <div class="col-sm-12">
+
+          El contribuyente no existe en el sistema, verifique los datos e intente de nuevo. !<br/>
+          Si el mensaje persiste solicite la creacion del contribuyyente por los medios que dispone ls SDH.
+
+        </div>
+
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <button class="btn  px-4 float-left" class="ui-button-success" pButton type="button" label="Continuar" icon="pi pi-check" (click)="irsalir()"></button>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+</p-dialog>
 

@@ -191,11 +191,6 @@
 
             <div [formGroup]="myForm">
 
-
-              <div *ngIf="myForm.get('email').errors && myForm.get('email').dirty " class="error">
-                <p *ngIf="myForm.get('email').hasError('pattern')" class="error">Error correo electrónico. </p>
-              </div>
-
               <p-messages [(value)]="msgsEmail" ></p-messages>
               <div class="row show-grid ">
                 <div class="col-md-6">
@@ -249,12 +244,12 @@
                   <div class="row show-grid ">
                     <div class="col-lg-3">
                       <span class="innerTitleBold_css">Tel&eacute;fono: </span>
-                      <input class="form-control" name="telefono"  type="text" formControlName="telefono"  required/>
+                      <input class="form-control" name="telefono"  type="number" formControlName="telefono"  required/>
                     </div>
 
                     <div class="col-lg-3">
                       <span class="innerTitleBold_css">Ext: </span>
-                      <input class="form-control" type="text" name="ext"  type="text" formControlName ="ext" />
+                      <input class="form-control" type="text" name="ext"  type="number" formControlName ="ext" />
                     </div>
 
                     <div class="col-lg-3">
@@ -322,10 +317,6 @@
     <div [formGroup]="editForm">
 
 
-      <div *ngIf="editForm.get('email').errors && editForm.get('email').dirty " class="error">
-        <p *ngIf="editForm.get('email').hasError('pattern')" class="error">Error Correo electrónico. </p>
-        <p *ngIf="editForm.get('email').hasError('required')" class="error">El Correo electrónico es obligatorio. </p>
-      </div>
 
       <p-messages [(value)]="msgsEmail" ></p-messages>
       <div class="row show-grid ">

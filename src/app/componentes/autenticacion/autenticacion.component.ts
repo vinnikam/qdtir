@@ -88,6 +88,7 @@ export class AutenticacionComponent implements OnInit, OnDestroy {
 
   }
   autenticar(): void {
+
     const x: Promise<Irespuesta> = this.authService.loginFuncionario(this.elCiudadano);
     x.then((value: Irespuesta) => {
       this.respuesta = value;

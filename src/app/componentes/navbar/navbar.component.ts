@@ -73,62 +73,61 @@ export class NavbarComponent implements OnInit, OnDestroy {
       {label: 'Gestión Funcionarios', icon: 'pi pi-sign-in', routerLink: '/admingral'}
     ];
     this.itemsciud = [
-      {label: 'Contribuyente', icon: 'pi pi-user-plus',
+      {label: 'Contribuyente', icon: 'fa fa-male',
         items: [
-          {label: 'Datos personales', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
-          {label: 'Datos de Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
-          {label: 'Datos 1 %', icon: 'pi pi-dollar', routerLink: '/descuento'},
-          {label: 'Direcciones Notificacion', icon: 'pi pi-dollar', routerLink: '/historicodir'}
+          {label: 'Datos personales', icon: 'fa fa-id-card', routerLink: '/crearbus'},
+          {label: 'Datos de Contacto', icon: 'fa fa-phone-volume', routerLink: '/datoscontacto'},
+          {label: 'Datos 1 %', icon: 'fa fa-envelope', routerLink: '/descuento'},
+          {label: 'Direcciones Notificacion', icon: 'fa fa-chart-bar', routerLink: '/historicodir'},
+          {label: 'Certificado RIT', icon: 'fa fa-file-pdf', command:  (event: Event) => {this.certifRIT(); }}
         ]
       },
-      {label: 'Datos ICA', icon: 'pi pi-user-plus',
+      {label: 'Datos ICA', icon: 'fa fa-money-bill',
         items: [
-          {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
-          {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
+          {label: 'Actividades Económicas', icon: 'fa fa-list-ol', routerLink: '/actividades'},
+          {label: 'Establecimientos', icon: 'fa fa-building', routerLink: '/establecimientos'},
           {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'}
         ]
       },
       {label: 'Predios', icon: 'pi pi-home', routerLink: '/predios'},
-      {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'}
+      {label: 'Vehículos', icon: 'fa fa-car', routerLink: '/vehiculos'}
       // {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
     ];
 
-
     this.itemsadm = [
-      {label: 'Funcionario', icon: 'pi pi-user-plus',
+      {label: 'Funcionario', icon: 'fa fa-male',
         items: [
-          {label: 'Crear / Inactivar', icon: 'pi pi-user-plus', routerLink: '/gestionfuncionario'},
+          {label: 'Crear / Inactivar', icon: 'fa fa-user-plus', routerLink: '/gestionfuncionario'},
         ]
       }
       // {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salirAdmin(); }},
-
     ];
 
     this.itemsfunc = [
-      {label: 'Contribuyente', icon: 'pi pi-user-plus',
+      {label: 'Contribuyente', icon: 'fa fa-male',
         items: [
-          {label: 'Crear', icon: 'pi pi-user-plus', command:  (event: Event) => {this.nvocontriby(); } },
+          {label: 'Crear', icon: 'fa fa-user-plus', command:  (event: Event) => {this.nvocontriby(); } },
           {label: 'Buscar', icon: 'pi pi-search-plus', command:  (event: Event) => {this.buscarciud(); }},
-          {label: 'Información', icon: 'pi pi-search-plus',
+          {label: 'Información', icon: 'fa fa-address-book',
             items: [
-              {label: 'Personales', icon: 'pi pi-search-plus', routerLink: '/crearbus'},
-              {label: 'De Contacto', icon: 'pi pi-id-card', routerLink: '/datoscontacto'},
-              {label: 'De notificación', icon: 'pi pi-dollar', routerLink: '/descuento'},
-              {label: 'Histórico Direción Ppal.', icon: 'pi pi-dollar', routerLink: '/historicodir'}
+              {label: 'Personales', icon: 'fa fa-id-card', routerLink: '/crearbus'},
+              {label: 'De Contacto', icon: 'fa fa-phone-volume', routerLink: '/datoscontacto'},
+              {label: 'De notificación', icon: 'fa fa-envelope', routerLink: '/descuento'},
+              {label: 'Histórico Dirección Ppal.', icon: 'fa fa-chart-bar ', routerLink: '/historicodir'}
             ]
           },
-          {label: 'Certificado RIT', icon: 'pi pi-search-plus', command:  (event: Event) => {this.certifRIT(); }}
+          {label: 'Certificado RIT', icon: 'fa fa-file-pdf', command:  (event: Event) => {this.certifRIT(); }}
         ]
       },
-      {label: 'Datos ICA', icon: 'pi pi-user-plus',
+      {label: 'Datos ICA', icon: 'fa fa-money-bill',
         items: [
-          {label: 'Actividades Económicas', icon: 'pi pi-paperclip', routerLink: '/actividades'},
-          {label: 'Establecimientos', icon: 'pi pi-sitemap', routerLink: '/establecimientos'},
+          {label: 'Actividades Económicas', icon: 'fa fa-list-ol', routerLink: '/actividades'},
+          {label: 'Establecimientos', icon: 'fa fa-building', routerLink: '/establecimientos'},
           {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'}
         ]
       },
       {label: 'Predios', icon: 'pi pi-home', routerLink: '/predios'},
-      {label: 'Vehículos', icon: 'pi pi-align-center mx-auto', routerLink: '/vehiculos'}
+      {label: 'Vehículos', icon: 'fa fa-car', routerLink: '/vehiculos'}
 
       // {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
     ];

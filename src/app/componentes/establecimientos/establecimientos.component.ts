@@ -69,7 +69,7 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.es = es;
     this.formulario.controls.fechaApertura.setValue(this.util.obtenerFechahoy());
-    this.formularioborra.controls.fechaCierre.setValue(this.util.obtenerFechahoy());
+    this.formulario.controls.fechaApertura.setValue(this.util.obtenerFechahoy());
 
     this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
       this.ciudadanoeActivo = data;
@@ -212,7 +212,7 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
       this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El nombre es requerida.'});
       return false;
     }
-    if (this.formulario.value.direccion === '') {
+    if (!this.util.validaCampo(this.formulario.value.direccion)) {
       this.msgs = [];
       this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'La direccioón es requerida.'});
       return false;
@@ -224,17 +224,17 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
       this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'La fecha seleccionada es mayor a hoy. Verifique y continue.'});
       return false;
     }
-    if (this.formulario.value.codPostal === '') {
+    if (!this.util.validaCampo(this.formulario.value.codPostal)) {
       this.msgs = [];
       this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El código postal es requerido.'});
       return false;
     }
-    if (!ValidadorService.validaLongitud('' + this.formulario.value.codPostal, 6)) {
+    if (!this.util.validaLongitudMinMax('' + this.formulario.value.codPostal, 6, 6)) {
       this.msgs = [];
       this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El código postal debe ser de 6 digitos mínimo.'});
       return false;
     }
-    if (this.formulario.value.telefono1 === '') {
+    if (!this.util.validaCampo(this.formulario.value.telefono1)) {
       this.msgs = [];
       this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El teléfono es requerido.'});
       return false;

@@ -30,6 +30,7 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import {TooltipModule} from 'primeng/tooltip';
 
 
+
 import {ConfirmationService} from 'primeng/api';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
@@ -57,6 +58,7 @@ import { DireNhistComponent } from './componentes/dire-nhist/dire-nhist.componen
 
 import {ToggleButtonModule} from 'primeng/togglebutton';
 import { InicioComponent } from './componentes/inicio/inicio.component';
+import { SoloTextoDirective } from './servicios/solo-texto.directive';
 
 
 
@@ -104,6 +106,7 @@ const appRoutes: Routes = [
     EstandarizadorComponent,
     DireNhistComponent,
     InicioComponent,
+    SoloTextoDirective,
 
   ],
   imports: [

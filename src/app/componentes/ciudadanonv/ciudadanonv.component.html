@@ -52,8 +52,8 @@
         <div class="form-group row" *ngIf="!tipoPersonaNat">
           <div class="col-sm-6">
             <label> * Razon Social:</label>
-            <input type="text" name="razonsocial" class="form-control" formControlName="razonsocial" ngModel
-                   autocomplete="off" pTooltip="Nombre de la empresa.." tooltipEvent="focus" />
+            <input type="text" name="razonsocial" class="form-control mayusculas" formControlName="razonsocial" ngModel
+                   autocomplete="off" pTooltip="Nombre de la empresa.." tooltipEvent="focus"/>
 
           </div>
           <div class="col-sm-6">
@@ -64,26 +64,26 @@
         <div class="form-group row" *ngIf="tipoPersonaNat">
           <div class="col-sm-6">
             <label>* Primer Nombre:</label>
-            <input type="text" name="primerNombre" class="form-control" formControlName="primerNombre" ngModel
-                   pTooltip="Nombre principal." tooltipEvent="focus" autocomplete="off"/>
+            <input type="text" name="primerNombre" class="form-control mayusculas" formControlName="primerNombre" ngModel
+                   appSoloTexto pTooltip="Nombre principal." tooltipEvent="focus" autocomplete="off"/>
           </div>
           <div class="col-sm-6">
             <label>Segundo Nombre</label>
-            <input type="text" name="segundoNombre" class="form-control" formControlName="segundoNombre" ngModel
-                   pTooltip="Segundo nombre, puede dejar en blanco." tooltipEvent="focus" autocomplete="off"/>
+            <input type="text" name="segundoNombre" class="form-control mayusculas" formControlName="segundoNombre" ngModel
+                   appSoloTexto pTooltip="Segundo nombre, puede dejar en blanco." tooltipEvent="focus" autocomplete="off"/>
           </div>
 
         </div>
         <div class="form-group row" *ngIf="tipoPersonaNat">
           <div class="col-sm-6">
             <label>* Primer Apellido</label>
-            <input type="text" name="primerApellido" class="form-control" formControlName="primerApellido" ngModel
-                   pTooltip="Apellido principal." tooltipEvent="focus" autocomplete="off"/>
+            <input type="text" name="primerApellido" class="form-control mayusculas" formControlName="primerApellido" ngModel
+                   appSoloTexto pTooltip="Apellido principal." tooltipEvent="focus" autocomplete="off"/>
           </div>
           <div class="col-sm-6">
             <label>Segundo Apellido</label>
-            <input type="text" name="segundoApellido" class="form-control" formControlName="segundoApellido" ngModel
-                   pTooltip="Segundo apellido, puede dejar en blanco." tooltipEvent="focus" autocomplete="off"/>
+            <input type="text" name="segundoApellido" class="form-control mayusculas" formControlName="segundoApellido" ngModel
+                   appSoloTexto pTooltip="Segundo apellido, puede dejar en blanco." tooltipEvent="focus" autocomplete="off"/>
           </div>
 
         </div>
@@ -97,7 +97,7 @@
           <div class="col-sm-6">
             <label>* Código Postal</label>
             <input type="number" name="codPostal" class="form-control" formControlName="codPostal" ngModel
-                   pTooltip="Código de 6 digitos, Ej: 110001 (Bogotá)." tooltipEvent="focus" autocomplete="off"/>
+                   placeholder="111311" pTooltip="Código de 6 digitos, Ej: 111311 (CAD)"  autocomplete="off"/>
           </div>
         </div>
         <div class="form-group row">
@@ -127,7 +127,7 @@
         </div>
         <div class="form-group row">
           <div class="col-sm-6" *ngIf="escolombia">
-            <label>* Municipio</label>
+            <label>* Municipio/Ciudad</label>
             <select class="custom-select" class="form-control"  formControlName="municipio" name="municipio" ngModel
                     pTooltip="Municipio de la dirección." tooltipEvent="focus" >
               <option value="" selected disabled>Seleccione municipio</option>
@@ -138,8 +138,8 @@
             </select>
           </div>
           <div class="col-sm-6" *ngIf="!escolombia ">
-            <label>* Municipio</label>
-            <input type="text" name="municipio" class="form-control" formControlName="municipio" ngModel autocomplete="off"
+            <label>* Municipio/Ciudad</label>
+            <input type="text" name="municipio" class="form-control mayusculas" formControlName="municipio" ngModel autocomplete="off"
                    pTooltip="Digite el nombre de la ciudad de la dirección." tooltipEvent="focus" />
           </div>
           <div class="col-sm-6">
@@ -165,13 +165,15 @@
 
           <div class="col-sm-6">
             <label >
-              <input type="checkbox" name="indBuzon"  [value]="1" formControlName="indBuzon"  > Usar Buzón Electronico.
+              <!--input type="checkbox" name="indBuzon"  [value]="1"  formControlName="indBuzon" (click)="marcabuzon()" -->
+              <p-checkbox name="group1" value="1" label="Usar Buzón Electrónico." formControlName="indBuzon" ngModel inputId="bz"></p-checkbox>
             </label>
 
           </div>
           <div class="col-sm-6">
             <label >
-              <input type="checkbox" name="notif"  [value]="1" formControlName="notif"  > Notificaciones Electronicas
+              <p-checkbox name="group1" value="1" label="Notificaciones Electrónicas." formControlName="indBuzon" ngModel inputId="nt"></p-checkbox>
+              <!--input type="checkbox" name="notif"  [value]="1" formControlName="notif" (click)="marcabuzon()" -->
             </label>
 
           </div>
