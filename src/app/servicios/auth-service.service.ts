@@ -7,6 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {valores} from '../config/Propiedades';
 import {Irtaoam} from '../dto/irtaoam';
 import {BehaviorSubject} from 'rxjs';
+import {EnvService} from '../env.service';
 
 @Injectable()
 export class AuthServiceService {
@@ -30,8 +31,12 @@ export class AuthServiceService {
   actualizaNombreUsu = new BehaviorSubject('');
   nombreusuario: string;
 
+  ipservidor: string;
 
-  constructor(private ciudService: CiudadanoService, private http: HttpClient) { }
+
+  constructor(private ciudService: CiudadanoService, private http: HttpClient, private env: EnvService) {
+    this.ipservidor = env.urlservicios.toString();
+  }
 
   salir() {
 
@@ -106,7 +111,7 @@ export class AuthServiceService {
       usuarioauten: ciudadano.usuario,
       canal: ciudadano.clave
     };
-    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlLoginFuncionario}`, datosF).toPromise();
+    return this.http.post<Irespuesta>(`${this.ipservidor}${this.urlLoginFuncionario}`, datosF).toPromise();
   }
 
   autentAdmin(usuario: string, clave: string): boolean {
@@ -145,7 +150,7 @@ export class AuthServiceService {
       usuarioauten: usuario,
       snombre: clave
     };
-    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlcreartk}`, datosC).toPromise();
+    return this.http.post<Irespuesta>(`${this.ipservidor}${this.urlcreartk}`, datosC).toPromise();
 
   }
   validaTk(tk: string) {
@@ -153,14 +158,14 @@ export class AuthServiceService {
 
       token: tk
     };
-    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlvalidatk}`, datosC).toPromise();
+    return this.http.post<Irespuesta>(`${this.ipservidor}${this.urlvalidatk}`, datosC).toPromise();
 
   }
   consultaPropiedad(param: string) {
     const datosC = {
       pnombre: param
     };
-    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlpropiedad}`, datosC).toPromise();
+    return this.http.post<Irespuesta>(`${this.ipservidor}${this.urlpropiedad}`, datosC).toPromise();
 
   }
 

@@ -23,8 +23,8 @@ export class UtilidadesService {
   }
   cambiafecha(fecha: string) {
     if (fecha !== undefined) {
-      const newDate = new Date(fecha);
-      fecha = this.datapipe.transform(newDate, 'dd/MM/yyyy' );
+      // const newDate = new Date(fecha);
+      fecha = this.datapipe.transform(fecha, 'dd/MM/yyyy' );
     }
 
     return fecha;
@@ -106,7 +106,7 @@ export class UtilidadesService {
 
   }
   validaLongitudMinMax(dato: string, longmin: number, longmax) {
-    console.log(dato.length);
+    // console.log(dato.length);
     if (dato.length < longmin || dato.length > longmax) {
       return false;
     } else {
@@ -117,6 +117,14 @@ export class UtilidadesService {
   validarEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
+  }
+
+  obtenerPostalCod(coddepto: number)  {
+    let  postal = '' + coddepto + '0001';
+    if (postal.length === 5) {
+      postal = '0' + postal;
+    }
+    return postal;
   }
 
 }

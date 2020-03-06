@@ -11,6 +11,7 @@ import {Message, MessageService} from 'primeng/api';
 import {environment} from '../../../environments/environment';
 import {FuncionarioService} from '../../servicios/funcionario.service';
 import {Subscription} from 'rxjs';
+import { EnvService } from 'src/app/env.service';
 
 
 @Component({
@@ -28,12 +29,23 @@ export class AutenticacionComponent implements OnInit, OnDestroy {
 
   pt = 'password';
   ra = 'fa fa-eye';
+  ipserver: string;
+  veripserver: boolean;
+
 
   constructor(private authService: AuthServiceService,
               private router: Router, private ciudadService: CiudadanoService,
-              private messageService: MessageService, private funcioservice: FuncionarioService) {
+              private messageService: MessageService, private funcioservice: FuncionarioService,
+              private env: EnvService) {
+
     this.elCiudadano = new Contribuyente();
     this.authService.salir();
+    this.ipserver = env.urlservicios.toString();
+    // alert('Direccion de servicios - - -  -' + env.urlservicios.toString());
+    this.veripserver = false;
+    if (env.enableDebug.toString() === '1') {
+      this.veripserver = true;
+    }
   }
 
   ngOnInit() {

@@ -35,7 +35,8 @@
 
             </div>
             <div class="col-sm-6">
-              <input type="submit" class="btn btn-primary px-4 float-right" value="Buscar"/>
+              <button pButton type="submit" label="Buscar" class="boton" ></button>
+
             </div>
           </div>
 
@@ -122,7 +123,8 @@
         </div>
         <div class="form-group row">
           <div class="col-sm-6">
-            <button  *ngIf="!rolCiudadano" type="button" class="btn btn-primary" (click)="nuevaBusqueda()">Nueva Busqueda</button>
+
+            <button *ngIf="!rolCiudadano" pButton type="button" label="Buscar de nuevo..." class="boton" (click)="nuevaBusqueda()"></button>
 
           </div>
           <div class="col-sm-6">
@@ -151,13 +153,14 @@
       </div>
       <div class="form-group row">
         <div class="col-sm-6">
-          <button class="btn  px-4 float-left" class="ui-button-success" pButton type="button" label="Si" icon="pi pi-check" (click)="ircrear(1)"></button>
+          <button class="boton" pButton type="button" label="Si" icon="pi pi-check" (click)="ircrear(1)"></button>
 
 
         </div>
         <div class="col-sm-6">
 
-          <button class="btn  px-4 float-left" class="ui-button-info" pButton type="button" label="No" icon="pi pi-check" (click)="ircrear(0)"></button>
+
+          <button class="boton" pButton type="button-verde" label="No" icon="pi pi-check" (click)="ircrear(0)"></button>
         </div>
 
       </div>
@@ -183,7 +186,8 @@
       </div>
       <div class="form-group row">
         <div class="col-sm-6">
-          <button class="btn  px-4 float-left" class="ui-button-success" pButton type="button" label="Continuar" icon="pi pi-check" (click)="irsalir()"></button>
+
+          <button class="boton"  pButton type="submit" label="Autenticar" icon="pi pi-check" (click)="irsalir()"></button>
         </div>
 
       </div>

@@ -21,14 +21,14 @@
         <td >{{dato.codigo}}</td>
         <td >{{dato.descripcion}}</td>
         <td >{{dato.fec_inicio}}</td>
-        <td style="text-align:center" ><button class="btn"  pButton type="button"  label="finalizar" (click)="verborra(dato)"></button>
+        <td style="text-align:center" ><button class="boton-lover"  pButton type="button"  label="finalizar" (click)="verborra(dato)"></button>
 
         </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
       <div style="text-align:left" *ngIf="ciudadanoeActivo !== null">
-        <button class="btn "  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="vercrear()"></button>
+        <button class="boton "  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="vercrear()"></button>
       </div>
     </ng-template>
 
@@ -67,7 +67,7 @@
 
         <div class="form-group row">
           <div class="col-sm-9">
-            <button class="btn  px-4 float-left"  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="guardar()"></button>
+            <button class="boton"  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="guardar()"></button>
           </div>
 
         </div>
@@ -104,7 +104,7 @@
         </div>
         <div class="form-group row">
           <div class="col-sm-9">
-            <button class="btn  px-4 float-left"  pButton type="button" label="Borrar" icon="pi pi-check" (click)="borrar()"></button>
+              <button class="boton"  pButton type="button" label="Cerrar" icon="pi pi-check" (click)="borrar()"></button>
           </div>
 
         </div>

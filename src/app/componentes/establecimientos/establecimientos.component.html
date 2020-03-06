@@ -8,25 +8,27 @@
     <p-table [value]="lista" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
       <ng-template pTemplate="header">
         <tr>
-          <th scope="col" width="40%">NOMBRE</th>
-          <th scope="col" width="35%">DIRECCION</th>
+          <th scope="col" width="15%">MATRICULA MERC.</th>
+          <th scope="col" width="30%">NOMBRE</th>
+          <th scope="col" width="30%">DIRECCION</th>
           <th scope="col" width="15%">FECHA APERTURA</th>
           <th scope="col" width="10%">ACCION</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-dato>
         <tr >
+          <td >{{dato.matricula}}</td>
           <td >{{dato.nombre}}</td>
           <td>{{dato.direccion}}</td>
           <td>{{dato.fechaApertura}}</td>
-          <td style="text-align:center"><button class="btn"  pButton type="button"  label="Cerrar" (click)="verborra(dato)"></button>
+          <td style="text-align:center"><button class="boton-lover"  pButton type="button"  label="Cerrar" (click)="verborra(dato)"></button>
 
           </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="summary" let-rowData>
         <div style="text-align:left" *ngIf="ciudadanoeActivo !== null">
-          <button class="btn "  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="vercrear()"></button>
+          <button class="boton "  pButton type="button"  label="Adicionar" icon="pi pi-check" (click)="vercrear()"></button>
         </div>
       </ng-template>
     </p-table>
@@ -42,7 +44,15 @@
           <div class="col-sm-9">
             <label>* Nombre del Establecimiento: </label>
             <input type="text" name="nombre" formControlName="nombre" class="form-control  mayusculas" ngModel  autocomplete="off"
-                   appSoloTexto />
+                   appTextoNum />
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <label>* Matrícula mercantil: </label>
+            <input type="text" name="matricula" formControlName="matricula" class="form-control  mayusculas" ngModel  autocomplete="off"
+                   appTextoNum />
           </div>
 
         </div>
@@ -56,20 +66,13 @@
         </div>
         <div class="form-group row">
           <div class="col-sm-9">
-            <label>* Dirección: </label>
+            <label>* Dirección (Ej: CR 23 23 23): </label>
             <input type="text" name="direccion" formControlName="direccion" class="form-control" ngModel  autocomplete="off"
-                   placeholder="CRA 23 23 23" />
+                   placeholder="Digite la direccion: " />
           </div>
 
         </div>
-        <div class="form-group row">
-          <div class="col-sm-9">
-            <label>* Código Postal: </label>
-            <input type="number" name="codPostal" formControlName="codPostal" class="form-control" ngModel
-                   placeholder="111311" />
-          </div>
 
-        </div>
         <div class="form-group row">
         <div class="col-sm-9">
           <label>* Teléfono: </label>
@@ -79,7 +82,7 @@
       </div>
         <div class="form-group row">
           <div class="col-sm-9">
-            <button class="btn  px-4 float-left"  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="guardar()"></button>
+            <button class="boton"  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="guardar()"></button>
           </div>
 
         </div>
@@ -114,7 +117,7 @@
 
           <div class="form-group row">
             <div class="col-sm-9">
-              <button class="btn  px-4 float-left"  pButton type="button" label="Borrar" icon="pi pi-check" (click)="borrar()"></button>
+              <button class="btn  px-4 float-left"  pButton type="button" label="Cerrar" icon="pi pi-check" (click)="borrar()"></button>
             </div>
           </div>
       </form>

@@ -29,8 +29,8 @@
       </div>
     </ng-template>
     <div>
-      Contribuyente : {{nombreusuario}}
-      <button pButton label="Salir" icon="fa fa-sign-out" (click)="salir(1)" style="margin-left:.25em"></button>
+       <label class="labl">Contribuyente : <strong>{{nombreusuario}}</strong></label>
+      <button pButton label="Salir" icon="fa fa-sign-out" class="boton" (click)="salir(1)" style="margin-left:.25em"></button>
     </div>
   </p-menubar>
 
@@ -48,8 +48,8 @@
       </div>
     </ng-template>
     <div>
-      Funcionario: {{nombreusuario}}
-      <button pButton label="Salir" icon="fa fa-sign-out" (click)="salir(2)" style="margin-left:.25em"></button>
+      <label class="labl">Funcionario activo: <strong>{{nombreusuario}}</strong></label>
+      <button pButton label="Salir" icon="fa fa-sign-out" class="boton"  (click)="salir(2)" style="margin-left:.25em"></button>
     </div>
   </p-menubar>
 
@@ -67,8 +67,8 @@
       </div>
     </ng-template>
     <div>
-      Administrador Activo: {{nombreusuario}}
-      <button pButton label="Salir" icon="fa fa-sign-out" (click)="salir(3)" style="margin-left:.25em"></button>
+      <label class="labl">Administrador Activo: <strong>{{nombreusuario}}</strong></label>
+       <button pButton label="Salir" icon="fa fa-sign-out" class="boton" (click)="salir(3)" style="margin-left:.25em"></button>
     </div>
   </p-menubar>
 

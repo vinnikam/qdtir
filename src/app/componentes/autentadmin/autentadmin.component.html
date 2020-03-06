@@ -7,15 +7,16 @@
       <form class="base-container" (submit)="validar()" >
         <div class="form-group">
           <div class="col-sm-10">
-            <label>Usuario</label>
+            <label>USUARIO</label>
             <input type="text" [(ngModel)]="usuario"  name="usuario" class="form-control" autocomplete="off"/>
           </div>
           <div class="col-sm-10">
-            <label>Clave</label>
+            <label>CLAVE</label>
             <input type="password" [(ngModel)]="clave"  name="clave" class="form-control" autocomplete="off"/>
           </div>
         </div>
-        <input type="submit" class="btn btn-success px-4 float-left" value="AUTENTICAR"/>
+
+        <button class="boton"  pButton type="submit" label="Autenticar" icon="pi pi-check" ></button>
 
 
       </form>

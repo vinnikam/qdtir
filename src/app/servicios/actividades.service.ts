@@ -5,6 +5,7 @@ import {Irespuesta} from '../dto/irespuesta';
 import {Representante} from '../dto/representante';
 import {Actividadecon} from '../dto/actividadecon';
 import {Actividad} from '../dto/actividad';
+import {EnvService} from '../env.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,28 +16,31 @@ export class ActividadesService {
   urlCrear  = 'ServiciosRITDQ/resources/activ/crea/';
   urlbuscarall  = '/ServiciosRITDQ/resources/activ/consultall';
 
+  ipservidor: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private env: EnvService ) {
+    this.ipservidor = env.urlservicios.toString();
+  }
 
   consultar(idsujeto: number): Promise<Irespuesta> {
     const datos = {
       idSujeto : idsujeto
     };
-    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBuscar}`, datos).toPromise();
+    return  this.http.post<Irespuesta>(`${this.ipservidor}${this.urlBuscar}`, datos).toPromise();
   }
   borrar(dato: Actividad): Promise<Irespuesta> {
 
-    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBorrar}`, dato).toPromise();
+    return  this.http.post<Irespuesta>(`${this.ipservidor}${this.urlBorrar}`, dato).toPromise();
   }
   crear(dato: Actividad): Promise<Irespuesta> {
 
-    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlCrear}`, dato).toPromise();
+    return  this.http.post<Irespuesta>(`${this.ipservidor}${this.urlCrear}`, dato).toPromise();
   }
 
   consultarall(): Promise<Irespuesta> {
     const datos = {
       idSujeto : undefined
     };
-    return  this.http.get<Irespuesta>(`${valores.ip_servidor}${this.urlbuscarall}`).toPromise();
+    return  this.http.get<Irespuesta>(`${this.ipservidor}${this.urlbuscarall}`).toPromise();
   }
 }

@@ -1,4 +1,5 @@
 <app-navbar></app-navbar>
+<div *ngIf="veripserver" >Servicios: {{ipserver}}</div>
 <div class="container py-3 ">
   <h2 class="base-header">Ingresar Funcionario</h2>
   <div class="row">
@@ -8,18 +9,18 @@
         <div class="form-group">
           <p-messages [(value)]="msgs"></p-messages>
           <div class="col-sm-10">
-            <label>Usuario</label>
+            <label>USUARIO</label>
             <input type="text" [(ngModel)]="elCiudadano.usuario"  name="usuario" class="form-control" autocomplete="off"/>
 
           </div>
           <div class="col-sm-10">
-            <label>Clave</label>
+            <label>CLAVE</label>
 
             <input type="password"  [(ngModel)]="elCiudadano.clave"  id="clave" name="clave" class="form-control" autocomplete="off" data-toogle="password"/>
 
           </div>
         </div>
-        <input type="submit" class="btn btn-primary px-4 float-left" value="ingresar"/>
+        <button class="boton"  pButton type="submit" label="Autenticar" icon="pi pi-check" ></button>
 
 
       </form>

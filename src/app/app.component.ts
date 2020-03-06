@@ -3,6 +3,7 @@ import {CiudadanoService} from './servicios/ciudadano.service';
 import {AuthServiceService} from './servicios/auth-service.service';
 import {Contribuyente} from './dto/contribuyente';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

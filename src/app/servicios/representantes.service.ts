@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {valores} from '../config/Propiedades';
 import {Establecimiento} from '../dto/establecimiento';
 import {Representante} from '../dto/representante';
+import {EnvService} from '../env.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,30 +18,33 @@ export class RepresentantesService {
   urlClase = 'ServiciosRITDQ/resources/repres/clasesrepre/';
   urlTipoR = 'ServiciosRITDQ/resources/repres/tiposrepre/';
 
+  ipservidor: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private env: EnvService) {
+    this.ipservidor = env.urlservicios.toString();
+  }
 
   consultar(idsujeto: number): Promise<Irespuesta> {
     const datos = {
       idSujeto : idsujeto
     };
-    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBuscar}`, datos).toPromise();
+    return  this.http.post<Irespuesta>(`${this.ipservidor}${this.urlBuscar}`, datos).toPromise();
   }
   borrar(dato: Representante): Promise<Irespuesta> {
 
-    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBorrar}`, dato).toPromise();
+    return  this.http.post<Irespuesta>(`${this.ipservidor}${this.urlBorrar}`, dato).toPromise();
   }
   crear(dato: Representante): Promise<Irespuesta> {
 
-    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlCrear}`, dato).toPromise();
+    return  this.http.post<Irespuesta>(`${this.ipservidor}${this.urlCrear}`, dato).toPromise();
   }
   consultatiposrepre(codigo: number): Promise<Irespuesta> {
 
-    return  this.http.get<Irespuesta>(`${valores.ip_servidor}${this.urlTipoR}${codigo}`).toPromise();
+    return  this.http.get<Irespuesta>(`${this.ipservidor}${this.urlTipoR}${codigo}`).toPromise();
   }
   consultaclaserepre(): Promise<Irespuesta> {
 
-    return  this.http.get<Irespuesta>(`${valores.ip_servidor}${this.urlClase}`).toPromise();
+    return  this.http.get<Irespuesta>(`${this.ipservidor}${this.urlClase}`).toPromise();
 
   }
 

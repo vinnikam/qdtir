@@ -17,6 +17,7 @@ import {Predio} from '../dto/predio';
 import {Representante} from '../dto/representante';
 import {Vehiculo} from '../dto/vehiculo';
 import {DireccionesHistSujeto} from '../dto/direcciones-hist-sujeto';
+import {EnvService} from '../env.service';
 
 @Injectable()
 export class CiudadanoService {
@@ -55,17 +56,20 @@ export class CiudadanoService {
   urldescuento1 = 'ServiciosRITDQ/resources/consultas/descuento1';
   urlactuadescuento1 = 'ServiciosRITDQ/resources/contribuyente/registraAplicaDesc';
   urlHistoDireccionNotif = 'ServiciosRITDQ/resources/contribuyente/dirnotifhist';
+  ipservidor: string;
+
+  certificadoRit: string;
 
 
   // ------ URL PARA TIPO CONTACTO
-  url = valores.ip_servidor + 'ServiciosRITDQ/resources/contribuyente';
-  urluso = valores.ip_servidor + 'ServiciosRITDQ/resources/consultas/consultaruso/';
-  urlEditaTelContacto = valores.ip_servidor + 'ServiciosRITDQ/resources/contribuyente/editaTelefonoContac/';
-  urlEditaCorreoContacto = valores.ip_servidor + 'ServiciosRITDQ/resources/contribuyente/editaCorreoContac/';
-  urlEditarDirNoti = valores.ip_servidor + 'ServiciosRITDQ/resources/contribuyente/editaDirecNotDANE/';
-  urlEliminaTelContacto = valores.ip_servidor + 'ServiciosRITDQ/resources/contribuyente/eliminaTelefonoContac';
-  urlEliminarDirNoti = valores.ip_servidor + 'ServiciosRITDQ/resources/contribuyente/eliminaDirecNot/';
-  urlEliminaCorreoContacto = valores.ip_servidor + 'ServiciosRITDQ/resources/contribuyente/eliminaCorreoContac';
+  url: string; // = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente';
+  urluso: string; //  = this.ipservidor + 'ServiciosRITDQ/resources/consultas/consultaruso/';
+  urlEditaTelContacto: string; //  = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente/editaTelefonoContac/';
+  urlEditaCorreoContacto: string; //  = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente/editaCorreoContac/';
+  urlEditarDirNoti: string; //  = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente/editaDirecNotDANE/';
+  urlEliminaTelContacto: string; //  = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente/eliminaTelefonoContac';
+  urlEliminarDirNoti: string; //  = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente/eliminaDirecNot/';
+  urlEliminaCorreoContacto: string; //  = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente/eliminaCorreoContac';
 
 
   respuesta: Irespuesta;
@@ -87,8 +91,20 @@ export class CiudadanoService {
   actualizaDireccion = new BehaviorSubject(true);
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private env: EnvService) {
     // this.ciudadanoActivo = null;
+    this.ipservidor = env.urlservicios.toString();
+    this.url = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente';
+    this.urluso = this.ipservidor + 'ServiciosRITDQ/resources/consultas/consultaruso/';
+    this.urlEditaTelContacto = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente/editaTelefonoContac/';
+    this.urlEditaCorreoContacto = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente/editaCorreoContac/';
+    this.urlEditarDirNoti = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente/editaDirecNotDANE/';
+    this.urlEliminaTelContacto = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente/eliminaTelefonoContac';
+    this.urlEliminarDirNoti = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente/eliminaDirecNot/';
+    this.urlEliminaCorreoContacto = this.ipservidor + 'ServiciosRITDQ/resources/contribuyente/eliminaCorreoContac';
+
+    this.certificadoRit = `${this.ipservidor}${valores.certificadoRit}`;
+
   }
 
 
@@ -99,17 +115,17 @@ export class CiudadanoService {
       codTId: ciudadano.tipoDocumento,
       nroId: ciudadano.nroIdentificacion
     };
-    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlBuscar}`, datos).toPromise();
+    return this.http.post<Irespuesta>(`${this.ipservidor}${this.urlBuscar}`, datos).toPromise();
   }
   crear(ciudadano: Contribuyente): Promise<Irespuesta> {
 
-    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlcrear}`, ciudadano).toPromise();
+    return this.http.post<Irespuesta>(`${this.ipservidor}${this.urlcrear}`, ciudadano).toPromise();
   }
   consultaDescuento1(_idsujeto: number): Promise<Irespuesta> {
     const datos = {
       idSujeto : _idsujeto
     };
-    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urldescuento1}`, datos).toPromise();
+    return  this.http.post<Irespuesta>(`${this.ipservidor}${this.urldescuento1}`, datos).toPromise();
   }
 
   actualizanotificaciones(buzon: number, notif: number, idsujeto: number) {
@@ -118,44 +134,44 @@ export class CiudadanoService {
       notifElecActivo : notif,
       idSujeto : idsujeto
     };
-    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlactuadescuento1}`, datos).toPromise();
+    return  this.http.post<Irespuesta>(`${this.ipservidor}${this.urlactuadescuento1}`, datos).toPromise();
 
   }
   consultaHistoDireccNot(idSujeto: number): Promise<Irespuesta> {
     const datos = {
       idSujeto
     };
-    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlHistoDireccionNotif}`, datos).toPromise();
+    return  this.http.post<Irespuesta>(`${this.ipservidor}${this.urlHistoDireccionNotif}`, datos).toPromise();
   }
 
   consultaPredios(_idsujeto: number): Promise<Irespuesta> {
 
-    return  this.http.get<Irespuesta>(`${valores.ip_servidor}${this.urlPredios}${_idsujeto}`).toPromise();
+    return  this.http.get<Irespuesta>(`${this.ipservidor}${this.urlPredios}${_idsujeto}`).toPromise();
   }
 
   consultaVehiculos(_idsujeto: number): Promise<Irespuesta> {
     const datos = {
       idSujeto : _idsujeto
     };
-    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlVehiculos}`, datos).toPromise();
+    return  this.http.post<Irespuesta>(`${this.ipservidor}${this.urlVehiculos}`, datos).toPromise();
   }
   getPaises(): Promise<Irespuesta> {
     const datos = {
       codigo : 0
     };
-    return  this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlPaises}`, null).toPromise();
+    return  this.http.post<Irespuesta>(`${this.ipservidor}${this.urlPaises}`, null).toPromise();
   }
   getDeptos(dato: number): Promise<Irespuesta> {
     const datos = {
       codigo : dato
     };
-    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlDeptos}`, datos).toPromise();
+    return this.http.post<Irespuesta>(`${this.ipservidor}${this.urlDeptos}`, datos).toPromise();
   }
   getMunic(dato: number): Promise<Irespuesta> {
     const datos = {
       codigo : dato
     };
-    return this.http.post<Irespuesta>(`${valores.ip_servidor}${this.urlmunic}`, datos).toPromise();
+    return this.http.post<Irespuesta>(`${this.ipservidor}${this.urlmunic}`, datos).toPromise();
   }
   registrarContacto(contacto: Contacto, urlFinal: string): Observable<Irespuesta>{
     const headers = new HttpHeaders().set('Content-Type', 'application/json');

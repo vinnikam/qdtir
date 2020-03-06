@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+// @ts-ignore
+import propiedades from '/src/assets/json/propiedades.json';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-inicio',
@@ -8,9 +11,11 @@ import {Router} from '@angular/router';
 })
 export class InicioComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router ) {
+  }
 
   ngOnInit() {
+
   }
   ircontribuyente(): void {
     this.router.navigate(['/contribuyente']);

@@ -50,11 +50,11 @@ export class AutenticarciudComponent implements OnInit {
     }
   }
   autenticar() {
-    if (true) {
+    /*if (true) {
       this.authService.ingresarCiudadano(this.elCiudadano.tipoDocumento, this.elCiudadano.nroIdentificacion);
       this.router.navigate(['/crearbus']);
       return ;
-    }
+    }*/
     const x: Promise<Irtaoam> = this.authService.loginCiudadano(this.urlWSlogin, this.elCiudadano);
     x.then((value: Irtaoam) => {
       this.rtaoam = value;

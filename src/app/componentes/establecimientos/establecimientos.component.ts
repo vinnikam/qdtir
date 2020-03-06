@@ -47,12 +47,13 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
       this.formulario = this.formBuilder.group({
         nombre: [],
         fechaApertura: [],
+        matricula: [],
         direccion: [],
         telefono1: [],
-        codPostal: [],
+        codPostal: ['110001'],
         pais: ['49'] ,
-        municipio: ['11001'],
-        ciudad: ['11001'],
+        municipio: ['149'],
+        ciudad: ['4003'],
         depto: ['11']
 
       });
@@ -156,7 +157,7 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
   verborra(elesta: Establecimiento) {
     this.borrardialog = true;
     this.establecimientoborra = elesta;
-    this.fechaInicial = this.util.cambiafecha(this.establecimientoborra.fechaApertura);
+    this.fechaInicial = this.establecimientoborra.fechaApertura;
   }
   borrar() {
     const fecha = new Date(this.formularioborra.value.fechaCierre);
@@ -224,6 +225,7 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
       this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'La fecha seleccionada es mayor a hoy. Verifique y continue.'});
       return false;
     }
+    /*
     if (!this.util.validaCampo(this.formulario.value.codPostal)) {
       this.msgs = [];
       this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El código postal es requerido.'});
@@ -233,7 +235,7 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
       this.msgs = [];
       this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El código postal debe ser de 6 digitos mínimo.'});
       return false;
-    }
+    }*/
     if (!this.util.validaCampo(this.formulario.value.telefono1)) {
       this.msgs = [];
       this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'El teléfono es requerido.'});
@@ -247,10 +249,12 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
       this.formulario.controls.fechaApertura.setValue(this.util.obtenerFechahoy());
       this.formulario.controls.direccion.setValue(undefined); // "5667"
       this.formulario.controls.telefono1.setValue(undefined); // "5667"
-      this.formulario.controls.codPostal.setValue(undefined); // "5667"
+      this.formulario.controls.codPostal.setValue('110001'); // "5667"
+      this.formulario.controls.matricula.setValue(undefined); // "5667"
+      this.formulario.controls.nombre.setValue(undefined); // "5667"
       this.formulario.controls.pais.setValue('49'); // "5667"
-      this.formulario.controls.municipio.setValue('11001'); // "5667"
-      this.formulario.controls.ciudad.setValue('11001'); // "5667"
+      this.formulario.controls.municipio.setValue('149'); // "5667"
+      this.formulario.controls.ciudad.setValue('4003'); // "5667"
       this.formulario.controls.depto.setValue('11'); // "5667"
     }
     if (tipo === 2) { // borrar

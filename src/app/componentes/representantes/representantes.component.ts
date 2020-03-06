@@ -191,7 +191,7 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
       if (this.respuesta.codigoError === '0') {
 
         this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
-          detail: 'Borró al representante. ', closable: true});
+          detail: 'Finaliza la representación. ', closable: true});
         this.limpiar(2);
 
         this.representante = undefined;
@@ -199,13 +199,13 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'No borró al representante.', closable: true});
+          detail: 'No se finaliza la representación.', closable: true});
 
       }
     })
       .catch(() => {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'Error tecnico en borrar representante ', closable: true});
+          detail: 'Error en la finalizacion de la representacion.  ', closable: true});
         // alert();
       });
     this.borrardialog = false;
@@ -225,7 +225,8 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
         this.idrepresentantecrear = this.respuesta.contribuyente.idSujeto;
         this.btncrear = false;
         this.msgs = [];
-        this.msgs.push({severity: 'info', summary: '', detail: 'El contribuyente se encontro en la BD. '});
+        this.msgs.push({severity: 'info', summary: '', detail: 'Se encontró el contribuyente ' + this.respuesta.contribuyente.primerNombre
+            + ' ' + this.respuesta.contribuyente.primerApellido + 'en la BD. '});
 
       } else {
         this.msgs = [];
@@ -254,13 +255,13 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
 
         } else {
           this.msgs = [];
-          this.msgs.push({severity: 'warn', summary: '', detail: 'No se cargaron las Clases de representación.'});
+          this.msgs.push({severity: 'warn', summary: '', detail: 'No se cargaron las clases de representación.'});
 
         }
       })
         .catch(() => {
           this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-            detail: 'Error tecnico en consultar las Clases de representación. ', closable: true});
+            detail: 'Error tecnico en consultar las clases de representación. ', closable: true});
           // alert();
         });
     }

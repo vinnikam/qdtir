@@ -44,6 +44,7 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
   notificadialog = false;
 
 
+
   constructor(private router: Router , private formBuilder: FormBuilder, private ciudadServ: CiudadanoService,
               private messageService: MessageService, private validador: ValidadorService,
               private util: UtilidadesService) {
@@ -97,7 +98,7 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
     this.formulario.controls.indBuzon.setValue(0);
     this.formulario.controls.notif.setValue(0);
 
-    this.formulario.controls.codPostal.setValue(111311);
+    this.formulario.controls.codPostal.setValue(110001);
 
     this.escolombia = true;
   }
@@ -155,8 +156,7 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
     const jsonString = JSON.stringify(this.formulario.value);
     this.contribuyente = JSON.parse(jsonString) as Contribuyente;
 
-    if (this.contribuyente.indBuzon === 1)
-    {
+    if (this.contribuyente.indBuzon === 1) {
       this.contribuyente.indBuzon = 1;
       this.contribuyente.notif = 1;
     }
@@ -229,7 +229,7 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
       this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
         detail: 'La direccioón es requerida.', closable: true});
       return false;
-    }
+    }/*
     if (!this.util.validaCampo(this.formulario.value.codPostal)) {
       this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
         detail: 'El código postal es requerido.', closable: true});
@@ -239,7 +239,7 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
       this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
         detail: 'El código postal debe ser de 6 digitos mínimo.', closable: true});
       return false;
-    }
+    }*/
     if (!this.util.validaCampo(this.formulario.value.pais)) {
       this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
         detail: 'El país es requerido.', closable: true});
@@ -402,6 +402,9 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
 
   }
   cambioDepto(): void {
+
+    const postal = this.util.obtenerPostalCod(this.formulario.value.departamento);
+    this.formulario.controls.codPostal.setValue(postal);
     this.cargarMunic(this.formulario.value.departamento);
   }
   verificar(): void {
@@ -421,7 +424,7 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
     this.formulario.controls.matriculaMercantil.setValue(undefined); //  null
     this.formulario.controls.estadoRIT.setValue(undefined); //  null
     this.formulario.controls.direccion.setValue(undefined); //  "5667"
-    this.formulario.controls.codPostal.setValue(undefined); //  566722
+    this.formulario.controls.codPostal.setValue('110001'); //  566722
     this.formulario.controls.pais.setValue(undefined); //  "208"
     this.formulario.controls.departamento.setValue(undefined); //  null
     this.formulario.controls.municipio.setValue(undefined); //  "5667"

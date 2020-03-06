@@ -59,6 +59,9 @@ import { DireNhistComponent } from './componentes/dire-nhist/dire-nhist.componen
 import {ToggleButtonModule} from 'primeng/togglebutton';
 import { InicioComponent } from './componentes/inicio/inicio.component';
 import { SoloTextoDirective } from './servicios/solo-texto.directive';
+import { TextoNumDirective } from './servicios/texto-num.directive';
+
+import { EnvServiceProvider } from './env.service.provider';
 
 
 
@@ -107,6 +110,7 @@ const appRoutes: Routes = [
     DireNhistComponent,
     InicioComponent,
     SoloTextoDirective,
+    TextoNumDirective,
 
   ],
   imports: [
@@ -135,7 +139,8 @@ const appRoutes: Routes = [
     TooltipModule,
     ToggleButtonModule
   ],
-  providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService, MessageService, DatePipe, ConfirmationService],
+  providers: [AuthServiceService, Seguridad, CiudadanoService, NavbarserviceService,
+    MessageService, DatePipe, ConfirmationService, EnvServiceProvider ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

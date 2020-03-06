@@ -35,13 +35,14 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
   actualizaNombreUsu: Subscription;
 
   private respuesta: Irespuesta;
-  certificadoRit = `${valores.ip_servidor}${this.certificadoRit}`;
+  certificadoRit: string; // = `${valores.ip_servidor}${valores.certificadoRit}`;
 
   constructor(private ciudService: CiudadanoService, private autenticservice: AuthServiceService,
               private messageService: MessageService, private utilidades: UtilidadesService,
               private router: Router) {
     this.elCiudadano = new Contribuyente();
     this.esjuridico = false;
+    this.certificadoRit = ciudService.certificadoRit;
   }
 
   ngOnInit() {

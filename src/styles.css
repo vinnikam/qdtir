@@ -54,7 +54,7 @@ body {
 }
 
 .base-header {
-  background: #105f79;
+  background: #9F9B98;
   padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
@@ -114,7 +114,7 @@ body {
   border-color: #05a;
 }
 .base-header-repres {
-  background: #7f9c8f;
+  background: #9F9B98;
   padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
@@ -123,7 +123,7 @@ body {
   color: #fff;
 }
 .base-header-estab {
-  background: #708e80;
+  background: #9F9B98;
   padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
@@ -132,7 +132,7 @@ body {
   color: #fff;
 }
 .base-header-vehi {
-  background: #8b9e96;
+  background: #9F9B98;
   padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
@@ -141,7 +141,7 @@ body {
   color: #fff;
 }
 .base-header-pred {
-  background: #717e78;
+  background: #9F9B98;
   padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
@@ -150,7 +150,7 @@ body {
   color: #fff;
 }
 .base-header-activ {
-  background: #8baa9c;
+  background: #9F9B98;
   padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
@@ -159,7 +159,7 @@ body {
   color: #fff;
 }
 .base-header-admi {
-  background: #037d11;
+  background: #9F9B98;
   padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
@@ -168,7 +168,7 @@ body {
   color: #fff;
 }
 .base-header-ciud {
-  background: #076f68;
+  background: #9F9B98 ;
   padding: 12px;
   font-size: 1.4em;
   font-weight: normal;
@@ -191,3 +191,61 @@ body {
   text-transform:uppercase;
 }
 
+.labl{
+  background-color: red;
+  color: yellow;
+}
+
+
+.boton{
+  display: inline-block;
+  border: 2px solid #d80e2f !important;;
+  font:  11px Verdana ;
+  text-transform: uppercase;
+  background: #ff0000 !important;
+  cursor: pointer;
+  transition: background-color 2s !important;
+
+}
+.boton:hover{
+  background: #8a0e24 !important;
+  color: #C5A577 !important;
+
+}
+.boton-lover{
+  border: 2px solid #d80e2f !important;;
+  background: #ff3f41 !important;
+  cursor: pointer;
+}
+.boton-lover:hover{
+  background: #8a0e24 !important;
+
+  color: #C5A577 !important;
+
+}
+.boton-verde{
+  border: 2px solid #43ac6a !important;;
+  background: #43ac6a !important;
+  cursor: pointer;
+}
+.boton-verde:hover{
+  background: #8a0e24 !important;
+
+  color: #C5A577 !important;
+
+}
+.margin-bootom-xs {
+  margin-bottom: 5px;
+}
+
+.margin-bootom-sm {
+  margin-bottom: 10px;
+}
+
+.margin-bootom-md {
+  margin-bottom: 20px;
+}
+
+.margin-bootom-lg {
+  margin-bottom: 40px;
+}
