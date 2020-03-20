@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="form-group row">
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <label >Tipo de Identificación : </label>
             <select class="custom-select" class="form-control"  formControlName="tipoDocumento" name="tipoDocumento" ngModel (change)="this.cambiotiden()">
               <option *ngFor="let dato of tiposDocumento" [value]="dato.codigo">
@@ -34,17 +34,24 @@
               </option>
             </select>
           </div>
-          <div class="col-sm-6" *ngIf="estipotext">
+          <div class="col-sm-4" *ngIf="estipotext">
             <label>Número de Identificación: </label>
             <input type="text" pInputText  name="numidentificacion" formControlName="nroIdentificacion" class="form-control" ngModel
                    autocomplete="off" (change)="this.verificar()" pTooltip="Puede iniciar con Caracteres. Ej PA." tooltipEvent="focus"/>
 
 
           </div>
-          <div class="col-sm-6" *ngIf="!estipotext">
+          <div class="col-sm-4" *ngIf="!estipotext">
             <label>Número de Identificación: </label>
             <input type="number" name="numidentificacion" formControlName="nroIdentificacion" class="form-control" ngModel
                    autocomplete="off"(change)="this.verificar()"  pTooltip="Digite sólo números." tooltipEvent="focus"/>
+
+          </div>
+          <div class="col-sm-4" >
+            <label>Fecha Exp. Documento: </label>
+            <p-calendar  name="fechaDocumento" formControlName="fechaDocumento"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"
+                         pTooltip="Fecha de la expedición del Documento." tooltipEvent="focus"></p-calendar>
+
 
           </div>
         </div>

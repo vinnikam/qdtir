@@ -192,8 +192,11 @@ body {
 }
 
 .labl{
-  background-color: red;
-  color: yellow;
+  display: inline-block;
+  background-color: #555555;
+  color: whitesmoke;
+  padding: 4px;
+
 }
 
 
@@ -213,14 +216,15 @@ body {
 
 }
 .boton-lover{
-  border: 2px solid #d80e2f !important;;
-  background: #ff3f41 !important;
+  border: 2px solid #bebebe !important;;
+  background: #bebebe !important;
+  font:  10px Verdana ;
   cursor: pointer;
 }
 .boton-lover:hover{
   background: #8a0e24 !important;
 
-  color: #C5A577 !important;
+  color: #ffffff !important;
 
 }
 .boton-verde{

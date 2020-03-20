@@ -33,6 +33,8 @@ export class Contribuyente {
   naturaleza ?: Basicovo;
   fecharegimenBogota ?: string;
   regimenTrib ?: string;
+  fechaDocumento ?: Date;
+  fechaDocumentoS ?: string;
 
 
   dirContacto ?: DireccionesContacto [];

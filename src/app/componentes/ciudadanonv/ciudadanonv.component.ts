@@ -11,6 +11,8 @@ import {ValidadorService} from '../../servicios/validador.service';
 import {tiposIdenJuridico, tiposIdenNatural} from '../../config/Propiedades';
 import {Subscription} from 'rxjs';
 import {UtilidadesService} from '../../servicios/utilidades.service';
+import {es} from '../../config/Propiedades';
+
 import {
 paises
 } from '../../config/Divipola';
@@ -43,6 +45,8 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
 
   notificadialog = false;
 
+  es: any;
+
 
 
   constructor(private router: Router , private formBuilder: FormBuilder, private ciudadServ: CiudadanoService,
@@ -71,13 +75,15 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
       nuevoCorreo: ['', Validators.required],
       tipoTelefono: [5],
       indBuzon: 0,
-      notif: 0
+      notif: 0,
+      fechaDocumento : ''
     });
 
 
   }
 
   ngOnInit() {
+    this.es = es;
     this.dataSubscription = this.ciudadServ.recargarFormulario.subscribe((data: boolean)  => {
       // this.formulario.reset();
     });
@@ -433,6 +439,8 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
     this.formulario.controls.tipoTelefono.setValue(5); //  null
     this.formulario.controls.indBuzon.setValue(undefined); //  null
     this.formulario.controls.notif.setValue(undefined); //  null
+    this.formulario.controls.fechaDocumento.setValue(undefined); //  null
+
     this.formulario.value.indBuzon = 0;
     this.formulario.value.notif = 0;
 

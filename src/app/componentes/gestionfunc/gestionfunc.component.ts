@@ -9,6 +9,7 @@ import {Basicovo} from '../../dto/basicovo';
 import {FuncionarioService} from '../../servicios/funcionario.service';
 import {UtilidadesService} from '../../servicios/utilidades.service';
 import {Funcionario} from '../../dto/funcionario';
+import {EnvService} from '../../env.service';
 
 
 
@@ -27,13 +28,16 @@ export class GestionfuncComponent implements OnInit {
 
   lista: Funcionario[];
 
+  veripserver: boolean;
+  ipserver: string;
+
 
 
 
 
   constructor(private router: Router , private formBuilder: FormBuilder,
               private ciudadServ: CiudadanoService, private funcinarServ: FuncionarioService,
-              private messageService: MessageService, private util: UtilidadesService) {
+              private messageService: MessageService, private util: UtilidadesService, private env: EnvService) {
 
     this.ocultarCrear = true;
     this.formulario = this.formBuilder.group({
@@ -42,7 +46,11 @@ export class GestionfuncComponent implements OnInit {
       fechaInicio: [],
       fechaFin: []
     });
-
+    this.ipserver = env.urlservicios.toString();
+    this.veripserver = false;
+    if (env.enableDebug.toString() === '1') {
+      this.veripserver = true;
+    }
 
   }
 
