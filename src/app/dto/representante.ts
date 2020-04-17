@@ -9,4 +9,5 @@ export class Representante {
   tipoRepres ?: string;
   fechaCierre ?: string;
   idRepresentacion ?: number;
+
 }

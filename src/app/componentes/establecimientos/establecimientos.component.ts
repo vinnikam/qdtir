@@ -127,6 +127,7 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
 
     const jsonString = JSON.stringify(this.formulario.value);
     this.establecimiento = JSON.parse(jsonString) as Establecimiento;
+    this.establecimiento.nombre = this.establecimiento.nombre.toLocaleUpperCase();
     this.establecimiento.idSujeto = this.ciudadanoeActivo.idSujeto;
     // alert(this.establecimiento);
     this.establecimiento.fechaApertura  = this.util.cambiafecha(this.establecimiento.fechaApertura);

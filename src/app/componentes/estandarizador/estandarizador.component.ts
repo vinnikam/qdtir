@@ -489,10 +489,9 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
 
 
   cambioDir(): void {
-
     if (this.ubicacion === '2') {
 
-      this.direccion = this.formulario.value.viaPrimaria.codigo;
+      this.direccion = this.formulario.value.viaPrimaria;
 
       if (this.formulario.value.nroViaPpal !== undefined) {
         if (this.formulario.value.nroViaPpal !== '') {
@@ -500,31 +499,28 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
         }
       }
       if (this.formulario.value.letraViaPpal !== undefined) {
-        if (this.formulario.value.letraViaPpal.codigo !== undefined && this.formulario.value.letraViaPpal.codigo !== undefined &&
-          this.formulario.value.letraViaPpal.codigo !== '') {
-          this.direccion += ' ' + this.formulario.value.letraViaPpal.codigo;
+        if (this.formulario.value.letraViaPpal !== undefined &&
+          this.formulario.value.letraViaPpal !== '') {
+          this.direccion += ' ' + this.formulario.value.letraViaPpal;
         }
       }
-      if (this.formulario.value.bis1 !== undefined && this.formulario.value.bis1.codigo !== undefined &&
-        this.formulario.value.bis1.codigo !== undefined && this.formulario.value.bis1.codigo !== '') {
-        this.direccion += ' ' + this.formulario.value.bis1.codigo;
+      if (this.formulario.value.bis1 !== undefined && this.formulario.value.bis1 !== '') {
+        this.direccion += ' ' + this.formulario.value.bis1;
       }
-      if (this.formulario.value.letraBis !== undefined && this.formulario.value.letraBis.codigo !== undefined &&
-        this.formulario.value.letraBis.codigo !== undefined && this.formulario.value.letraBis.codigo !== '') {
-        this.direccion += ' ' + this.formulario.value.letraBis.codigo;
+      if (this.formulario.value.letraBis !== undefined && this.formulario.value.letraBis !== '') {
+        this.direccion += ' ' + this.formulario.value.letraBis;
       }
-      if (this.formulario.value.cuadrante1 !== undefined && this.formulario.value.cuadrante1.codigo !== undefined
-        && this.formulario.value.cuadrante1.codigo !== '') {
-        this.direccion += ' ' + this.formulario.value.cuadrante1.codigo;
+      if (this.formulario.value.cuadrante1 !== undefined
+        && this.formulario.value.cuadrante1 !== '') {
+        this.direccion += ' ' + this.formulario.value.cuadrante1;
       }
       if (this.formulario.value.nroViaGen !== undefined) {
         if (this.formulario.value.nroViaGen !== '') {
           this.direccion += ' ' + this.formulario.value.nroViaGen;
         }
       }
-      if (this.formulario.value.letraViaGen !== undefined && this.formulario.value.letraViaGen.codigo !== undefined &&
-        this.formulario.value.letraViaGen.codigo !== undefined && this.formulario.value.letraViaGen.codigo !== '') {
-        this.direccion += ' ' + this.formulario.value.letraViaGen.codigo;
+      if (this.formulario.value.letraViaGen !== undefined && this.formulario.value.letraViaGen !== '') {
+        this.direccion += ' ' + this.formulario.value.letraViaGen;
       }
 
       if (this.formulario.value.nroPlaca !== undefined) {
@@ -533,9 +529,8 @@ export class EstandarizadorComponent implements OnInit, OnDestroy {
         }
       }
 
-      if (this.formulario.value.cuadranteVG !== undefined && this.formulario.value.cuadranteVG.codigo !==
-        undefined && this.formulario.value.cuadranteVG.codigo !== undefined && this.formulario.value.cuadranteVG.codigo !== '') {
-        this.direccion += ' ' + this.formulario.value.cuadranteVG.codigo;
+      if (this.formulario.value.cuadranteVG !== undefined && this.formulario.value.cuadranteVG !== '') {
+        this.direccion += ' ' + this.formulario.value.cuadranteVG;
       }
     }
   }

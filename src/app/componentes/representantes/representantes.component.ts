@@ -128,6 +128,7 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
     }
     const jsonString = JSON.stringify(this.formulario.value);
     this.representante = JSON.parse(jsonString) as Representante;
+    this.representante.nombre = this.representante.nombre.toLocaleUpperCase();
     this.representante.idSujeto = this.ciudadanoeActivo.idSujeto;
     this.representante.idRepresentacion = this.idrepresentantecrear;
 

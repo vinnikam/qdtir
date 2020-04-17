@@ -73,53 +73,85 @@
 
 
         <div class="form-inline">
-          <div class="form-group mx-sm-1">
-            <p-dropdown [options]="listviaprimaria"   name="viaPrimaria" ngModel formControlName="viaPrimaria"
-                        (onChange)="cambioDir()" placeholder="Seleccione" optionLabel="nombre"></p-dropdown>
+          <div class="form-group mx-sm-1" >
+            <select class="form-control" name="viaPrimaria" formControlName="viaPrimaria" (change)="cambioDir()">
+              <option value="" selected disabled>--</option>
+              <option *ngFor="let val of listviaprimaria" [value]="val.codigo">
+                {{val.nombre}}
+              </option>
+            </select>
 
           </div>
-          <div class="form-group mx-sm-1">
-            <input type="text" pInputText name="nroViaPpal"  ngModel formControlName="nroViaPpal" (input)="cambioDir()" title="Número v&iacute;a principal" size="3" />
-
-          </div>
-          <div class="form-group  mx-sm-1">
-          <p-dropdown [options]="letras20" name="letraViaPpal" ngModel formControlName="letraViaPpal" optionLabel="nombre" placeholder="Seleccione"
-                      (onChange)="cambioDir()"></p-dropdown>
-          </div>
-
-          <div class="form-group  mx-sm-1">
-            <p-dropdown [options]="bis10" name="bis1" ngModel formControlName="bis1" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
+          <div class="form-group mx-sm-1 border border-danger">
+            <input type="text" pInputText name="nroViaPpal"  ngModel formControlName="nroViaPpal" (input)="cambioDir()" title="Número v&iacute;a principal"
+                   autocomplete="off" appSoloNumero size="3" />
 
           </div>
           <div class="form-group  mx-sm-1">
-            <p-dropdown [options]="letras10" name="letraBis" ngModel formControlName="letraBis" optionLabel="nombre" (onChange)="cambioDir()"  placeholder="Seleccione"></p-dropdown>
+            <select class="form-control" name="letraViaPpal" formControlName="letraViaPpal" (change)="cambioDir()">
+              <option value="" selected disabled>--</option>
+              <option *ngFor="let val of letras20" [value]="val.codigo">
+                {{val.nombre}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group  mx-sm-1">
+            <select class="form-control" name="bis1" formControlName="bis1" (change)="cambioDir()">
+              <option value="" selected disabled>--</option>
+              <option *ngFor="let val of bis10" [value]="val.codigo">
+                {{val.nombre}}
+              </option>
+            </select>
 
           </div>
           <div class="form-group  mx-sm-1">
-            <p-dropdown [options]="cuadrante" name="cuadrante1" ngModel formControlName="cuadrante1" optionLabel="nombre" (onChange)="cambioDir()"
-                        placeholder="Seleccione"></p-dropdown>
+            <select class="form-control" name="letraBis" formControlName="letraBis" (change)="cambioDir()">
+              <option value="" selected disabled>--</option>
+              <option *ngFor="let val of letras10" [value]="val.codigo">
+                {{val.nombre}}
+              </option>
+            </select>
 
           </div>
 
+          <div class="form-group  mx-sm-1">
+            <select class="form-control" name="cuadrante1" formControlName="cuadrante1" (change)="cambioDir()">
+              <option value="" selected disabled>--</option>
+              <option *ngFor="let val of cuadrante" [value]="val.codigo">
+                {{val.nombre}}
+              </option>
+            </select>
 
-          <div class="form-group mx-sm-1">
 
-
-          <input type="text" pInputText name="nroViaGen" ngModel formControlName="nroViaGen" (input)="cambioDir()" title="Número v&iacute;a general" size="3" />
           </div>
-            <div class="form-group mx-sm-1">
-          <p-dropdown [options]="letras" name="letraViaGen" ngModel formControlName="letraViaGen" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
-            </div>
+          <div class="form-group mx-sm-1 border border-danger">
+          <input type="text" pInputText name="nroViaGen" ngModel formControlName="nroViaGen" (input)="cambioDir()" title="Número v&iacute;a general"
+                 autocomplete="off" appSoloNumero size="3" />
+          </div>
+
           <div class="form-group mx-sm-1">
+              <select class="form-control" name="letraViaGen" formControlName="letraViaGen" (change)="cambioDir()">
+                <option value="" selected disabled>--</option>
+                <option *ngFor="let val of letras" [value]="val.codigo">
+                  {{val.nombre}}
+                </option>
+              </select>
+           </div>
 
+          <div class="form-group mx-sm-1 border border-danger" >
+            <input type="text" name="nroPlaca"  ngModel formControlName="nroPlaca" (input)="cambioDir()" title="N&uacute;mero de placa" size="3"
+                   appSoloNumero autocomplete="off"/>
 
-          <input type="number" pInputText name="nroPlaca" ngModel formControlName="nroPlaca" (input)="cambioDir()" title="N&uacute;mero de placa" />
           </div>
           <div class="form-group mx-sm-1">
+            <select class="form-control" name="cuadranteVG" formControlName="cuadranteVG" (change)="cambioDir()">
+              <option value="" selected disabled>--</option>
+              <option *ngFor="let val of cuadrante" [value]="val.codigo">
+                {{val.nombre}}
+              </option>
+            </select>
 
-
-
-          <p-dropdown [options]="cuadrante" name="cuadranteVG" ngModel formControlName="cuadranteVG" optionLabel="nombre" (onChange)="cambioDir()" placeholder="Seleccione"></p-dropdown>
           </div>
 
         </div>

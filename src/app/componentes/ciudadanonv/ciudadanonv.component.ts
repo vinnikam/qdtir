@@ -124,6 +124,9 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
       const jsonString = JSON.stringify(this.formulario.value);
       // console.log(jsonString);
       this.contribuyente = JSON.parse(jsonString) as Contribuyente;
+      this.mayuscula();
+      // coloca en mayuscula la info
+
 
       const x: Promise<Irespuesta> = this.ciudadServ.buscar(this.contribuyente);
       x.then((value: Irespuesta) => {
@@ -161,7 +164,7 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
     }
     const jsonString = JSON.stringify(this.formulario.value);
     this.contribuyente = JSON.parse(jsonString) as Contribuyente;
-
+    this.mayuscula();
     if (this.contribuyente.indBuzon === 1) {
       this.contribuyente.indBuzon = 1;
       this.contribuyente.notif = 1;
@@ -484,5 +487,11 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
   marcabuzon(): void {
     alert(' valor ' + this.formulario.value.indBuzon);
     alert(' valor ' + this.formulario.value.notif);
+  }
+  mayuscula(): void {
+    this.contribuyente.primerNombre = this.contribuyente.primerNombre.toLocaleUpperCase();
+    this.contribuyente.segundoNombre = this.contribuyente.segundoNombre.toLocaleUpperCase();
+    this.contribuyente.primerApellido = this.contribuyente.primerApellido.toLocaleUpperCase();
+    this.contribuyente.segundoApellido = this.contribuyente.segundoApellido.toLocaleUpperCase();
   }
 }

@@ -5,4 +5,7 @@ export class Funcionario {
   fechaInicioS?: string;
   fechaFin?: Date;
   fechaFinS?: string;
+  toUper(): void {
+    this.nombre = this.nombre.toLocaleUpperCase();
+  }
 }

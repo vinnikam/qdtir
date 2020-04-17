@@ -161,7 +161,7 @@
 
 
 <div *ngIf="displayDirNotificacion">
-  <p-dialog header="ASISTENTE PARA INGRESAR DIRECCIÓN ESTANDARIZADA" [(visible)]="displayDirNotificacion" [modal]="true" [responsive]="true" [style]="{width: '1050px'}" [minY]="0"
+  <p-dialog header="ASISTENTE PARA ESTANDARIZAR DIRECCIÓN" [(visible)]="displayDirNotificacion" [modal]="true" [responsive]="true" [style]="{width: '1050px'}" [minY]="0"
             [maximizable]="false" [baseZIndex]="10000" [closable]="true" positionTop="100">
     <app-estandarizador></app-estandarizador>
 
@@ -197,11 +197,6 @@
                   <label class="required_css">Correo electrónico</label>
                   <input type="text" name="email" formControlName="email" class="form-control" ng-maxlength="200" placeholder="Email" required/>
                 </div>
-
-
-
-
-
                 <div class="col-md-6">
                   <label class="required_css">Tipo de uso</label>
 

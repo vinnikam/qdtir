@@ -3,7 +3,7 @@ export class Establecimiento {
   idSujeto ?: number;
   fechaApertura ?: string;
   fechaCierre ?: string;
-  nombre ?: number;
+  nombre ?: string;
   matricula ?: number;
   direccion ?: string;
   telefono1 ?: number;
@@ -15,4 +15,6 @@ export class Establecimiento {
   ciudad?: number;
   depto?: number;
   codPostal?: number;
+
+
 }

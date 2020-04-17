@@ -61,8 +61,9 @@ import { InicioComponent } from './componentes/inicio/inicio.component';
 import { SoloTextoDirective } from './servicios/solo-texto.directive';
 import { TextoNumDirective } from './servicios/texto-num.directive';
 
-import { EnvServiceProvider } from './env.service.provider';
 
+import { EnvServiceProvider } from './env.service.provider';
+import {SoloNumerosDirective} from './servicios/solo-numeros-directive';
 
 
 
@@ -111,6 +112,7 @@ const appRoutes: Routes = [
     InicioComponent,
     SoloTextoDirective,
     TextoNumDirective,
+    SoloNumerosDirective
 
   ],
   imports: [
