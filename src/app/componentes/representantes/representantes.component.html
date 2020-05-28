@@ -23,14 +23,14 @@
         <td>{{dato.claseRepres}}</td>
         <td>{{dato.tipoRepres}}</td>
         <td>{{dato.fechaInicio}}</td>
-        <td style="text-align:center" ><button class="boton-lover"  pButton type="button"  label="cerrar" (click)="verborra(dato)"></button>
+        <td style="text-align:center" ><button *ngIf="permisoedicion" class="boton-lover"  pButton type="button"  label="cerrar" (click)="verborra(dato)"></button>
 
         </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
       <div style="text-align:left" *ngIf="ciudadanoeActivo !== null">
-        <button class="boton "  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="vercrear()"></button>
+        <button *ngIf="permisoedicion" class="boton "  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="vercrear()"></button>
       </div>
     </ng-template>
   </p-table>
@@ -40,11 +40,12 @@
           [closable]="true" [baseZIndex]="10000">
   <div class="container">
     <div >
-      <form  class="base-container"  (ngSubmit)="this.crearEsta()" [formGroup]="formulario" >
+      <form  class="base-container"  [formGroup]="formulario" >
         <div class="form-group row">
           <div class="col-sm-9">
             <label>Fecha de inicio de representación: </label>
-            <p-calendar  name="fechaApertura" formControlName="fechaInicio"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+            <p-calendar  name="fechaApertura" formControlName="fechaInicio"  [monthNavigator]="true"
+                         [yearNavigator]="true" yearRange="2000:2030"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
 
           </div>
 
@@ -140,7 +141,8 @@
         <div class="form-group row">
           <div class="col-sm-9">
             <label>Fecha de Cierre: </label>
-            <p-calendar  name="fechaCierre" formControlName="fechaCierre"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy" [inline]="true"></p-calendar>
+            <p-calendar  name="fechaCierre" formControlName="fechaCierre"  [monthNavigator]="true"
+                         [yearNavigator]="true" yearRange="2000:2030"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy" [inline]="true"></p-calendar>
 
           </div>
 

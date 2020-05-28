@@ -12,6 +12,7 @@ import {Message, MessageService} from 'primeng/api';
 import {UtilidadesService} from '../../servicios/utilidades.service';
 import {Subscription} from 'rxjs';
 import {ValidadorService} from '../../servicios/validador.service';
+import {AuthServiceService} from '../../servicios/auth-service.service';
 
 @Component({
   selector: 'app-establecimientos',
@@ -37,13 +38,16 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
 
   msgs: Message[] = [];
   fechaInicial: string;
+  fechaInicialD: Date;
+
+  permisoedicion = false;
 
 
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private estaServ: EstablecimientosService ,
               private formBuilder: FormBuilder, private messageService: MessageService,
-              private util: UtilidadesService) {
+              private util: UtilidadesService, private autenticservice: AuthServiceService) {
       this.formulario = this.formBuilder.group({
         nombre: [],
         fechaApertura: [],
@@ -88,6 +92,7 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
         }
       }
     });
+    this.permisoedicion = this.autenticservice.permisoedicion;
   }
   consultar(idsujeto: number ) {
 
@@ -159,10 +164,11 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
     this.borrardialog = true;
     this.establecimientoborra = elesta;
     this.fechaInicial = this.establecimientoborra.fechaApertura;
+    this.fechaInicialD = this.establecimientoborra.fechaAperturaD;
   }
   borrar() {
     const fecha = new Date(this.formularioborra.value.fechaCierre);
-    const finicial = new Date(this.fechaInicial);
+    const finicial = new Date(this.fechaInicialD);
     const hoy = this.util.obtenerFechahoy();
     if (fecha < finicial  || fecha > hoy) {
       this.msgs = [];

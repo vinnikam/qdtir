@@ -14,7 +14,7 @@
       </div>
     </div>
   </div>
-  <button class="boton-lover"  pButton type="button" label="Actualizar Dirección de Notificación" icon="pi pi-check" (click)="nuevaDirNotificacion()"></button>
+  <button *ngIf="permisoedicion" class="boton-lover"  pButton type="button" label="Actualizar Dirección de Notificación" icon="pi pi-check" (click)="nuevaDirNotificacion()"></button>
   <p-table [value]="aDirNot" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
     <ng-template pTemplate="header">
       <tr>
@@ -44,7 +44,7 @@
   <br/>
 
 
-  <button class="boton-lover"  pButton type="button" label="Agregar Tipo de Contacto" icon="pi pi-check" (click)="addContacto()"></button>
+  <button *ngIf="permisoedicion" class="boton-lover"  pButton type="button" label="Agregar Tipo de Contacto" icon="pi pi-check" (click)="addContacto()"></button>
 
   <br/>
   <p-tabView>
@@ -71,7 +71,7 @@
             <td>{{dato.pais.nombre}}</td>
             <td class="center cleanBgBtn_css">
 
-              <button class="boton-lover"  pButton type="button" label="Eliminar" (click)="verborra(dato)"></button>
+              <button *ngIf="permisoedicion" class="boton-lover"  pButton type="button" label="Eliminar" (click)="verborra(dato)"></button>
             </td>
           </tr>
         </ng-template>
@@ -98,11 +98,11 @@
 
             <td class="center cleanBgBtn_css" *ngIf="x.uso.codigo !== '5'">
 
-              <button class="btn"  pButton type="button" label="Eliminar" (click)="verborra(x)"></button>
+              <button *ngIf="permisoedicion" class="btn"  pButton type="button" label="Eliminar" (click)="verborra(x)"></button>
             </td>
 
             <td class="center cleanBgBtn_css" *ngIf="x.uso.codigo === '5'">
-              <button class="boton-lover"  pButton type="button" label="Modificar" (click)="modificarContacto(x)"></button>
+              <button *ngIf="permisoedicion" class="boton-lover"  pButton type="button" label="Modificar" (click)="modificarContacto(x)"></button>
             </td>
 
 
@@ -135,11 +135,11 @@
             <td>{{datosTel.pais.nombre}}</td>
 
             <td class="center cleanBgBtn_css" *ngIf="datosTel.uso.codigo !== '5'">
-              <button class="boton-lover"  pButton type="button" label="Eliminar"  (click)="verborraTel(datosTel)"></button>
+              <button *ngIf="permisoedicion" class="boton-lover"  pButton type="button" label="Eliminar"  (click)="verborraTel(datosTel)"></button>
             </td>
 
             <td class="center cleanBgBtn_css" *ngIf="datosTel.uso.codigo === '5'">
-              <button class="boton-lover"  pButton type="button" label="Modificar" (click)="modificarContactoTel(datosTel)"></button>
+              <button *ngIf="permisoedicion" class="boton-lover"  pButton type="button" label="Modificar" (click)="modificarContactoTel(datosTel)"></button>
             </td>
 
 

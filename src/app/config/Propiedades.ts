@@ -40,7 +40,7 @@ export const es = {
   firstDay: 1 ,
   isRTL: false ,
   showMonthAfterYear: false ,
-  yearSuffix: '',
+  yearSuffix: '2020',
 
   // time
   timeOnlyTitle: 'Elegir una hora' ,

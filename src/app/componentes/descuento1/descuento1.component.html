@@ -19,7 +19,7 @@
 
       </div>
       <div class="col-sm-4">
-        <button class="boton "  pButton type="button" label="Actualizar" icon="pi pi-check" (click)="verdialog()"></button>
+        <button *ngIf="permisoedicion" class="boton "  pButton type="button" label="Actualizar" icon="pi pi-check" (click)="verdialog()"></button>
 
 
       </div>

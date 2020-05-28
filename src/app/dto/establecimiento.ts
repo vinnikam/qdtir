@@ -3,6 +3,8 @@ export class Establecimiento {
   idSujeto ?: number;
   fechaApertura ?: string;
   fechaCierre ?: string;
+  fechaAperturaD ?: Date;
+  fechaCierreD ?: Date;
   nombre ?: string;
   matricula ?: number;
   direccion ?: string;

@@ -7,7 +7,9 @@ export class Actividad {
   fecCese ?: string;
   fec_inicioD ?: Date;
   fecCeseD ?: Date;
+  union ?: string;
 
   usuario ?: string;
   idSujeto ?: number;
+
 }

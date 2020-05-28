@@ -88,12 +88,13 @@
             </div>
 
         </div>
-        <div class="form-group row">
+        <div class="form-group row" >
+
           <div class="col-sm-6">
-            <li class="list-group-item"> Número de Matrícula: <strong>{{ ciudadanoeActivo.matriculaMercantil}}</strong> </li>
+            <li class="list-group-item"> Estado en el Rit: <strong>{{ ciudadanoeActivo.estadoRIT}} </strong> </li>
           </div>
           <div class="col-sm-6">
-            <li class="list-group-item"> Estado en el Rit: <strong>{{ ciudadanoeActivo.estadoRIT}}</strong> </li>
+            <li class="list-group-item"> Fecha de registro:  <strong>{{ ciudadanoeActivo.fechaInscripcion}}</strong> </li>
           </div>
 
         </div>
@@ -102,7 +103,7 @@
             <li class="list-group-item"> Naturaleza: <strong>{{ ciudadanoeActivo.naturaleza.nombre}}</strong> </li>
           </div>
           <div class="col-sm-6">
-
+            <li class="list-group-item"> Número de Matrícula: <strong>{{ ciudadanoeActivo.matriculaMercantil}}</strong> </li>
           </div>
 
         </div>
@@ -121,7 +122,7 @@
 
           </div>
           <div class="col-sm-6">
-
+            <button *ngIf="permisoedicion" pButton type="button" label="Editar" class="boton" (click)="editar()"></button>
 
           </div>
         </div>
@@ -202,3 +203,90 @@
 
 </p-dialog>
 
+<p-dialog header="EDITAR SUJETO ACTIVO" [modal]="true" [positionTop]="100"  [(visible)]="editarsuj" [style]="{width: '600px', height: '200px'}"
+          [closable]="true" [baseZIndex]="10000">
+  <div class="container">
+    <div >
+      <p-messages [(value)]="msgs"></p-messages>
+      <form  class="base-container"   [formGroup]="formularioMod" >
+        <div class="form-group row">
+          <div class="col-sm-9">
+
+            <li class="list-group-item">   <strong> {{ identificacionsujeto}}</strong></li>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label>* Fecha Expedición Documento: </label>
+            <p-calendar  name="fechaDoc" formControlName="fechaDoc" [monthNavigator]="true"
+                         [yearNavigator]="true" yearRange="1990:2030" [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
+          </div>
+          <div class="col-sm-6"></div>
+          <div class="col-sm-6">
+            <label>* Fecha de Registro RIT: </label>
+            <p-calendar  name="fechainscripcion" formControlName="fechainscripcion" [monthNavigator]="true"
+                         [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
+          </div>
+
+        </div>
+
+        <div class="form-group row">
+        <div class="col-sm-6">
+          <label>* Primer Nombre: </label>
+          <input type="text" name="nombre1" formControlName="nombre1" class="form-control  mayusculas" ngModel  autocomplete="off"
+                 appTextoNum />
+        </div>
+
+          <div class="col-sm-6">
+            <label>* Segundo Nombre: </label>
+            <input type="text" name="nombre2" formControlName="nombre2" class="form-control  mayusculas" ngModel  autocomplete="off"
+                   appTextoNum />
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label>* Primer Apellido: </label>
+            <input type="text" name="apell1" formControlName="apell1" class="form-control  mayusculas" ngModel  autocomplete="off"
+                   appTextoNum />
+          </div>
+          <div class="col-sm-6">
+            <label>* Segundo Apellido: </label>
+            <input type="text" name="apell2" formControlName="apell2" class="form-control  mayusculas" ngModel  autocomplete="off"
+                   appTextoNum />
+          </div>
+
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label>* Fecha de Regimen: </label>
+            <p-calendar  name="fechareg" formControlName="fechareg"  [monthNavigator]="true"
+                         [yearNavigator]="true" yearRange="1990:2030"[showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
+          </div>
+          <div class="col-sm-6">
+            <label>* Matrícula mercantil: </label>
+            <input type="text" name="matricula" formControlName="matricula" class="form-control  mayusculas" ngModel  autocomplete="off"
+                   appTextoNum />
+          </div>
+
+
+
+
+        </div>
+
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <button class="boton"  pButton type="button" label="Actualizar" icon="pi pi-check" (click)="modificaSuj()"></button>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</p-dialog>

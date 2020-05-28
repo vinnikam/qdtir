@@ -25,6 +25,7 @@ export class AuthServiceService {
   datos: any;
   token: any;
   perfilusuario =  0; // 1 - ciudadano - 2 funcionario - 3 - admin
+  permisoedicion = false;
 
 
   private respuesta: Irespuesta;
@@ -61,11 +62,13 @@ export class AuthServiceService {
     this.datos = datos;
     this.ciudService.rolCiudadano = true;
     this.perfilusuario = 1;
+    this.permisoedicion = true;
     }
-  ingresarFuncionario(token: string) {
+  ingresarFuncionario(token: string, edicion: boolean) {
     localStorage.setItem('id_token', token);
     this.ciudService.rolCiudadano = false;
     this.perfilusuario = 2;
+    this.permisoedicion = edicion;
     }
   estaAutenticado() {
     this.authToken  = JSON.stringify( localStorage.getItem('id_token'));

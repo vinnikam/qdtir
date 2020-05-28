@@ -12,6 +12,7 @@ import {Message, MessageService} from 'primeng/api';
 import {UtilidadesService} from '../../servicios/utilidades.service';
 import {Contribuyente} from '../../dto/contribuyente';
 import {Subscription} from 'rxjs';
+import {AuthServiceService} from '../../servicios/auth-service.service';
 
 @Component({
   selector: 'app-actividades-economicas',
@@ -40,11 +41,13 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
   msgs: Message[] = [];
 
   fechaInicial: string;
+  fechaInicialD: Date;
+  permisoedicion = false;
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private activserv: ActividadesService,
               private formBuilder: FormBuilder, private messageService: MessageService,
-              private util: UtilidadesService) {
+              private util: UtilidadesService, private autenticservice: AuthServiceService) {
     this.formulario = this.formBuilder.group({
       nombre: [],
       fec_inicio: [],
@@ -81,6 +84,7 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
         }
       }
     }
+    this.permisoedicion = this.autenticservice.permisoedicion;
 
   }
   consultar(idsujeto: number) {
@@ -133,16 +137,16 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
         return ;
       }
       const codigo = parseInt(this.formulario.value.idActividad, 0);
-      if (this.existe(codigo)){
+      if (this.existe(codigo)) {
         this.msgs = [];
         this.msgs.push({severity: 'warn', summary: 'Atención', detail: 'La actividad seleccionada ya esta registrada.'});
 
-        return ;
+        return;
       }
 
-      const jsonString = JSON.stringify(this.formulario.value);
+      const jsonString = JSON.stringify(this.formulario.value.idActividad);
       this.actividades = JSON.parse(jsonString) as Actividad;
-      this.actividades.fec_inicio = this.util.cambiafecha(this.actividades.fec_inicio);
+      this.actividades.fec_inicio = this.util.cambiafecha(this.formulario.value.fec_inicio);
       this.actividades.idSujeto = this.ciudadanoeActivo.idSujeto;
 
       const x: Promise<Irespuesta> = this.activserv.crear(this.actividades);
@@ -176,13 +180,14 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
   verborra(elesta: Actividad) {
     this.borrardialog = true;
     this.actividadesborra = elesta;
-    this.fechaInicial = this.util.cambiafecha(this.actividadesborra.fec_inicio);
+    this.fechaInicial = this.actividadesborra.fec_inicio;
+    this.fechaInicialD = this.actividadesborra.fec_inicioD;
     // alert('?');
   }
 
   borrar() {
     const fecha = new Date(this.formularioborra.value.fecCese);
-    const finicial = new Date(this.fechaInicial);
+    const finicial = new Date (this.fechaInicialD);
     const hoy = this.util.obtenerFechahoy();
     if (fecha < finicial  || fecha > hoy) {
       this.msgs = [];

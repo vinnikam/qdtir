@@ -27,18 +27,26 @@ export class FuncionarioService {
     };
     return this.http.post<Irespuesta>(`${this.ipservidor}${this.urlconsulta}`, datos).toPromise();
   }
-  crear(usuario: string, fechainia: string, fechafina: string ): Promise<Irespuesta> {
+  crear(autenticado: string, usuario: string, fechainia: string, fechafina: string, permiso: number ): Promise<Irespuesta> {
     const datos = {
       pnombre: usuario,
       fechaini: fechainia,
-      fechafin: fechafina
+      fechafin: fechafina,
+      codigo: permiso,
+      fuente: 1,
+      canal: 'RITWEB_FUNCIONARIO',
+      usuarioauten: autenticado
     };
     return this.http.post<Irespuesta>(`${this.ipservidor}${this.urlcrear}`, datos).toPromise();
   }
-  inactivar(usuario: string, fechafina: string): Promise<Irespuesta> {
+  inactivar(autenticado: string, usuario: string, fechafina: string): Promise<Irespuesta> {
     const datos = {
       pnombre: usuario,
-      fechafin: fechafina
+      fechafin: fechafina,
+      fuente: 1,
+      canal: 'RITWEB_FUNCIONARIO',
+      usuarioauten: autenticado
+
     };
     return this.http.post<Irespuesta>(`${this.ipservidor}${this.urlinactivar}`, datos).toPromise();
   }

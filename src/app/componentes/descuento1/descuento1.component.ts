@@ -8,6 +8,7 @@ import {Irespuesta} from '../../dto/irespuesta';
 import {Descuentovo} from '../../dto/descuentovo';
 import {Subscription} from 'rxjs';
 import {Contribuyente} from '../../dto/contribuyente';
+import {AuthServiceService} from '../../servicios/auth-service.service';
 
 @Component({
   selector: 'app-descuento1',
@@ -25,11 +26,13 @@ export class Descuento1Component implements OnInit, OnDestroy {
 
   constribySubscription: Subscription;
   ciudadanoeActivo: Contribuyente;
+  permisoedicion = false;
 
 
 
   constructor(private ciudService: CiudadanoService,
-              private router: Router, private messageService: MessageService) {
+              private router: Router, private messageService: MessageService,
+              private autenticservice: AuthServiceService) {
 
 
   }
@@ -54,7 +57,7 @@ export class Descuento1Component implements OnInit, OnDestroy {
         }
       }
     });
-
+    this.permisoedicion = this.autenticservice.permisoedicion;
 
   }
   consultaDatos() {

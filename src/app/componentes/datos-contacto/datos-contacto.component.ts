@@ -28,6 +28,7 @@ import {UtilidadesService} from '../../servicios/utilidades.service';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DatoscservicioService} from "../../servicios/datoscservicio.service";
 import {Representante} from "../../dto/representante";
+import {AuthServiceService} from '../../servicios/auth-service.service';
 
 
 @Component({
@@ -148,11 +149,13 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   ciudadanoeActivo: Contribuyente;
   actualizaDireccionS: Subscription;
 
+  permisoedicion = false;
+
 
   constructor(public http: HttpClient, private modalService: ModalService, private  ciudService: CiudadanoService, private formBuilder: FormBuilder,
               private formBuilder2: FormBuilder,  private formBuilder3: FormBuilder,   private formBuilder4: FormBuilder, private router: Router,
               private messageService: MessageService, private utilidades: UtilidadesService, private confirmationService: ConfirmationService,
-              private util: UtilidadesService) {
+              private util: UtilidadesService, private autenticservice: AuthServiceService) {
 
     this.url = ciudService.url;
     this.urluso = ciudService.urluso;
@@ -182,6 +185,7 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
     this.consultarTipoUso();
 
     this.codPostalDireccion = '11001';
+    this.permisoedicion = this.autenticservice.permisoedicion;
   }
 
   ngOnInit() {

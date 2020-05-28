@@ -31,6 +31,8 @@ export class AutenticacionComponent implements OnInit, OnDestroy {
   ra = 'fa fa-eye';
   ipserver: string;
   veripserver: boolean;
+  edicion = false;
+
 
 
   constructor(private authService: AuthServiceService,
@@ -62,7 +64,6 @@ export class AutenticacionComponent implements OnInit, OnDestroy {
     }
 
 
-
   }
 
   private valido() {
@@ -82,11 +83,17 @@ export class AutenticacionComponent implements OnInit, OnDestroy {
     return this.autorizado();
   }
   autorizado(): void {
+
     const x: Promise<Irespuesta> = this.funcioservice.consulta(this.elCiudadano.usuario);
 
     x.then((value: Irespuesta) => {
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
+        if (this.respuesta.permisosfuncionario.codigo === '2') {
+          this.edicion = true;
+        } else {
+          this.edicion = false;
+        }
         this.autenticar();
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -107,7 +114,7 @@ export class AutenticacionComponent implements OnInit, OnDestroy {
 
       if (this.respuesta.codigoError === '0') {
         this.ciudadService.rolCiudadano = false ;
-        this.authService.ingresarFuncionario(this.respuesta.token);
+        this.authService.ingresarFuncionario(this.respuesta.token, this.edicion);
 
         this.authService.actualizaNombreUsu.next(this.elCiudadano.usuario);
         this.router.navigate(['crearbus']);

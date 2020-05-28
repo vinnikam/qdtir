@@ -5,9 +5,11 @@ export class Representante {
   documento ?: string;
   nombre ?: string;
   fechaInicio ?: string;
+  fechaInicioD ?: Date;
   claseRepres ?: string;
   tipoRepres ?: string;
   fechaCierre ?: string;
+  fechaCierreD ?: Date;
   idRepresentacion ?: number;
 
 }

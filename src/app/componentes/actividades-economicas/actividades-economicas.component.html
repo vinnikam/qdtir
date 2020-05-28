@@ -21,14 +21,14 @@
         <td >{{dato.codigo}}</td>
         <td >{{dato.descripcion}}</td>
         <td >{{dato.fec_inicio}}</td>
-        <td style="text-align:center" ><button class="boton-lover"  pButton type="button"  label="finalizar" (click)="verborra(dato)"></button>
+        <td style="text-align:center" ><button *ngIf="permisoedicion" class="boton-lover"  pButton type="button"  label="Finalizar" (click)="verborra(dato)"></button>
 
         </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="summary" let-rowData>
       <div style="text-align:left" *ngIf="ciudadanoeActivo !== null">
-        <button class="boton "  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="vercrear()"></button>
+        <button *ngIf="permisoedicion" class="boton "  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="vercrear()"></button>
       </div>
     </ng-template>
 
@@ -37,7 +37,7 @@
 
 </div>
 
-<p-dialog header="CREAR" [modal]="true" [positionTop]="100"  [(visible)]="creardialog" [style]="{width: '500px', height: '200px'}"
+<p-dialog header="CREAR" [modal]="true" [positionTop]="100"  [(visible)]="creardialog" [style]="{width: '700px', height: '200px'}"
           [closable]="true" [baseZIndex]="10000">
   <div class="container">
     <div >
@@ -45,28 +45,52 @@
         <p-messages [(value)]="msgs"></p-messages>
 
         <div class="form-group row">
-          <div class="col-sm-9">
+          <div class="col-sm-4">
             <label>Fecha inicio actividad: </label>
-            <p-calendar  name="fec_inicio" formControlName="fec_inicio"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy" [inline]="true"></p-calendar>
           </div>
-
+          <div class="col-sm-8">
+            <label>Actividad a registrar: </label>
+          </div>
         </div>
         <div class="form-group row">
-          <div class="col-sm-9">
-            <label>Actividad </label>
-            <select class="custom-select" class="form-control"  formControlName="idActividad" name="idActividad" ngModel  >
+          <div class="col-sm-4">
 
-              <option *ngFor="let dato of listaall" [value]="dato.idActividad">
+            <p-calendar  name="fec_inicio" formControlName="fec_inicio"  [monthNavigator]="true"
+                         [style]="{'position': 'fixed', 'overflow': 'visible', 'z-index': '999'}"
+                         [yearNavigator]="true" yearRange="2000:2030"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy" ></p-calendar>
+          </div>
+
+
+
+          <div class="col-sm-8">
+
+          <p-dropdown [options]="listaall"formControlName="idActividad" name="idActividad" ngModel filter="true" [itemSize]="31"  optionLabel= "union"
+                      [style]="{'position': 'fixed', 'overflow': 'visible', 'z-index': '999'}"
+                      placeholder="Seleccione una actividad..">
+
+          </p-dropdown>
+
+
+          </div>
+
+            <!--div class="col-sm-9">
+            <select   data-live-search="true" class="form-control selectpicker"  formControlName="idActividad" name="idActividad" ngModel  >
+
+              <option  *ngFor="let dato of listaall" [value]="dato.idActividad">
                 {{dato.codigo}} - {{dato.descripcion}}
               </option>
             </select>
-          </div>
+          </div-->
 
         </div>
 
-
         <div class="form-group row">
-          <div class="col-sm-9">
+          <div class="col-sm-4">
+
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-4">
             <button class="boton"  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="guardar()"></button>
           </div>
 
@@ -84,7 +108,7 @@
   <div class="container">
     <div >
       <form  class="base-container"  (ngSubmit)="this.borrar()" [formGroup]="formularioborra" >
-
+        <p-messages [(value)]="msgs"></p-messages>
         <div class="form-group row">
           <div class="col-sm-9">
             <label>Fecha de Inicio: </label>
@@ -97,14 +121,16 @@
         <div class="form-group row">
           <div class="col-sm-9">
             <label>Fecha de finalización: </label>
-            <p-calendar  name="fecCese" formControlName="fecCese"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy" [inline]="true"></p-calendar>
+            <p-calendar  name="fecCese" formControlName="fecCese"  [monthNavigator]="true"
+                         [style]="{'position': 'fixed', 'overflow': 'visible', 'z-index': '999'}"
+                         [yearNavigator]="true" yearRange="2000:2030"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy" ></p-calendar>
 
           </div>
 
         </div>
         <div class="form-group row">
           <div class="col-sm-9">
-              <button class="boton"  pButton type="button" label="Cerrar" icon="pi pi-check" (click)="borrar()"></button>
+              <button class="boton"  pButton type="button" label="Finalizar Actividad" icon="pi pi-check" (click)="borrar()"></button>
           </div>
 
         </div>

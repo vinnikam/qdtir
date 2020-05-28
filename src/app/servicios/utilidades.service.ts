@@ -84,10 +84,26 @@ export class UtilidadesService {
     return hoyD;
 
   }
+  formateaFecha(fecha: string) {
+    let fechad = new Date();
+    try { // instrucciones a probar
+      fechad = new Date(fecha);
+    } catch (e) {
+      fechad = new Date();
+    }
+    return fechad;
+  }
+
   obtenerSolofecha(fecha: Date): Date {
     const fechas = this.datapipe.transform(fecha, 'dd/MM/yyyy');
     const hoyD = new Date(fechas);
     return hoyD;
+
+  }
+  convierteDateJvaDateJson(fecha: Date): Date {
+    const fechas = this.datapipe.transform(fecha, 'yyyy-MM-dd');
+    const lafecha = new Date(fechas);
+    return lafecha;
 
   }
   validaCampo(campo: any): boolean {

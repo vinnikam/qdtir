@@ -33,6 +33,7 @@ export interface Irespuesta {
   token ?: string;
 
   funcionarios ?: Funcionario[];
+  permisosfuncionario ?: Basicovo;
 
 
 }

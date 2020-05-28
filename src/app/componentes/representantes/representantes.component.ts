@@ -13,6 +13,7 @@ import {Contribuyente} from '../../dto/contribuyente';
 import {Basicovo} from '../../dto/basicovo';
 import {Subscription} from 'rxjs';
 import {ValidadorService} from '../../servicios/validador.service';
+import {AuthServiceService} from '../../servicios/auth-service.service';
 
 @Component({
   selector: 'app-representantes',
@@ -30,6 +31,7 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
   es: any;
   representante: Representante;
   representanteborra: Representante;
+  representanteBs ?: Contribuyente;
 
   idrepresentantecrear: number;
   btncrear: boolean;
@@ -45,11 +47,15 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
   ciudadanoeActivo: Contribuyente;
 
   fechaInicial: string;
+  fechaInicialD: Date;
+  permisoedicion = false;
+
+
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private represerv: RepresentantesService,
               private formBuilder: FormBuilder, private messageService: MessageService,
-              private util: UtilidadesService) {
+              private util: UtilidadesService, private autenticservice: AuthServiceService) {
     this.formulario = this.formBuilder.group({
 
       fechaInicio: [],
@@ -89,7 +95,7 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
       }
       this.cargarclasesrepres();
     });
-
+    this.permisoedicion = this.autenticservice.permisoedicion;
 
   }
   consultar(idsujeto: number ) {
@@ -119,20 +125,18 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
   crear() {
     this.creardialog = true;
   }
-  crearEsta() {
 
-  }
   guardar() {
     if (!this.valido()) {
       return ;
     }
     const jsonString = JSON.stringify(this.formulario.value);
     this.representante = JSON.parse(jsonString) as Representante;
-    this.representante.nombre = this.representante.nombre.toLocaleUpperCase();
+    this.representante.nombre = this.representanteBs.primerNombre.toLocaleUpperCase();
     this.representante.idSujeto = this.ciudadanoeActivo.idSujeto;
     this.representante.idRepresentacion = this.idrepresentantecrear;
 
-    this.representante.fechaInicio  = this.util.cambiafecha(this.representante.fechaInicio);
+    this.representante.fechaInicio  = this.util.cambiafecha(this.formulario.value.fechaInicio);
     const x: Promise<Irespuesta> = this.represerv.crear(this.representante);
 
     x.then((value: Irespuesta) => {
@@ -166,7 +170,7 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
   verborra(elesta: Representante) {
     this.borrardialog = true;
     this.representanteborra = elesta;
-    this.fechaInicial = this.util.cambiafecha(this.representanteborra.fechaInicio);
+    this.fechaInicialD = this.representanteborra.fechaInicioD;
   }
   borrar() {
     const fecha = new Date(this.formularioborra.value.fechaCierre);
@@ -223,6 +227,7 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
       this.respuesta = value;
 
       if (this.respuesta.codigoError === '0') {
+        this.representanteBs = this.respuesta.contribuyente;
         this.idrepresentantecrear = this.respuesta.contribuyente.idSujeto;
         this.btncrear = false;
         this.msgs = [];

@@ -31,9 +31,10 @@ export class GestionfuncComponent implements OnInit {
   veripserver: boolean;
   ipserver: string;
 
+  msgs: Message[] = [];
 
-
-
+  creardialog = false;
+  modificarFuncio = false;
 
   constructor(private router: Router , private formBuilder: FormBuilder,
               private ciudadServ: CiudadanoService, private funcinarServ: FuncionarioService,
@@ -44,7 +45,8 @@ export class GestionfuncComponent implements OnInit {
       tipoAccion: [1],
       usuario: [],
       fechaInicio: [],
-      fechaFin: []
+      fechaFin: [],
+      permiso: [1]
     });
     this.ipserver = env.urlservicios.toString();
     this.veripserver = false;
@@ -70,6 +72,7 @@ export class GestionfuncComponent implements OnInit {
     }
   }
   ejecutaaccion() {
+    this.msgs = [];
     if (this.ocultarCrear) {
       this.registraFuncio();
     } else {
@@ -81,25 +84,22 @@ export class GestionfuncComponent implements OnInit {
       return false;
     }
 
-    const x: Promise<Irespuesta> = this.funcinarServ.inactivar(this.formulario.value.usuario,
+    const x: Promise<Irespuesta> = this.funcinarServ.inactivar('ADMIN-RIT', this.formulario.value.usuario,
       this.util.cambiafecha(this.formulario.value.fechaFin));
 
     x.then((value: Irespuesta) => {
 
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
-        this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
-          detail: 'Se inactivo el funcionario ' + this.formulario.value.usuario, closable: true});
+        this.pushMsg(1, 'success', 'Información', 'Se inactivo el funcionario ' + this.formulario.value.usuario);
         this.limpiar();
         this.consultaAll();
       } else {
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'Inconveniente al inactivar el funcionario ' + this.formulario.value.usuario, closable: true});
+        this.pushMsg(1, 'warn', 'Información', 'Inconveniente al inactivar el funcionario ' + this.formulario.value.usuario);
       }
     })
       .catch((err) => {
-        this.messageService.add({key: 'custom', severity: 'error', summary: 'Información',
-          detail: 'Error tecnico registrar el funcionario .', closable: true});
+        this.pushMsg(1, 'warn', 'Información', 'Error tecnico registrar el funcionario ' + this.formulario.value.usuario);
       });
 
   }
@@ -107,8 +107,9 @@ export class GestionfuncComponent implements OnInit {
     if (!this.validar(false)) {
       return false;
     }
-    const x: Promise<Irespuesta> = this.funcinarServ.crear(this.formulario.value.usuario,
-      this.util.cambiafecha(this.formulario.value.fechaInicio), this.util.cambiafecha(this.formulario.value.fechaFin));
+    const x: Promise<Irespuesta> = this.funcinarServ.crear('ADMIN-RIT', this.formulario.value.usuario,
+      this.util.cambiafecha(this.formulario.value.fechaInicio), this.util.cambiafecha(this.formulario.value.fechaFin),
+      this.formulario.value.permiso);
     this.util.cambiafecha(this.formulario.value.fechaInicio);
 
 
@@ -116,18 +117,15 @@ export class GestionfuncComponent implements OnInit {
 
       this.respuesta = value;
       if (this.respuesta.codigoError === '0') {
-        this.messageService.add({key: 'custom', severity: 'success', summary: 'Información',
-          detail: 'Se registro el funcionario ' + this.formulario.value.usuario, closable: true});
+        this.pushMsg(1, 'success', 'Información', 'Se registro el funcionario ' + this.formulario.value.usuario);
         this.limpiar();
         this.consultaAll();
       } else {
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'Inconveniente al registrar el funcionario ' + this.formulario.value.usuario, closable: true});
+        this.pushMsg(1, 'warn', 'Información', 'Inconveniente al registrar el funcionario ' + this.formulario.value.usuario);
       }
     })
       .catch((err) => {
-        this.messageService.add({key: 'custom', severity: 'error', summary: 'Información',
-          detail: 'Error tecnico registrar el funcionario .', closable: true});
+        this.pushMsg(1, 'error', 'Información', 'Error tecnico registrar el funcionario ' + this.formulario.value.usuario);
 
       });
 
@@ -145,8 +143,7 @@ export class GestionfuncComponent implements OnInit {
       }
     })
       .catch((err) => {
-        this.messageService.add({key: 'custom', severity: 'error', summary: 'Información',
-          detail: 'Error tecnico al consultar funcionarios.', closable: true});
+        this.pushMsg(2, 'error', 'Información', 'Error tecnico al consultar funcionarios');
       });
   }
   validar(activar: boolean): boolean {
@@ -155,14 +152,12 @@ export class GestionfuncComponent implements OnInit {
     if (activar) {
       const ffin = new Date(this.formulario.value.fechaFin);
       if (ffin < hoy ) {
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'La fecha de fin, no puede ser menor o igual a la fecha de hoy.', closable: true});
+        this.pushMsg(1, 'warn', 'Información', 'La fecha de fin, no puede ser menor o igual a la fecha de hoy.');
         return false;
       }
 
       if (!this.buscaFuncio(this.formulario.value.usuario)) {
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'Usuario que desea inactivar, no se encuentra activo.', closable: true});
+        this.pushMsg(1, 'warn', 'Información', 'Usuario que desea inactivar, no se encuentra activo.');
         return false;
       }
     }
@@ -170,18 +165,15 @@ export class GestionfuncComponent implements OnInit {
       const fini = new Date(this.formulario.value.fechaInicio);
       const ffin = new Date(this.formulario.value.fechaFin);
       if (fini >= ffin) {
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'La fecha de inicio no puede ser mayor ó igual a la fecha de Fin.', closable: true});
+        this.pushMsg(1, 'warn', 'Información', 'La fecha de inicio no puede ser mayor ó igual a la fecha de Fin.');
         return false;
       }
-      if (fini < hoy) {
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'La fecha de inicio no puede ser menor que la fecha de hoy.', closable: true});
+      if (!this.modificarFuncio && fini < hoy) {
+        this.pushMsg(1, 'warn', 'Información', 'La fecha de inicio no puede ser menor que la fecha de hoy.');
         return false;
       }
-      if (this.buscaFuncio(this.formulario.value.usuario)) {
-        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
-          detail: 'Usuario que desea registrar, ya está encuentra activo.', closable: true});
+      if (!this.modificarFuncio &&  this.buscaFuncio(this.formulario.value.usuario)) {
+        this.pushMsg(1, 'warn', 'Información', 'Usuario que desea registrar, ya está encuentra activo.');
         return false;
       }
 
@@ -203,4 +195,40 @@ export class GestionfuncComponent implements OnInit {
     this.formulario.controls.usuario.setValue(undefined);
 
   }
+  modificar(funcio: Funcionario): void {
+
+    this.formulario.controls.usuario.setValue(funcio.nombre);
+    this.formulario.controls.fechaInicio.setValue(new Date(funcio.fechaInicio));
+    this.formulario.controls.fechaFin.setValue(new Date(funcio.fechaFin));
+    this.formulario.controls.permiso.setValue(funcio.permisos.codigo);
+    this.formulario.controls.tipoAccion.setValue(funcio.estado);
+    this.modificarFuncio = true;
+
+  }
+  vercrearN(): void  {
+    this.vercrear(undefined);
+  }
+  vercrear(dato: Funcionario): void {
+    this.creardialog = true;
+    if (dato !== undefined) {
+      this.modificar(dato);
+    }   else {
+      this.modificarFuncio = false;
+      this.limpiar();
+    }
+  }
+  // 1 - MSG 2 Messages
+  private pushMsg(valor: number, nivel : string, asunto: string, detalle: string ) {
+    if (valor === 1) {
+      this.msgs.push({severity: nivel, summary: asunto, detail: detalle});
+    } else {
+      this.messageService.add({key: 'custom', severity: nivel, summary: asunto, detail: detalle, closable: true});
+    }
+
+  }
+  cerrar(): void {
+    this.creardialog = false;
+    this.msgs = [];
+  }
 }
+

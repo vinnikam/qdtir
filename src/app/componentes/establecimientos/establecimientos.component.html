@@ -21,14 +21,14 @@
           <td >{{dato.nombre}}</td>
           <td>{{dato.direccion}}</td>
           <td>{{dato.fechaApertura}}</td>
-          <td style="text-align:center"><button class="boton-lover"  pButton type="button"  label="Cerrar" (click)="verborra(dato)"></button>
+          <td style="text-align:center"><button *ngIf="permisoedicion" class="boton-lover"  pButton type="button"  label="Cerrar" (click)="verborra(dato)"></button>
 
           </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="summary" let-rowData>
         <div style="text-align:left" *ngIf="ciudadanoeActivo !== null">
-          <button class="boton "  pButton type="button"  label="Adicionar" icon="pi pi-check" (click)="vercrear()"></button>
+          <button *ngIf="permisoedicion" class="boton "  pButton type="button"  label="Adicionar" icon="pi pi-check" (click)="vercrear()"></button>
         </div>
       </ng-template>
     </p-table>
@@ -59,7 +59,9 @@
         <div class="form-group row">
           <div class="col-sm-9">
             <label>* Fecha de apertura: </label>
-            <p-calendar  name="fechaApertura" formControlName="fechaApertura"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+            <p-calendar  name="fechaApertura" formControlName="fechaApertura"  [monthNavigator]="true"
+                         [style]="{'position': 'fixed', 'overflow': 'visible', 'z-index': '999'}"
+                         [yearNavigator]="true" yearRange="2000:2030"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
 
           </div>
 
@@ -111,7 +113,9 @@
         <div class="form-group row">
           <div class="col-sm-9">
             <label>Fecha de Cierre: </label>
-            <p-calendar  name="fechaCierre" formControlName="fechaCierre"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy" [inline]="true"></p-calendar>
+            <p-calendar  name="fechaCierre" formControlName="fechaCierre"  [monthNavigator]="true"
+                         [style]="{'position': 'fixed', 'overflow': 'visible', 'z-index': '999'}"
+                         [yearNavigator]="true" yearRange="2000:2030"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy" ></p-calendar>
           </div>
         </div>
 

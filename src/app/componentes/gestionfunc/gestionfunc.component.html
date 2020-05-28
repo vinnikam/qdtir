@@ -1,73 +1,26 @@
 <app-navbar></app-navbar>
 <div class="container py-3">
-  <h2 class="base-header">Registrar Funcionario</h2>
+  <div style="text-align:left" >
+    <button class="boton "  pButton type="button" label="Adicionar" icon="pi pi-check" (click)="vercrearN()"></button>
+  </div>
+
   <div class="row">
 
     <div class="col-md-10 mx-auto">
       <form  class="base-container"  (ngSubmit)="this.ejecutaaccion()" [formGroup]="formulario" >
-        <div class="form-group row">
-          <div class="col-sm-2">
-            <label >Acción  : </label>
 
-          </div>
-          <div class="col-sm-2">
-            <label >
-              <input type="radio" name="tipoAccion"  [value]="1" formControlName="tipoAccion"  (change)="this.cambiaaccion()"  [checked]='true'> Registrar
-            </label>
 
-          </div>
-          <div class="col-sm-2">
-            <label >
-              <input type="radio" name="tipoAccion" [value]="2" formControlName="tipoAccion"    (change)="this.cambiaaccion()" > Inactivar
-            </label>
-          </div>
-          <div class="col-sm-6">
-
-          </div>
-        </div>
 
         <div class="form-group row">
 
           <div class="col-sm-6">
-            <label>Usuario</label>
-            <input type="text" name="usuario" class="form-control" formControlName="usuario" ngModel autocomplete="off"/>
-
-          </div>
-
-        </div>
-
-        <div class="form-group row"  *ngIf="ocultarCrear">
-            <div class="col-sm-2">
-                <label >Fecha inicio : </label>
-              </div>
-          <div class="col-sm-6">
-            <p-calendar  name="fechaInicio" formControlName="fechaInicio"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
-
-          </div>
-
-        </div>
-
-        <div class="form-group row">
-            <div class="col-sm-2">
-                <label >Fecha fin : </label>
-
-              </div>
-          <div class="col-sm-6">
-            <p-calendar  name="fechaFin" formControlName="fechaFin"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
-
-          </div>
-
-        </div>
-
-        <div class="form-group row" >
-          <div class="col-sm-6">
-            <button *ngIf="ocultarCrear" class="boton" type="submit">Registrar</button>
-            <button *ngIf="!ocultarCrear" class="boton" type="submit">Deshabilitar</button>
-          </div>
-          <div class="col-sm-6" >
 
           </div>
         </div>
+
+
+
+
 
       </form>
     </div>
@@ -81,16 +34,22 @@
       <tr>
         <th scope="col" width="20%">USUARIO DEL FUNCIONARIO</th>
         <th scope="col" width="20%">ESTADO</th>
-        <th scope="col" width="30%">FECHA INICIO ACCESO</th>
-        <th scope="col" width="30%">FECHA FIN ACCESO</th>
+        <th scope="col" width="20%">PERMISO</th>
+        <th scope="col" width="20%">FECHA INICIO ACCESO</th>
+        <th scope="col" width="20%">FECHA FIN ACCESO</th>
+        <th scope="col" width="20%">ACCION</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-dato>
       <tr >
         <td >{{dato.nombre}}</td>
         <td >{{dato.estado}}</td>
+        <td >{{dato.permisos.nombre}}</td>
         <td >{{dato.fechaInicioS}}</td>
         <td >{{dato.fechaFinS}}</td>
+        <td >
+          <button  class="boton "  pButton type="button" label="Modificar" icon="pi pi-check" (click)="vercrear(dato)"></button>
+        </td>
 
       </tr>
     </ng-template>
@@ -99,3 +58,103 @@
   <div class="container py-3"> Los servicios estan configurados en la ruta: <strong>{{ipserver}}</strong>; para cambiar la configuracion dirijase al archivo env.js</div>
 
 </div>
+
+    <p-dialog header="Activar/Inactivar Funcionario" [modal]="true" [positionTop]="100"  [(visible)]="creardialog" [style]="{width: '600px', height: '200px'}"
+              [closable]="true" [baseZIndex]="10000">
+      <div class="container">
+        <div >
+          <form  class="base-container"  [formGroup]="formulario" >
+            <p-messages [(value)]="msgs"></p-messages>
+            <div class="form-group row">
+              <div class="col-sm-4">
+                <label >Acción  : </label>
+
+              </div>
+              <div class="col-sm-4">
+                <label >
+                  <input type="radio" name="tipoAccion"  [value]="1" formControlName="tipoAccion"  (change)="this.cambiaaccion()"  [checked]='true'> Registrar
+                </label>
+
+              </div>
+              <div class="col-sm-4">
+                <label >
+                  <input type="radio" name="tipoAccion" [value]="2" formControlName="tipoAccion"    (change)="this.cambiaaccion()" > Inactivar
+                </label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-9">
+                <label>Usuario :</label>
+                <input type="text" name="usuario" class="form-control" formControlName="usuario" ngModel autocomplete="off"/>
+
+              </div>
+            </div>
+
+            <div  class="form-group row">
+            <div *ngIf="ocultarCrear" class="col-sm-6">
+              <label>* Fecha inicio : </label>
+
+            </div>
+
+
+            <div class="col-sm-6">
+              <label>* Fecha Fin : </label>
+
+            </div>
+
+          </div>
+            <div  class="form-group row">
+              <div *ngIf="ocultarCrear" class="col-sm-6">
+
+                <p-calendar  name="fechaInicio" formControlName="fechaInicio"  [monthNavigator]="true"
+                             [style]="{'position': 'fixed', 'overflow': 'visible', 'z-index': '999'}"
+                             [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+              </div>
+
+
+              <div class="col-sm-6">
+
+                <p-calendar  name="fechaFin" formControlName="fechaFin"  [monthNavigator]="true"
+                             [style]="{'position': 'fixed', 'overflow': 'visible', 'z-index': '999'}"
+                             [yearNavigator]="true" yearRange="2000:2030"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+              </div>
+
+            </div>
+
+            <div class="form-group row" *ngIf="ocultarCrear">
+              <div class="col-sm-9">
+                <label >  <strong>Permisos  : </strong></label>
+
+              </div>
+              <div class="col-sm-4">
+                <label >
+                  <input type="radio" name="permiso"  [value]="1" formControlName="permiso"    [checked]='true'> CONSULTA
+                </label>
+
+              </div>
+              <div class="col-sm-4">
+                <label >
+                  <input type="radio" name="permiso" [value]="2" formControlName="permiso" > EDICION
+                </label>
+              </div>
+            </div>
+            <div class="form-group row" >
+            </div>
+
+            <div class="form-group row" >
+              <div class="col-sm-9">
+                <button pButton *ngIf="ocultarCrear" class="boton" type="button" (click)="this.ejecutaaccion()" label ="Registra" icon="pi pi-check"></button>
+                <button pButton *ngIf="!ocultarCrear" class="boton" type="button" (click)="this.ejecutaaccion()" label ="Deshabilitar" icon="pi pi-check"></button>
+              </div>
+              <div class="col-sm-9">
+                <button pButton class="boton-secundary" type="button" (click)="this.cerrar()" label ="Cerrar" icon="pi pi-check"></button>
+
+              </div>
+
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+    </p-dialog>
