@@ -94,7 +94,7 @@
             <li class="list-group-item"> Estado en el Rit: <strong>{{ ciudadanoeActivo.estadoRIT}} </strong> </li>
           </div>
           <div class="col-sm-6">
-            <li class="list-group-item"> Fecha de registro:  <strong>{{ ciudadanoeActivo.fechaInscripcion}}</strong> </li>
+            <li class="list-group-item"> Fecha de registro en RIT:  <strong>{{ ciudadanoeActivo.fechaInscripcion}}</strong> </li>
           </div>
 
         </div>
@@ -117,15 +117,21 @@
 
         </div>
         <div class="form-group row">
-          <div class="col-sm-6">
-            <a href="{{certificadoRit}}" target="_blank" class="btn btn-success">Descargar certificado rit</a>
+          <div class="col-sm-4">
+            <button *ngIf="permisoedicion" pButton type="button" label="Inscribir en el RIT" class="boton" (click)="inscRIT()"></button>
 
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <button *ngIf="permisoedicion" pButton type="button" label="Editar" class="boton" (click)="editar()"></button>
 
           </div>
+          <div class="col-sm-4">
+            <a href="{{certificadoRit}}" target="_blank" class="btn btn-success">Descargar certificado rit</a>
+
+          </div>
+
         </div>
+
         <div class="form-group row">
           <div class="col-sm-6">
 
@@ -184,7 +190,7 @@
         <div class="col-sm-12">
 
           El contribuyente no existe en el sistema, verifique los datos e intente de nuevo. !<br/>
-          Si el mensaje persiste solicite la creacion del contribuyyente por los medios que dispone ls SDH.
+          Si el mensaje persiste solicite la creacion del contribuyente por los medios que dispone ls SDH.
 
         </div>
 
@@ -262,29 +268,77 @@
 
         <div class="form-group row">
           <div class="col-sm-6">
+            <label>* REGIMEN</label>
+
+            <select class="custom-select" class="form-control"  formControlName="regimenTrib" name="regimenTrib" ngModel
+                    pTooltip="Regimen Dian.." tooltipEvent="focus" >
+              <option value="" selected disabled>Seleccione Regimen</option>
+              <option *ngFor="let regimen of regimenes" [value]="regimen.codigo">
+                {{regimen.nombre}}
+              </option>
+            </select>
+          </div>
+          <div class="col-sm-6">
             <label>* Fecha de Regimen: </label>
             <p-calendar  name="fechareg" formControlName="fechareg"  [monthNavigator]="true"
                          [yearNavigator]="true" yearRange="1990:2030"[showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
-
           </div>
+        </div>
+        <div class="form-group row">
           <div class="col-sm-6">
             <label>* Matrícula mercantil: </label>
             <input type="text" name="matricula" formControlName="matricula" class="form-control  mayusculas" ngModel  autocomplete="off"
                    appTextoNum />
+
           </div>
-
-
-
-
+          <div class="col-sm-6">
+          </div>
         </div>
 
         <div class="form-group row">
           <div class="col-sm-6">
-            <button class="boton"  pButton type="button" label="Actualizar" icon="pi pi-check" (click)="modificaSuj()"></button>
+            <button class="boton boton-verde"  pButton type="button" label="Actualizar" icon="pi pi-check" (click)="modificaSuj()"></button>
+
+          </div>
+
+          <div class="col-sm-6">
+            <button class="boton"  pButton type="button" label="Cancelar" icon="pi pi-check" (click)="cancelarmod()"></button>
           </div>
 
         </div>
       </form>
+
+    </div>
+  </div>
+
+</p-dialog>
+<p-dialog header="Información" [modal]="true" [positionTop]="100"  [(visible)]="inscrrit" [style]="{width: '500px', height: '200px'}"
+          [closable]="true" [baseZIndex]="10000">
+  <div class="container">
+    <div >
+
+      <div class="form-group row">
+        <div class="col-sm-9">
+
+          ¿ Desea realizar el proceso de inscripción en el RIT ?
+
+        </div>
+
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <button class="boton boton-verde" pButton type="button" label="Si" icon="pi pi-check" (click)="incribirenRIT(1)"></button>
+
+
+        </div>
+        <div class="col-sm-6">
+
+
+          <button class="boton" pButton type="button" label="No" icon="pi pi-check" (click)="incribirenRIT(0)"></button>
+        </div>
+
+      </div>
+
 
     </div>
   </div>

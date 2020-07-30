@@ -149,6 +149,12 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
   ciudadanoeActivo: Contribuyente;
   actualizaDireccionS: Subscription;
 
+  // trazabilidad
+  fuente: number;
+  canal : string;
+  usuarioauten :string;
+  funcionarioaut : string;
+
   permisoedicion = false;
 
 
@@ -245,6 +251,10 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
     this.buildForm3();
     this.buildForm4();
 
+    this.fuente = this.autenticservice.fuente;
+    this.canal = this.autenticservice.canal;
+    this.usuarioauten = this.autenticservice.usuarioautent;
+    this.funcionarioaut = this.autenticservice.funcionarioaut;
   }
 
 
@@ -437,9 +447,10 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
 
 
-  editarDirNotificacion(): Promise<Irespuesta>{
+  editarDirNotificacion(): Promise<Irespuesta> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const params = {direccion: this.direccion, municipio: '11001', departamento: 11, tipoUso: 5, pais: 49, codPostal: this.codPostalDireccion, idSujeto:  this.idSujeto };
+    const params = {direccion: this.direccion, municipio: '11001', departamento: 11, tipoUso: 5, pais: 49, codPostal: this.codPostalDireccion,
+      idSujeto:  this.idSujeto,   fuente :  this.fuente, usuarioauten : this.usuarioauten, canal : this.canal, funcionarioaut : this.funcionarioaut};
     return this.http.post<Irespuesta>(this.urlEditarDirNoti, params,{headers: headers}).toPromise();
 
   }
@@ -530,6 +541,12 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
         this.contacto.tipoT = this.tipoContacto;
         this.contacto.tipoContacto = this.tipoContacto;
 
+        this.contacto.fuente = this.fuente;
+        this.contacto.canal = this.canal;
+        this.contacto.usuarioauten = this.usuarioauten;
+        this.contacto.funcionarioaut = this.funcionarioaut;
+
+
         this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
           catchError(() => of([]))
         ).subscribe((cont: Irespuesta) => {
@@ -560,6 +577,12 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
         this.contacto.tipoUso = this.myForm.value.mailTipoUso;
         this.contacto.tipoT = this.tipoContacto;
         this.contacto.tipoContacto = this.tipoContacto;
+
+        this.contacto.fuente = this.fuente;
+        this.contacto.canal = this.canal;
+        this.contacto.usuarioauten = this.usuarioauten;
+        this.contacto.funcionarioaut = this.funcionarioaut;
+
 
         this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
           catchError(() => of([]))
@@ -687,6 +710,12 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
       this.contacto.tipoT = '1';
       this.contacto.tipoContacto = '1';
 
+      this.contacto.fuente = this.fuente;
+      this.contacto.canal = this.canal;
+      this.contacto.usuarioauten = this.usuarioauten;
+      this.contacto.funcionarioaut = this.funcionarioaut;
+
+
 
       this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
         catchError(() => of([]))
@@ -708,12 +737,18 @@ export class DatosContactoComponent implements OnInit, OnDestroy {
 
   actualizarCorreoNotificacion()
   {
-    if(this.validarCorreo()) {
+    if (this.validarCorreo()) {
 
       this.urlEditar = this.urlEditaCorreoContacto;
       this.contacto.idSujeto = this.idSujeto;
       this.contacto.nuevocorreo = this.editForm.value.email;
       this.contacto.tipoUso = '5';
+
+      this.contacto.fuente = this.fuente;
+      this.contacto.canal = this.canal;
+      this.contacto.usuarioauten = this.usuarioauten;
+      this.contacto.funcionarioaut = this.funcionarioaut;
+
       this.ciudService.registrarContacto(this.contacto, this.urlEditar).pipe(
         catchError(() => of([]))
       ).subscribe((cont: Irespuesta) => {

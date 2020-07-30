@@ -22,4 +22,6 @@ export class Contacto {
   fuente ? : number;
   usuarioauten ?: string;
   canal ?: string;
+  funcionarioaut ?: string;
+
 }

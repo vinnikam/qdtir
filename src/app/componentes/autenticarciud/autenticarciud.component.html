@@ -1,20 +1,20 @@
 <app-navbar></app-navbar>
 <div class="container py-3 ">
+
   <h2 class="base-header-ciud">Ingresar Ciudadano</h2>
   <div class="row">
 
     <div class="col-md-6 mx-auto">
+
       <form class="base-container" (submit)="autenticar()" >
         <div class="form-group">
+          <p-messages [(value)]="msgs"></p-messages>
           <div class="col-sm-6">
             <label>Tipo de Identificación</label>
             <select class="custom-select" class="form-control" [(ngModel)]="elCiudadano.tipoDocumento" name="tipoDocumento" autocomplete="off">
-              <option selected>Seleccione el tipo de Identificación</option>
-              <option value="4">CEDULA</option>
-              <option value="3">NIT</option>
-              <option value="5">PASAPORTE</option>
-              <option value="6">CARNET DIPLOMATICO</option>
-              <option value="9">NIT EXTRANJERO</option>
+              <option *ngFor="let dato of tiposDocumento" [value]="dato.codigo">
+                {{dato.nombre}}
+              </option>
             </select>
           </div>
           <div class="col-sm-10">

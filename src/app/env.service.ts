@@ -5,6 +5,7 @@ export class EnvService {
 
   // API url
   public urlservicios = '';
+  public urlciudadano = '';
 
   // Whether or not to enable debug mode
   public enableDebug = true;

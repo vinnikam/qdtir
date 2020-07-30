@@ -18,5 +18,9 @@ export class Establecimiento {
   depto?: number;
   codPostal?: number;
 
+  fuente =  1; // shd
+  usuarioauten ?: string;
+  canal ?: string;
+  funcionarioaut ?: string;
 
 }

@@ -136,6 +136,12 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
     this.establecimiento.idSujeto = this.ciudadanoeActivo.idSujeto;
     // alert(this.establecimiento);
     this.establecimiento.fechaApertura  = this.util.cambiafecha(this.establecimiento.fechaApertura);
+    // TRAZABILIDAD
+    this.establecimiento.fuente = this.autenticservice.fuente;
+    this.establecimiento.canal = this.autenticservice.canal;
+    this.establecimiento.usuarioauten = this.autenticservice.usuarioautent;
+    this.establecimiento.funcionarioaut = this.autenticservice.funcionarioaut;
+
     const x: Promise<Irespuesta> = this.estaServ.crear(this.establecimiento);
 
     x.then((value: Irespuesta) => {
@@ -166,6 +172,14 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
     this.fechaInicial = this.establecimientoborra.fechaApertura;
     this.fechaInicialD = this.establecimientoborra.fechaAperturaD;
   }
+  cancelar(opcion) {
+    if (opcion === 1) {
+      this.creardialog = false;
+    } else if (opcion === 2 ) {
+      this.borrardialog = false;
+    }
+
+  }
   borrar() {
     const fecha = new Date(this.formularioborra.value.fechaCierre);
     const finicial = new Date(this.fechaInicialD);
@@ -181,6 +195,12 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
     this.establecimiento.fechaCierre = this.util.cambiafecha(this.establecimiento.fechaCierre);
     this.establecimientoborra.idSujeto =  this.ciudadanoeActivo.idSujeto;
     this.establecimientoborra.fechaCierre = this.establecimiento.fechaCierre;
+  // trazabilidad
+    this.establecimiento.fuente = this.autenticservice.fuente;
+    this.establecimiento.canal = this.autenticservice.canal;
+    this.establecimiento.usuarioauten = this.autenticservice.usuarioautent;
+    this.establecimiento.funcionarioaut = this.autenticservice.funcionarioaut;
+
     // alert(this.establecimiento);
     const x: Promise<Irespuesta> = this.estaServ.borrar(this.establecimientoborra);
 

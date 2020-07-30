@@ -114,7 +114,7 @@ export class AutenticacionComponent implements OnInit, OnDestroy {
 
       if (this.respuesta.codigoError === '0') {
         this.ciudadService.rolCiudadano = false ;
-        this.authService.ingresarFuncionario(this.respuesta.token, this.edicion);
+        this.authService.ingresarFuncionario(this.respuesta.token, this.edicion, this.elCiudadano.usuario);
 
         this.authService.actualizaNombreUsu.next(this.elCiudadano.usuario);
         this.router.navigate(['crearbus']);

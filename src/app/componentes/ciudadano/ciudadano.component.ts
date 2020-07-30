@@ -8,8 +8,9 @@ import {Message, MessageService} from 'primeng/api';
 import {Subscription} from 'rxjs';
 import {UtilidadesService} from '../../servicios/utilidades.service';
 import {Router} from '@angular/router';
-import {valores} from '../../config/Propiedades';
+import {todosregimen, valores} from '../../config/Propiedades';
 import {es} from '../../config/Propiedades';
+import {Basicovo} from '../../dto/basicovo';
 
 
 
@@ -43,9 +44,13 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
   certificadoRit: string; // = `${valores.ip_servidor}${valores.certificadoRit}`;
 
   editarsuj = false;
+  inscrrit = false;
 
   formularioMod: FormGroup;
   identificacionsujeto: string;
+
+  regimenes ?: Basicovo[];
+
 
   constructor(private ciudService: CiudadanoService, private autenticservice: AuthServiceService,
               private messageService: MessageService, private utilidades: UtilidadesService,
@@ -64,7 +69,8 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
       apell2: [],
       matricula: [],
       fechareg: [],
-      fechainscripcion: []
+      fechainscripcion: [],
+      regimenTrib: []
 
     });
   }
@@ -84,6 +90,7 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
       this.elCiudadano.tipoDocumento = this.autenticservice.datos.codTId;
       this.buscar();
     }
+    this.regimenes = todosregimen;
   }
   buscar() {
 
@@ -195,6 +202,21 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
       this.editarsuj = true;
     }
   }
+  inscRIT() {
+    this.inscrrit = true;
+
+  }
+  incribirenRIT(accion) {
+    this.inscrrit = false;
+    if (accion === 0) {
+      return ;
+    } else if (accion === 1) {
+
+    }
+  }
+  cancelarmod() {
+    this.editarsuj = false;
+  }
   modificaSuj(): void {
     this.editarsuj = false;
 
@@ -209,6 +231,7 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
       fecharegimen: this.formularioMod.value.fechareg,
       fechainscrip: this.formularioMod.value.fechainscripcion
     }
+
     const x: Promise<Irespuesta> = this.ciudService.editar(datoscontri);
     x.then((value: Irespuesta) => {
       this.respuesta = value;
@@ -266,6 +289,7 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
     this.formularioMod.controls.fechareg.setValue(undefined);
     this.formularioMod.controls.fechainscripcion.setValue(undefined);
     this.formularioMod.controls.fechaDoc.setValue(undefined);
+    this.formularioMod.controls.regimenTrib.setValue(undefined);
   }
 
 }

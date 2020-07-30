@@ -61,7 +61,7 @@
           <div class="col-sm-6">
             <label> * Razon Social:</label>
             <input type="text" name="razonsocial" class="form-control mayusculas" formControlName="razonsocial" ngModel
-                   autocomplete="off" pTooltip="Nombre de la empresa.." tooltipEvent="focus"/>
+                   autocomplete="off" pTooltip="Digite en mayusculas el Nombre de la empresa." tooltipEvent="focus"/>
 
           </div>
           <div class="col-sm-6">
@@ -73,12 +73,12 @@
           <div class="col-sm-6">
             <label>* Primer Nombre:</label>
             <input type="text" name="primerNombre" class="form-control mayusculas" formControlName="primerNombre" ngModel
-                   appSoloTexto pTooltip="Nombre principal." tooltipEvent="focus" autocomplete="off"/>
+                   appSoloTexto pTooltip="Digite en mayusculas el Nombre principal." tooltipEvent="focus" autocomplete="off"/>
           </div>
           <div class="col-sm-6">
             <label>Segundo Nombre</label>
             <input type="text" name="segundoNombre" class="form-control mayusculas" formControlName="segundoNombre" ngModel
-                   appSoloTexto pTooltip="Segundo nombre, puede dejar en blanco." tooltipEvent="focus" autocomplete="off"/>
+                   appSoloTexto pTooltip="Digite en mayusculas el Segundo nombre, puede dejar en blanco." tooltipEvent="focus" autocomplete="off"/>
           </div>
 
         </div>
@@ -86,12 +86,12 @@
           <div class="col-sm-6">
             <label>* Primer Apellido</label>
             <input type="text" name="primerApellido" class="form-control mayusculas" formControlName="primerApellido" ngModel
-                   appSoloTexto pTooltip="Apellido principal." tooltipEvent="focus" autocomplete="off"/>
+                   appSoloTexto pTooltip="Digite en mayusculas el Apellido principal." tooltipEvent="focus" autocomplete="off"/>
           </div>
           <div class="col-sm-6">
             <label>Segundo Apellido</label>
             <input type="text" name="segundoApellido" class="form-control mayusculas" formControlName="segundoApellido" ngModel
-                   appSoloTexto pTooltip="Segundo apellido, puede dejar en blanco." tooltipEvent="focus" autocomplete="off"/>
+                   appSoloTexto pTooltip="Digite en mayusculas el Segundo apellido, puede dejar en blanco." tooltipEvent="focus" autocomplete="off"/>
           </div>
 
         </div>
@@ -162,6 +162,29 @@
             <label>* Teléfono</label>
             <input type="number" name="telefono" class="form-control" formControlName="telefono" ngModel autocomplete="off"
                    pTooltip="Teléfono principal del contribuyente, solo números." tooltipEvent="focus" />
+
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
+            <label>* REGIMEN</label>
+
+            <select class="custom-select" class="form-control"  formControlName="regimenTrib" name="regimenTrib" ngModel
+                    pTooltip="Regimen Dian.." tooltipEvent="focus" >
+              <option value="" selected disabled>Seleccione Regimen</option>
+              <option *ngFor="let regimen of regimenes" [value]="regimen.codigo">
+                {{regimen.nombre}}
+              </option>
+            </select>
+
+          </div>
+          <div class="col-sm-4" >
+            <label>Fecha Régimen: </label>
+            <p-calendar  name="fecharegimenBogotaD" formControlName="fecharegimenBogotaD"  [monthNavigator]="true"
+                         [yearNavigator]="true" yearRange="2000:2030"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"
+                         pTooltip="Fecha de régimen." tooltipEvent="focus"></p-calendar>
+          </div>
+          <div class="col-sm-2" >
 
           </div>
         </div>

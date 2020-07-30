@@ -12,4 +12,8 @@ export class Actividad {
   usuario ?: string;
   idSujeto ?: number;
 
+  fuente =  1; // shd
+  usuarioauten ?: string;
+  canal ?: string;
+  funcionarioaut ?: string;
 }

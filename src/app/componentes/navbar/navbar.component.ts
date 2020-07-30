@@ -106,8 +106,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.itemsfunc = [
       {label: 'Contribuyente', icon: 'fa fa-male',
         items: [
-          {label: 'Crear', icon: 'fa fa-user-plus', command:  (event: Event) => {this.nvocontriby(); } },
           {label: 'Buscar', icon: 'pi pi-search-plus', command:  (event: Event) => {this.buscarciud(); }},
+          {label: 'Crear', icon: 'fa fa-user-plus', command:  (event: Event) => {this.nvocontriby(); } },
           {label: 'Información', icon: 'fa fa-address-book',
             items: [
               {label: 'Personales', icon: 'fa fa-id-card', routerLink: '/crearbus'},

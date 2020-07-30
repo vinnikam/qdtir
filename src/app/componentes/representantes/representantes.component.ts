@@ -125,7 +125,14 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
   crear() {
     this.creardialog = true;
   }
+  cancelar(opcion) {
+    if ( opcion === 1) {
+      this.creardialog = false;
+    } else if ( opcion === 2) {
+      this.borrardialog = false;
+    }
 
+  }
   guardar() {
     if (!this.valido()) {
       return ;
@@ -137,6 +144,13 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
     this.representante.idRepresentacion = this.idrepresentantecrear;
 
     this.representante.fechaInicio  = this.util.cambiafecha(this.formulario.value.fechaInicio);
+
+    // trazabilidad
+    this.representante.fuente = this.autenticservice.fuente;
+    this.representante.canal = this.autenticservice.canal;
+    this.representante.usuarioauten = this.autenticservice.usuarioautent;
+    this.representante.funcionarioaut = this.autenticservice.funcionarioaut;
+
     const x: Promise<Irespuesta> = this.represerv.crear(this.representante);
 
     x.then((value: Irespuesta) => {
@@ -187,6 +201,13 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
     this.representante.fechaCierre = this.util.cambiafecha(this.representante.fechaCierre);
     this.representanteborra.fechaCierre = this.representante.fechaCierre;
     this.representanteborra.idSujeto = this.ciudadanoeActivo.idSujeto;
+
+      // trazabilidad
+    this.representanteborra.fuente = this.autenticservice.fuente;
+    this.representanteborra.canal = this.autenticservice.canal;
+    this.representanteborra.usuarioauten = this.autenticservice.usuarioautent;
+    this.representanteborra.funcionarioaut = this.autenticservice.funcionarioaut;
+
 
     const x: Promise<Irespuesta> = this.represerv.borrar(this.representanteborra);
 

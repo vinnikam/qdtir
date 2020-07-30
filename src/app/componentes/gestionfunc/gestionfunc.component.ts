@@ -30,6 +30,7 @@ export class GestionfuncComponent implements OnInit {
 
   veripserver: boolean;
   ipserver: string;
+  urloam: string;
 
   msgs: Message[] = [];
 
@@ -49,6 +50,7 @@ export class GestionfuncComponent implements OnInit {
       permiso: [1]
     });
     this.ipserver = env.urlservicios.toString();
+    this.urloam = env.urlciudadano.toString();
     this.veripserver = false;
     if (env.enableDebug.toString() === '1') {
       this.veripserver = true;

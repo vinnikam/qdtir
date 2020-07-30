@@ -8,7 +8,7 @@ import {CiudadanoService} from '../../servicios/ciudadano.service';
 import {createElementCssSelector} from '@angular/compiler';
 import {Message, MessageService} from 'primeng/api';
 import {ValidadorService} from '../../servicios/validador.service';
-import {tiposIdenJuridico, tiposIdenNatural} from '../../config/Propiedades';
+import {tiposIdenJuridico, tiposIdenNatural, todosregimen} from '../../config/Propiedades';
 import {Subscription} from 'rxjs';
 import {UtilidadesService} from '../../servicios/utilidades.service';
 import {es} from '../../config/Propiedades';
@@ -31,6 +31,8 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
   paises ?: Basicovo[];
   deptos ?: Basicovo[];
   municp ?: Basicovo[];
+  regimenes ?: Basicovo[];
+
 
   tiposDocumento ?: Basicovo[];
 
@@ -76,7 +78,9 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
       tipoTelefono: [5],
       indBuzon: 0,
       notif: 0,
-      fechaDocumento : ''
+      fechaDocumento : '',
+      regimenTrib: [],
+      fecharegimenBogotaD : ''
     });
 
 
@@ -98,9 +102,10 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
     this.formulario.value.tipoPersona = 1;
     this.formulario.value.tipoTelefono = 5;
     this.cargarTiposDocumento();
+    this.cargarRegimenes();
     this.cargarPaises();
     this.cargarDeptos(49);
-    this.cargarMunic(11);
+    // this.cargarMunic(11);
     this.formulario.controls.indBuzon.setValue(0);
     this.formulario.controls.notif.setValue(0);
 
@@ -193,7 +198,7 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
 
   }
   validar(soloconsulta: boolean): boolean {
-
+    alert ()
     if (!this.util.validaCampo(this.formulario.value.tipoDocumento)) {
       this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
         detail: 'El Tipo de  documento es Requerido.', closable: true});
@@ -261,6 +266,8 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
           detail: 'El departamento es requerido.', closable: true});
         return false;
       }
+      alert (this.formulario.value.departamento);
+
     }
     if (!this.util.validaCampo(this.formulario.value.municipio)) {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
@@ -324,7 +331,9 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
 
 
   }
-
+  cargarRegimenes() {
+    this.regimenes = todosregimen;
+  }
   cargarPaises() {
     this.paises = paises;
   }
@@ -362,6 +371,7 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
       // alert(value);
       if (this.respuesta.codigoError === '0') {
         this.deptos = this.respuesta.divpolitica;
+        // this.formulario.controls.municipio.setValue(undefined); //  "5667"
 
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
@@ -384,7 +394,6 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
       // alert(value);
       if (this.respuesta.codigoError === '0') {
         this.municp = this.respuesta.divpolitica;
-
       } else {
         this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
           detail: 'Error en la consulta de municipios. ', closable: true});
@@ -443,7 +452,8 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
     this.formulario.controls.indBuzon.setValue(undefined); //  null
     this.formulario.controls.notif.setValue(undefined); //  null
     this.formulario.controls.fechaDocumento.setValue(undefined); //  null
-
+    this.formulario.controls.fecharegimenBogotaD.setValue(undefined); //  null
+    this.formulario.controls.regimenTrib.setValue(undefined);
     this.formulario.value.indBuzon = 0;
     this.formulario.value.notif = 0;
 
@@ -489,9 +499,13 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
     alert(' valor ' + this.formulario.value.notif);
   }
   mayuscula(): void {
-    this.contribuyente.primerNombre = this.contribuyente.primerNombre.toLocaleUpperCase();
-    this.contribuyente.segundoNombre = this.contribuyente.segundoNombre.toLocaleUpperCase();
-    this.contribuyente.primerApellido = this.contribuyente.primerApellido.toLocaleUpperCase();
-    this.contribuyente.segundoApellido = this.contribuyente.segundoApellido.toLocaleUpperCase();
+    this.contribuyente.primerNombre = this.contribuyente.primerNombre !== undefined ?
+      this.contribuyente.primerNombre.toLocaleUpperCase() : '';
+    this.contribuyente.segundoNombre = this.contribuyente.segundoNombre !== undefined ?
+      this.contribuyente.segundoNombre.toLocaleUpperCase() : '';
+    this.contribuyente.primerApellido = this.contribuyente.primerApellido !== undefined ?
+      this.contribuyente.primerApellido.toLocaleUpperCase() : '';
+    this.contribuyente.segundoApellido = this.contribuyente.segundoApellido !== undefined ?
+      this.contribuyente.segundoApellido.toLocaleUpperCase() : '';
   }
 }

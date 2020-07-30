@@ -20,6 +20,14 @@ export class AuthServiceService {
   urlvalidatk = 'ServiciosRITDQ/resources/consultas/validatk';
   urlpropiedad = 'ServiciosRITDQ/resources/propiedades/obtener';
 
+  canal ?: string;
+  fuente = 1;
+  usuarioautent ?: string;
+  funcionarioaut ?: string;
+  idsujetTraza ?: number;
+
+
+
 
   private doc: string;
   datos: any;
@@ -33,10 +41,15 @@ export class AuthServiceService {
   nombreusuario: string;
 
   ipservidor: string;
+  urloamautent: string;
+
+  // variable cuando viene de ofician virtual
+  claro: string = undefined;
 
 
   constructor(private ciudService: CiudadanoService, private http: HttpClient, private env: EnvService) {
     this.ipservidor = env.urlservicios.toString();
+    this.urloamautent = env.urlciudadano.toString();
   }
 
   salir() {
@@ -62,14 +75,21 @@ export class AuthServiceService {
     this.datos = datos;
     this.ciudService.rolCiudadano = true;
     this.perfilusuario = 1;
+    this.canal = 'RITWEB_CONTRIBUYENTE';
+    this.usuarioautent = par2;
+    this.funcionarioaut = undefined;
     this.permisoedicion = true;
     }
-  ingresarFuncionario(token: string, edicion: boolean) {
+  ingresarFuncionario(token: string, edicion: boolean, usuario: string) {
     localStorage.setItem('id_token', token);
     this.ciudService.rolCiudadano = false;
     this.perfilusuario = 2;
     this.permisoedicion = edicion;
-    }
+    this.canal = 'RITWEB_FUNCIONARIO';
+    this.usuarioautent = usuario;
+    this.funcionarioaut = usuario;
+
+  }
   estaAutenticado() {
     this.authToken  = JSON.stringify( localStorage.getItem('id_token'));
     // console.log(this.authToken);
@@ -100,14 +120,15 @@ export class AuthServiceService {
   }
 
 
-  loginCiudadano(ruta: string, ciudadano: Contribuyente): Promise<Irtaoam> {
+  loginCiudadano(ciudadano: Contribuyente): Promise<Irtaoam> {
+
     const datosC = {
 
       tipoDocumento: this.tipoIdentificacion(ciudadano.tipoDocumento),
       numeroDocumento: ciudadano.nroIdentificacion,
       password: ciudadano.clave
     };
-    return this.http.post<Irtaoam>(`${ruta}`, datosC).toPromise();
+    return this.http.post<Irtaoam>(`${this.urloamautent}`, datosC).toPromise();
   }
   loginFuncionario(ciudadano: Contribuyente): Promise<Irespuesta> {
     const datosF = {
@@ -129,6 +150,10 @@ export class AuthServiceService {
   ingresaadmin(usuario: string) {
     localStorage.setItem('id_token', 'haytoken');
     this.perfilusuario = 3;
+    this.canal = 'RITWEB_ADMIN';
+    this.usuarioautent = usuario;
+    this.funcionarioaut = usuario;
+
   }
   tipoIdentificacion(tipo: string) {
 

@@ -21,6 +21,25 @@ export const tiposIdenNatural = [
   {codigo: '8', nombre: 'N.U.I.P'}
 
 ];
+
+export const todostiposiden = [
+  {codigo: '3', nombre: 'N.I.T.'},
+  {codigo: '9', nombre: 'NIT EXTRANJERO'},
+  {codigo: '4', nombre: 'CEDULA DE CIUDADANIA'},
+  {codigo: '2', nombre: 'CEDULA DE EXTRANJERIA'},
+  {codigo: '5', nombre: 'PASAPORTE'},
+  {codigo: '6', nombre: 'CARNET DIPLOMATICO'},
+  {codigo: '1', nombre: 'TARJETA DE IDENTIDAD'},
+  {codigo: '7', nombre: 'REGISTRO CIVIL'},
+  {codigo: '8', nombre: 'N.U.I.P'}
+
+];
+
+export const todosregimen = [
+  {codigo: 'COMUN', nombre: 'COMUN'},
+  {codigo: 'PREFERENCIAL ICA', nombre: 'PREFERENCIAL ICA'}
+
+];
 // ng build --prod --base-href="/RITDQWEB/index.html"
 export const es = {
   // date

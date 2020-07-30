@@ -43,6 +43,7 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
   fechaInicial: string;
   fechaInicialD: Date;
   permisoedicion = false;
+  verifica = false;
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private activserv: ActividadesService,
@@ -85,6 +86,7 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
       }
     }
     this.permisoedicion = this.autenticservice.permisoedicion;
+
 
   }
   consultar(idsujeto: number) {
@@ -149,6 +151,12 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
       this.actividades.fec_inicio = this.util.cambiafecha(this.formulario.value.fec_inicio);
       this.actividades.idSujeto = this.ciudadanoeActivo.idSujeto;
 
+      // TRAZA
+      this.actividades.fuente = this.autenticservice.fuente;
+      this.actividades.canal = this.autenticservice.canal;
+      this.actividades.usuarioauten = this.autenticservice.usuarioautent;
+      this.actividades.funcionarioaut = this.autenticservice.funcionarioaut;
+
       const x: Promise<Irespuesta> = this.activserv.crear(this.actividades);
 
       x.then((value: Irespuesta) => {
@@ -184,7 +192,14 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
     this.fechaInicialD = this.actividadesborra.fec_inicioD;
     // alert('?');
   }
+  cancelar(opcion) {
+    if (opcion === 1) {
+      this.creardialog = false;
+    } else if (opcion === 2) {
+      this.borrardialog = false;
+    }
 
+  }
   borrar() {
     const fecha = new Date(this.formularioborra.value.fecCese);
     const finicial = new Date (this.fechaInicialD);
@@ -199,6 +214,13 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
     if (this.ciudService.ciudadanoActivo !== undefined) {
       const jsonString = JSON.stringify(this.formularioborra.value);
       this.actividades = JSON.parse(jsonString) as Actividad;
+
+      // TRAZA
+      this.actividades.fuente = this.autenticservice.fuente;
+      this.actividades.canal = this.autenticservice.canal;
+      this.actividades.usuarioauten = this.autenticservice.usuarioautent;
+      this.actividades.funcionarioaut = this.autenticservice.funcionarioaut;
+
 
 
       this.actividades.fecCese = this.util.cambiafecha(this.actividades.fecCese);

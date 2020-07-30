@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import {switchAll} from 'rxjs/operators';
 
+declare var Context: any;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -53,7 +55,8 @@ export class UtilidadesService {
         return '2';
     }
   }
-  convertirtipoidenticorto(cadena: string): string {
+
+    convertirtipoidenticorto(cadena: string): string {
       switch (cadena) {
         case  'T.I.':
           return '1';
@@ -62,6 +65,14 @@ export class UtilidadesService {
         case  'N.I.T.':
           return '3';
         case  'C.C.':
+          return '4';
+        case  'TI':
+          return '1';
+        case  'CE':
+          return '2';
+        case  'NIT':
+          return '3';
+        case  'CC':
           return '4';
         case  'PASAPORTE':
           return '5';
@@ -82,6 +93,13 @@ export class UtilidadesService {
     const fecha = this.datapipe.transform(hoy, 'MM-dd-yyyy');
     const hoyD = new Date(fecha);
     return hoyD;
+
+  }
+
+  obtenerFechahoyS(formato: string): string {
+    const hoy = new Date();
+    const fecha = this.datapipe.transform(hoy, formato);
+    return fecha;
 
   }
   formateaFecha(fecha: string) {
@@ -142,5 +160,12 @@ export class UtilidadesService {
     }
     return postal;
   }
+   desencryp(valor: string) {
+    const elcontex = new Context();
+    const valorclaro = elcontex.decrypt(valor);
+    return valorclaro;
+    // alert(valorclaro);
 
+    return true;
+  }
 }

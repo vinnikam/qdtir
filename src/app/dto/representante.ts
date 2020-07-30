@@ -12,4 +12,8 @@ export class Representante {
   fechaCierreD ?: Date;
   idRepresentacion ?: number;
 
+  fuente =  1; // shd
+  usuarioauten ?: string;
+  canal ?: string;
+  funcionarioaut ?: string;
 }
