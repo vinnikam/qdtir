@@ -51,6 +51,8 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
 
   regimenes ?: Basicovo[];
 
+  inscritorit = false;
+
 
   constructor(private ciudService: CiudadanoService, private autenticservice: AuthServiceService,
               private messageService: MessageService, private utilidades: UtilidadesService,
@@ -105,6 +107,11 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
       // this.ciudService.ciudadanoActivo = this.respuesta.contribuyente;
       this.ciudadanoeActivo = this.respuesta.contribuyente;
       this.rolCiudadano = this.ciudService.rolCiudadano;
+      if (this.ciudadanoeActivo.estadoRIT === 'NO_INSCRITO') {
+        this.inscritorit = false;
+      } else {
+        this.inscritorit = true;
+      }
 
       // this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
       //  detail: 'Se encontró contribuyente. Puede consultar la información en cada una de las pestañas. ', closable: true});
@@ -157,6 +164,7 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
     this.ciudService.idSujetoRepre = 0;
     this.ciudService.idSujetoEstab = 0;
     this.ciudService.idSujeto1Des = 0;
+    this.inscritorit = false;
 
   }
 
@@ -188,6 +196,7 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
       this.formularioMod.controls.apell1.setValue(this.ciudadanoeActivo.primerApellido);
       this.formularioMod.controls.apell2.setValue(this.ciudadanoeActivo.segundoApellido);
       this.formularioMod.controls.matricula.setValue(this.ciudadanoeActivo.matriculaMercantil);
+      this.formularioMod.controls.regimenTrib.setValue(this.ciudadanoeActivo.regimenTrib);
 
       if (this.ciudadanoeActivo.fecharegimenBogota !== 'NO REGISTRA') {
         this.formularioMod.controls.fechareg.setValue(this.util.convierteDateJvaDateJson(this.ciudadanoeActivo.fecharegimenBogotaD));
@@ -206,11 +215,25 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
     this.inscrrit = true;
 
   }
-  incribirenRIT(accion) {
+  inscribirenRIT(accion) {
     this.inscrrit = false;
-    if (accion === 0) {
-      return ;
-    } else if (accion === 1) {
+    if (accion === 1) {
+      this.ciudService.inscribirRIT(this.ciudadanoeActivo.idSujeto)
+        .then((value: Irespuesta) => {
+          this.respuesta = value;
+          if (this.respuesta.codigoError === '0') {
+            this.messageService.add({key: 'custom', severity: 'info', summary: 'Información',
+              detail: 'Se registro el contribuyente en el RIT', closable: true});
+            this.ciudadanoeActivo.estadoRIT = 'INSCRITO';
+            this.inscritorit = true;
+          } else {
+            this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+              detail: 'No se actualizaron los datos del contribuyente, intente nuevamente', closable: true});
+          }
+        }).catch(() => {
+        this.messageService.add({key: 'custom', severity: 'warn', summary: 'Información',
+          detail: 'Error tecnico en la inscripcion RIT', closable: true});
+      });
 
     }
   }
@@ -229,7 +252,10 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
       matricula: this.formularioMod.value.matricula,
       fechadoc: this.formularioMod.value.fechaDoc,
       fecharegimen: this.formularioMod.value.fechareg,
-      fechainscrip: this.formularioMod.value.fechainscripcion
+      fechainscrip: this.formularioMod.value.fechainscripcion,
+      regimentrib: this.formularioMod.value.regimenTrib,
+      codTId : this.ciudadanoeActivo.naturaleza.codigo
+
     }
 
     const x: Promise<Irespuesta> = this.ciudService.editar(datoscontri);

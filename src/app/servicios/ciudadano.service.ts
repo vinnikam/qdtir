@@ -54,6 +54,7 @@ export class CiudadanoService {
   urlmunic = 'ServiciosRITDQ/resources/contribuyente/municip/';
   urlcrear = 'ServiciosRITDQ/resources/contribuyente/crearcontribuyente/';
   urlmodifica = 'ServiciosRITDQ/resources/contribuyente/modificaContrib/';
+  urlinscriberit = 'ServiciosRITDQ/resources/contribuyente/inscRIT/';
   urldescuento1 = 'ServiciosRITDQ/resources/consultas/descuento1';
   urlactuadescuento1 = 'ServiciosRITDQ/resources/contribuyente/registraAplicaDesc';
   urlHistoDireccionNotif = 'ServiciosRITDQ/resources/contribuyente/dirnotifhist';
@@ -125,6 +126,12 @@ export class CiudadanoService {
   editar(ciudadano: any): Promise<Irespuesta> {
 
     return this.http.post<Irespuesta>(`${this.ipservidor}${this.urlmodifica}`, ciudadano).toPromise();
+  }
+  inscribirRIT(idsujeto: number): Promise<Irespuesta> {
+    const dato = {
+      idSujeto : idsujeto
+    };
+    return this.http.post<Irespuesta>(`${this.ipservidor}${this.urlinscriberit}`, dato).toPromise();
   }
   consultaDescuento1(_idsujeto: number): Promise<Irespuesta> {
     const datos = {

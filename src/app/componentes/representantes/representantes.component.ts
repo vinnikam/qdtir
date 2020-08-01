@@ -49,6 +49,7 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
   fechaInicial: string;
   fechaInicialD: Date;
   permisoedicion = false;
+  confirmacion = false;
 
 
 
@@ -133,6 +134,15 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
     }
 
   }
+  abreconfirmacion() {
+    this.confirmacion = true;
+  }
+  confirma(opcion ) {
+    this.confirmacion = false;
+    if (opcion === 1) {
+      this.borrar();
+    }
+  }
   guardar() {
     if (!this.valido()) {
       return ;
@@ -184,7 +194,7 @@ export class RepresentantesComponent implements OnInit, OnDestroy {
   verborra(elesta: Representante) {
     this.borrardialog = true;
     this.representanteborra = elesta;
-    this.fechaInicialD = this.representanteborra.fechaInicioD;
+    this.fechaInicial = this.representanteborra.fechaInicio;
   }
   borrar() {
     const fecha = new Date(this.formularioborra.value.fechaCierre);

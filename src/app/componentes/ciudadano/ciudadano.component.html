@@ -56,9 +56,9 @@
             <li class="list-group-item"> Tipo Identificación : <strong> {{ ciudadanoeActivo.tipoDocumento}}</strong></li>
           </div>
           <div class="col-sm-4">
-            <li class="list-group-item"> Identificacion : <strong> {{ ciudadanoeActivo.nroIdentificacion}}</strong></li>
+            <li class="list-group-item"> Identificación : <strong> {{ ciudadanoeActivo.nroIdentificacion}}</strong></li>
           </div>
-          <div class="col-sm-4">
+          <div class="col-sm-4" *ngIf="!esjuridico">
             <li class="list-group-item"> Fecha Expedición : <strong> {{ ciudadanoeActivo.fechaDocumentoS}}</strong></li>
           </div>
 
@@ -118,7 +118,7 @@
         </div>
         <div class="form-group row">
           <div class="col-sm-4">
-            <button *ngIf="permisoedicion" pButton type="button" label="Inscribir en el RIT" class="boton" (click)="inscRIT()"></button>
+            <button *ngIf="permisoedicion && !inscritorit" pButton type="button" label="Inscribir en el RIT" class="boton" (click)="inscRIT()"></button>
 
           </div>
           <div class="col-sm-4">
@@ -126,7 +126,7 @@
 
           </div>
           <div class="col-sm-4">
-            <a href="{{certificadoRit}}" target="_blank" class="btn btn-success">Descargar certificado rit</a>
+            <a href="{{certificadoRit}}" target="_blank" class="btn btn-success">DESCARGAR CERTIFICADO RIT</a>
 
           </div>
 
@@ -155,7 +155,7 @@
     <div >
 
       <div class="form-group row">
-        <div class="col-sm-9">
+        <div class="col-sm-12">
 
           ¿ El contribuyente no existe, desea crearlo ?
 
@@ -222,37 +222,53 @@
           </div>
         </div>
         <div class="form-group row">
-          <div class="col-sm-6">
-            <label>* Fecha Expedición Documento: </label>
-            <p-calendar  name="fechaDoc" formControlName="fechaDoc" [monthNavigator]="true"
-                         [yearNavigator]="true" yearRange="1990:2030" [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
 
-          </div>
-          <div class="col-sm-6"></div>
+
           <div class="col-sm-6">
             <label>* Fecha de Registro RIT: </label>
             <p-calendar  name="fechainscripcion" formControlName="fechainscripcion" [monthNavigator]="true"
                          [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
 
           </div>
+          <div class="col-sm-6"></div>
+          <div class="col-sm-6" *ngIf="!esjuridico">
+            <label>* Fecha Expedición Documento: </label>
+            <p-calendar  name="fechaDoc" formControlName="fechaDoc" [monthNavigator]="true"
+                         [yearNavigator]="true" yearRange="1990:2030" [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+
+          </div>
 
         </div>
 
-        <div class="form-group row">
+        <div class="form-group row" *ngIf="esjuridico">
+          <div class="col-sm-6">
+            <label>* Nombre Comercial: </label>
+            <input type="text" name="nombre1" formControlName="nombre1" class="form-control  mayusculas" ngModel  autocomplete="off"
+                   appTextoNum pTooltip="Digite en mayusculas el Nombre comercial." tooltipEvent="focus"/>
+          </div>
+
+          <div class="col-sm-6" >
+            <label>* SIGLA: </label>
+            <input type="text" name="apell1" formControlName="apell1" class="form-control  mayusculas" ngModel  autocomplete="off"
+                   appTextoNum />
+          </div>
+
+        </div>
+        <div class="form-group row" *ngIf="!esjuridico">
         <div class="col-sm-6">
           <label>* Primer Nombre: </label>
           <input type="text" name="nombre1" formControlName="nombre1" class="form-control  mayusculas" ngModel  autocomplete="off"
                  appTextoNum />
         </div>
 
-          <div class="col-sm-6">
+          <div class="col-sm-6" >
             <label>* Segundo Nombre: </label>
             <input type="text" name="nombre2" formControlName="nombre2" class="form-control  mayusculas" ngModel  autocomplete="off"
                    appTextoNum />
           </div>
 
         </div>
-        <div class="form-group row">
+        <div class="form-group row" *ngIf="!esjuridico">
           <div class="col-sm-6">
             <label>* Primer Apellido: </label>
             <input type="text" name="apell1" formControlName="apell1" class="form-control  mayusculas" ngModel  autocomplete="off"
@@ -269,7 +285,13 @@
         <div class="form-group row">
           <div class="col-sm-6">
             <label>* REGIMEN</label>
-
+          </div>
+          <div class="col-sm-6">
+            <label>* Fecha de Regimen: </label>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6">
             <select class="custom-select" class="form-control"  formControlName="regimenTrib" name="regimenTrib" ngModel
                     pTooltip="Regimen Dian.." tooltipEvent="focus" >
               <option value="" selected disabled>Seleccione Regimen</option>
@@ -279,8 +301,8 @@
             </select>
           </div>
           <div class="col-sm-6">
-            <label>* Fecha de Regimen: </label>
-            <p-calendar  name="fechareg" formControlName="fechareg"  [monthNavigator]="true"
+             <p-calendar  name="fechareg" formControlName="fechareg"  [monthNavigator]="true"
+                         [style]="{'position': 'fixed', 'overflow': 'visible', 'z-index': '999'}"
                          [yearNavigator]="true" yearRange="1990:2030"[showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
           </div>
         </div>
@@ -306,6 +328,12 @@
           </div>
 
         </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <i>* Recuerde que los textos deben digitarse en mayúscula.</i>
+          </div>
+
+        </div>
       </form>
 
     </div>
@@ -327,14 +355,14 @@
       </div>
       <div class="form-group row">
         <div class="col-sm-6">
-          <button class="boton boton-verde" pButton type="button" label="Si" icon="pi pi-check" (click)="incribirenRIT(1)"></button>
+          <button class="boton boton-verde" pButton type="button" label="Si" icon="pi pi-check" (click)="inscribirenRIT(1)"></button>
 
 
         </div>
         <div class="col-sm-6">
 
 
-          <button class="boton" pButton type="button" label="No" icon="pi pi-check" (click)="incribirenRIT(0)"></button>
+          <button class="boton" pButton type="button" label="No" icon="pi pi-check" (click)="inscribirenRIT(0)"></button>
         </div>
 
       </div>

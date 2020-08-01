@@ -41,8 +41,7 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
   fechaInicialD: Date;
 
   permisoedicion = false;
-
-
+  confirmacion = false;
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private estaServ: EstablecimientosService ,
@@ -179,6 +178,15 @@ export class EstablecimientosComponent implements OnInit, OnDestroy {
       this.borrardialog = false;
     }
 
+  }
+  abreconfirmacion() {
+    this.confirmacion = true;
+  }
+  confirma(opcion ) {
+    this.confirmacion = false;
+    if (opcion === 1) {
+      this.borrar();
+    }
   }
   borrar() {
     const fecha = new Date(this.formularioborra.value.fechaCierre);

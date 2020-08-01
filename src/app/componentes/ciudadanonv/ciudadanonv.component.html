@@ -47,7 +47,7 @@
                    autocomplete="off"(change)="this.verificar()"  pTooltip="Digite sólo números." tooltipEvent="focus"/>
 
           </div>
-          <div class="col-sm-4" >
+          <div class="col-sm-4" *ngIf="tipoPersonaNat">
             <label>Fecha Exp. Documento: </label>
             <p-calendar  name="fechaDocumento" formControlName="fechaDocumento"  [monthNavigator]="true"
                          [yearNavigator]="true" yearRange="2000:2030"  [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"
@@ -73,7 +73,7 @@
           <div class="col-sm-6">
             <label>* Primer Nombre:</label>
             <input type="text" name="primerNombre" class="form-control mayusculas" formControlName="primerNombre" ngModel
-                   appSoloTexto pTooltip="Digite en mayusculas el Nombre principal." tooltipEvent="focus" autocomplete="off"/>
+                   appSoloTexto pTooltip="Digite en mayúsculas el Nombre principal." tooltipEvent="focus" autocomplete="off"/>
           </div>
           <div class="col-sm-6">
             <label>Segundo Nombre</label>
@@ -153,7 +153,7 @@
         <div class="form-group row">
 
           <div class="col-sm-6">
-            <label>* Correo personal</label>
+            <label>* Correo electrónico</label>
             <input type="text" name="nuevoCorreo" class="form-control" formControlName="nuevoCorreo" ngModel autocomplete="off"
                    pTooltip="Correo principal del contribuyente, formato c@c.com" tooltipEvent="focus" />
 

@@ -198,7 +198,6 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
 
   }
   validar(soloconsulta: boolean): boolean {
-    alert ()
     if (!this.util.validaCampo(this.formulario.value.tipoDocumento)) {
       this.messageService.add({key: 'custom', severity: 'warn', summary: 'Atención :',
         detail: 'El Tipo de  documento es Requerido.', closable: true});
@@ -266,7 +265,7 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
           detail: 'El departamento es requerido.', closable: true});
         return false;
       }
-      alert (this.formulario.value.departamento);
+      // alert (this.formulario.value.departamento);
 
     }
     if (!this.util.validaCampo(this.formulario.value.municipio)) {
@@ -495,8 +494,8 @@ export class CiudadanonvComponent implements OnInit, OnDestroy {
     this.notificadialog = false;
   }
   marcabuzon(): void {
-    alert(' valor ' + this.formulario.value.indBuzon);
-    alert(' valor ' + this.formulario.value.notif);
+    // alert(' valor ' + this.formulario.value.indBuzon);
+    // alert(' valor ' + this.formulario.value.notif);
   }
   mayuscula(): void {
     this.contribuyente.primerNombre = this.contribuyente.primerNombre !== undefined ?

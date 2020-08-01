@@ -44,6 +44,7 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
   fechaInicialD: Date;
   permisoedicion = false;
   verifica = false;
+  confirmacion = false;
 
   constructor(private ciudService: CiudadanoService,
               private router: Router, private activserv: ActividadesService,
@@ -199,6 +200,15 @@ export class ActividadesEconomicasComponent implements OnInit, OnDestroy {
       this.borrardialog = false;
     }
 
+  }
+  abreconfirmacion() {
+    this.confirmacion = true;
+  }
+  confirma(opcion ) {
+    this.confirmacion = false;
+    if (opcion === 1) {
+      this.borrar();
+    }
   }
   borrar() {
     const fecha = new Date(this.formularioborra.value.fecCese);

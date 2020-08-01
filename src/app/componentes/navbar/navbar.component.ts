@@ -53,6 +53,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.constribySubscription = this.ciudService.ciudadanoActivo.subscribe((data: Contribuyente) => {
       this.contribuyenteActivo = data;
     });
@@ -103,7 +104,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
       // {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salirAdmin(); }},
     ];
 
-    this.itemsfunc = [
+    this.itemsfunc = [];
+    /*
       {label: 'Contribuyente', icon: 'fa fa-male',
         items: [
           {label: 'Buscar', icon: 'pi pi-search-plus', command:  (event: Event) => {this.buscarciud(); }},
@@ -130,8 +132,49 @@ export class NavbarComponent implements OnInit, OnDestroy {
       {label: 'Vehículos', icon: 'fa fa-car', routerLink: '/vehiculos'}
 
       // {label: 'Salir', icon: 'pi pi-sign-out', command:  (event: Event) => {this.salir(); }}
-    ];
+    ];*/
+    if (this.authService.permisoedicion) {
+      this.itemsfunc.push({label: 'Contribuyente', icon: 'fa fa-male',
+        items: [
+          {label: 'Buscar', icon: 'pi pi-search-plus', command:  (event: Event) => {this.buscarciud(); }},
+          {label: 'Crear', icon: 'fa fa-user-plus', command:  (event: Event) => {this.nvocontriby(); } },
+          {label: 'Información', icon: 'fa fa-address-book',
+            items: [
+              {label: 'Personales', icon: 'fa fa-id-card', routerLink: '/crearbus'},
+              {label: 'De Contacto', icon: 'fa fa-phone-volume', routerLink: '/datoscontacto'},
+              {label: 'De notificación', icon: 'fa fa-envelope', routerLink: '/descuento'},
+              {label: 'Histórico Dirección Ppal.', icon: 'fa fa-chart-bar ', routerLink: '/historicodir'}
+            ]
+          },
+          {label: 'Certificado RIT', icon: 'fa fa-file-pdf', command:  (event: Event) => {this.certifRIT(); }}
+        ]
+      });
+    } else {
+      this.itemsfunc.push({label: 'Contribuyente', icon: 'fa fa-male',
+        items: [
+          {label: 'Buscar', icon: 'pi pi-search-plus', command:  (event: Event) => {this.buscarciud(); }},
+          {label: 'Información', icon: 'fa fa-address-book',
+            items: [
+              {label: 'Personales', icon: 'fa fa-id-card', routerLink: '/crearbus'},
+              {label: 'De Contacto', icon: 'fa fa-phone-volume', routerLink: '/datoscontacto'},
+              {label: 'De notificación', icon: 'fa fa-envelope', routerLink: '/descuento'},
+              {label: 'Histórico Dirección Ppal.', icon: 'fa fa-chart-bar ', routerLink: '/historicodir'}
+            ]
+          },
+          {label: 'Certificado RIT', icon: 'fa fa-file-pdf', command:  (event: Event) => {this.certifRIT(); }}
+        ]
+      });
 
+    }
+    this.itemsfunc.push({label: 'Datos ICA', icon: 'fa fa-money-bill',
+      items: [
+        {label: 'Actividades Económicas', icon: 'fa fa-list-ol', routerLink: '/actividades'},
+        {label: 'Establecimientos', icon: 'fa fa-building', routerLink: '/establecimientos'},
+        {label: 'Representantes', icon: 'pi pi-users', routerLink: '/representantes'}
+      ]
+    });
+    this.itemsfunc.push({label: 'Predios', icon: 'pi pi-home', routerLink: '/predios'});
+    this.itemsfunc.push({label: 'Vehículos', icon: 'fa fa-car', routerLink: '/vehiculos'});
   }
 
   buscarciud(): void {
