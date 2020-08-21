@@ -53,7 +53,7 @@ export class AutenticarciudComponent implements OnInit {
 
     const dato  =  this.authService.claro;
     if (dato !== undefined) {
-      const claro = this.util.desencryp(dato);
+      const claro =  dato; // this.util.desencryp(dato);
       this.tipoId = claro.split('-')[0];
       this.numId = claro.split('-')[1];
       this.fecha = claro.split('-')[2];

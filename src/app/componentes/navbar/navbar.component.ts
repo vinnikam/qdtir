@@ -191,6 +191,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   salir(par: number): void {
     this.authService.salir();
+    this.authService.claro = undefined;
     // alert ('salir');
     // this._flashMessagesService.show('Salio de la aplicacion', { cssClass: 'alert-success', timeout: 2000 });
     if (par === 1) {

@@ -289,7 +289,7 @@ export class CiudadanoComponent implements OnInit, OnDestroy {
     this.ciudadanoeActivo.segundoApellido = datos.sapell;
     this.ciudadanoeActivo.matriculaMercantil = datos.matricula;
     this.ciudadanoeActivo.fechaDocumentoS = 'NO REGISTRA';
-    this.ciudadanoeActivo.fecharegimenBogota = 'NO REGISTRA';
+    this.ciudadanoeActivo.regimenTrib = datos.regimentrib;
     this.ciudadanoeActivo.fechaInscripcion = 'NO REGISTRA';
 
     if (datos.fechadoc !== undefined) {

@@ -90,8 +90,13 @@ export class UtilidadesService {
   }
   obtenerFechahoy(): Date {
     const hoy = new Date();
-    const fecha = this.datapipe.transform(hoy, 'MM-dd-yyyy');
-    const hoyD = new Date(fecha);
+    let fecha = this.datapipe.transform(hoy, 'MM-dd-yyyy');
+    let hoyD = new Date(fecha);
+    // VALIDACION PARA FIREFOX
+    if (hoyD) {
+      fecha = this.datapipe.transform(hoy, 'MM/dd/yyyy');
+      hoyD = new Date(fecha);
+    }
     return hoyD;
 
   }
@@ -119,8 +124,13 @@ export class UtilidadesService {
 
   }
   convierteDateJvaDateJson(fecha: Date): Date {
-    const fechas = this.datapipe.transform(fecha, 'yyyy-MM-dd');
-    const lafecha = new Date(fechas);
+    let fechas = this.datapipe.transform(fecha, 'yyyy-MM-dd');
+    let lafecha = new Date(fechas);
+    // VALIDACION PARA FIREFOX
+    if (lafecha) {
+      fechas = this.datapipe.transform(lafecha, 'yyyy/MM/dd');
+      lafecha = new Date(fechas);
+    }
     return lafecha;
 
   }
@@ -167,5 +177,14 @@ export class UtilidadesService {
     // alert(valorclaro);
 
     return true;
+  }
+  validacionFirefox(hoyD: Date, formato: string) {
+    // VALIDACION PARA FIREFOX
+    if (hoyD) {
+      const fecha = this.datapipe.transform(hoyD, formato);
+      hoyD = new Date(fecha);
+    }
+    alert(hoyD);
+    return hoyD;
   }
 }

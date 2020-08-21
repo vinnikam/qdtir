@@ -221,7 +221,7 @@
             <li class="list-group-item">   <strong> {{ identificacionsujeto}}</strong></li>
           </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group row" *ngIf="!rolCiudadano">
 
 
           <div class="col-sm-6">
@@ -234,7 +234,7 @@
           <div class="col-sm-6" *ngIf="!esjuridico">
             <label>* Fecha Expedición Documento: </label>
             <p-calendar  name="fechaDoc" formControlName="fechaDoc" [monthNavigator]="true"
-                         [yearNavigator]="true" yearRange="1990:2030" [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
+                         [yearNavigator]="true" yearRange="1900:2020" [showIcon]="true" [locale]="es" dateFormat="dd/mm/yy"></p-calendar>
 
           </div>
 
@@ -293,8 +293,8 @@
         <div class="form-group row">
           <div class="col-sm-6">
             <select class="custom-select" class="form-control"  formControlName="regimenTrib" name="regimenTrib" ngModel
-                    pTooltip="Regimen Dian.." tooltipEvent="focus" >
-              <option value="" selected disabled>Seleccione Regimen</option>
+                    pTooltip="Régimen" tooltipEvent="focus" >
+              <option value="" selected disabled>Seleccione Régimen</option>
               <option *ngFor="let regimen of regimenes" [value]="regimen.codigo">
                 {{regimen.nombre}}
               </option>

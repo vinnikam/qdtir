@@ -64,6 +64,7 @@ import { TextoNumDirective } from './servicios/texto-num.directive';
 
 import { EnvServiceProvider } from './env.service.provider';
 import {SoloNumerosDirective} from './servicios/solo-numeros-directive';
+import { GestionadminComponent } from './componentes/gestionadmin/gestionadmin.component';
 
 
 
@@ -112,7 +113,8 @@ const appRoutes: Routes = [
     InicioComponent,
     SoloTextoDirective,
     TextoNumDirective,
-    SoloNumerosDirective
+    SoloNumerosDirective,
+    GestionadminComponent
 
   ],
   imports: [

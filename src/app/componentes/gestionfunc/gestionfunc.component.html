@@ -28,11 +28,13 @@
 </div>
 <div class="container ">
   <h2 class="base-header-activ">FUNCIONARIOS ACTIVOS</h2>
-  <p-table [value]="lista" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
+  <p-table #dts [value]="lista" [paginator]="true" [rows]="30" [rowsPerPageOptions]="[20,30,40]" editMode="row">
 
     <ng-template pTemplate="header">
       <tr>
-        <th scope="col" width="20%">USUARIO DEL FUNCIONARIO</th>
+        <th scope="col" width="20%">USUARIO DEL FUNCIONARIO
+          <input size="9" pInputText type="text" (input)="dts.filter($event.target.value, 'nombre', 'contains')">
+        </th>
         <th scope="col" width="20%">ESTADO</th>
         <th scope="col" width="20%">PERMISO</th>
         <th scope="col" width="20%">FECHA INICIO ACCESO</th>
